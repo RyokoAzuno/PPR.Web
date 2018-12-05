@@ -1,0 +1,35 @@
+﻿@model PPR.Web.Models.BrigadeViewModel
+
+@{
+    ViewBag.Title = "Удалить Бригаду";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Удаление бригады</h2>
+<dl>
+    <dt>Код бригады:</dt>
+    <dd>
+        @Html.DisplayFor(model => model.Code)
+    </dd>
+
+    <dt>Кол-во человек:</dt>
+    <dd>
+        @Html.DisplayFor(model => model.NumberOfPeople)
+    </dd>
+
+    <dt>Бригадир:</dt>
+    <dd>
+        @Html.DisplayFor(model => model.BrigadeChiefName)
+    </dd>
+
+    <dt>Код цеха:</dt>
+    <dd>
+        @Html.DisplayFor(model => model.Department.Code)
+    </dd>
+</dl>
+
+@using (Html.BeginForm())
+{
+    <input type="submit" value="Удалить" class="btn btn-danger" />
+}
+

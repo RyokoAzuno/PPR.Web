@@ -1,0 +1,29 @@
+﻿@model PPR.Web.Models.BrigadeViewModel
+
+@{
+    ViewBag.Title = "Добавит новую бригаду";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Новая бригада</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(model => model.Code, "Код бригады:")
+    <br />
+    @Html.EditorFor(model => model.Code)
+    <br /><br />
+    @Html.LabelFor(model => model.NumberOfPeople, "Кол-во человек:")
+    <br />
+    @Html.EditorFor(model => model.NumberOfPeople)
+    <br /><br />
+    @Html.LabelFor(model => model.BrigadeChiefName, "Бригадир:")
+    <br />
+    @Html.EditorFor(model => model.BrigadeChiefName)
+    <br /><br />
+    @Html.LabelFor(model => model.Department.Code, "Код цеха:")
+    <br />
+    @Html.EditorFor(model => model.Department.Code)
+    <br /><br />
+    <input type="submit" value="Добавить" />
+}

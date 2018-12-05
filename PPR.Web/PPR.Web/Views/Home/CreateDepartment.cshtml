@@ -1,0 +1,25 @@
+﻿@model PPR.Web.Models.DepartmentViewModel
+
+@{
+    ViewBag.Title = "Добавит новый цех";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Новый цех</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.LabelFor(model => model.Code, "Код цеха:")
+    <br />
+    @Html.EditorFor(model => model.Code)
+    <br /><br />
+    @Html.LabelFor(model => model.Name, "Название цеха:")
+    <br />
+    @Html.EditorFor(model => model.Name)
+    <br /><br />
+    @Html.LabelFor(model => model.NumberOfBrigades, "Число бригад:")
+    <br />
+    @:0
+    <br /><br />
+    <input type="submit" value="Добавить" />
+}

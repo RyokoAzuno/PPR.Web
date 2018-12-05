@@ -1,0 +1,31 @@
+﻿@model PPR.Web.Models.BrigadeViewModel
+
+@{
+    ViewBag.Title = "Редактировать бригаду";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Бригада № @Model.Id</h2>
+@using (Html.BeginForm("EditBrigade", "Home", FormMethod.Post))
+{
+<fieldset>
+    @Html.HiddenFor(m => m.Id)
+    <p>
+        @Html.LabelFor(m => m.Code, "Код бригады")
+        <br />
+        @Html.EditorFor(m => m.Code)
+    </p>
+    <p>
+        @Html.LabelFor(m => m.NumberOfPeople, "Кол-во человек")
+        <br />
+        @Html.EditorFor(m => m.NumberOfPeople)
+    </p>
+    <p>
+        @Html.LabelFor(m => m.BrigadeChiefName, "Бригадир")
+        <br />
+        @Html.EditorFor(m => m.BrigadeChiefName)
+    </p>
+    @Html.HiddenFor(m => m.DepartmentId)
+    <p><input type="submit" value="Отправить" class="btn btn-success" /></p>
+</fieldset>
+}
