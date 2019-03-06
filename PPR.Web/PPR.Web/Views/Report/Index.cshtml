@@ -1,0 +1,58 @@
+﻿@model PPR.Web.Models.PageViewModel<PPR.Web.Models.EquipmentViewModel>
+@using PPR.Web.HtmlHelpers
+
+@{
+    ViewBag.Title = "Отчеты";
+}
+<br />
+<div>
+    @Html.ActionLink("Отчет по цехам", "Departments", "Report", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Отчет по оборудованию цехов", "DepartmentsAndEquipments", "Report", null,  new { @class = "btn btn-primary" })
+    @Html.ActionLink("Отчет о последних ремонтах", "LastRepairs", "Report", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Отчет о следующих ремонтах", "NextRepairs", "Report", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Цеха и бригады", "DepartmentsAndBrigades", "Report", null, new { @class = "btn btn-primary" })
+</div>
+
+
+<h2><b>Отчеты-карточки по ремонту оборудования</b></h2>
+<table class="table table-striped table-hover">
+    <thead class="bg-primary">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().InventoryNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().Model)
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.Items)
+    {
+        <tr class="bg-info">
+            <td>
+                @Html.DisplayFor(modelItem => item.InventoryNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                <p>@Html.ActionLink("Карточка предыдущий ремонт", "LastRepair", "Report", new { id = item.Id }, new { @class = "btn btn-primary" })</p>
+            </td>
+            <td>
+                <p>@Html.ActionLink("Карточка следующий ремонт", "NextRepair", "Report", new { id = item.Id }, new { @class = "btn btn-primary" })</p>
+            </td>
+        </tr>
+    }
+</table>
+<div class="btn-group">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x }), "btn btn-default")
+</div>
+<br /><br />
+
+

@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using PPR.BLL.DataTransferObjects;
+﻿using PPR.BLL.DataTransferObjects;
 using PPR.BLL.Interfaces;
+using PPR.CrossCutting.Utils;
 using PPR.DAL.Entities;
 using PPR.DAL.Interfaces;
 using System;
@@ -22,29 +22,37 @@ namespace PPR.BLL.Services
 
         public void CreateEquipment(EquipmentDTO equip)
         {
-            throw new NotImplementedException();
+            Equipment e = MyMapper<EquipmentDTO, Equipment>.Map(equip);
+            DB.Equipments.Create(e);
+            DB.Commit();
         }
 
         public void DeleteEquipment(int id)
         {
-            throw new NotImplementedException();
+            DB.Equipments.Delete(id);
+            DB.Commit();
         }
 
         public IEnumerable<EquipmentDTO> GetAllEquipments()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Equipment, EquipmentDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Equipment>, List<EquipmentDTO>>(DB.Equipments.GetAll());
+            return MyMapper<Equipment, EquipmentDTO>.Map(DB.Equipments.GetAll());
         }
 
         public EquipmentDTO GetEquipment(int? id)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Equipment, EquipmentDTO>()).CreateMapper();
-            return mapper.Map<Equipment, EquipmentDTO>(DB.Equipments.GetById(id.Value));
+            return MyMapper<Equipment, EquipmentDTO>.Map(DB.Equipments.GetById(id.Value));
         }
 
         public void UpdateEquipment(EquipmentDTO equip)
         {
-            throw new NotImplementedException();
+            Equipment e = MyMapper<EquipmentDTO, Equipment>.Map(equip);
+            DB.Equipments.Update(e);
+            DB.Commit();
+        }
+
+        public dynamic GetDepartmentsNamesAndCodes()
+        {
+            return DB.Departments.GetAll().Select(n => new { n.Id, n.Name });
         }
     }
 }

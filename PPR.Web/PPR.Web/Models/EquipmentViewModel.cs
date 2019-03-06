@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+using System.Web.Mvc;
 
 namespace PPR.Web.Models
 {
     public class EquipmentViewModel
     {
+        [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
         [Display(Name = "Инвентарный номер")]
         public string InventoryNumber { get; set; }
@@ -23,6 +22,7 @@ namespace PPR.Web.Models
         public float URC { get; set; }
         [Display(Name = "Примечания")]
         public string Notes { get; set; }
+        [Display(Name = "Номер цеха")]
         public int? DepartmentId { get; set; }
         public DepartmentViewModel Department { get; set; }
 

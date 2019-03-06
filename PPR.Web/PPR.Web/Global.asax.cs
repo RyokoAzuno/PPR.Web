@@ -21,9 +21,10 @@ namespace PPR.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            // Ninject modules
             NinjectModule orderModule = new PPRModule();
             NinjectModule serviceModule = new ServiceModule("MyDbConnection");
+            //NinjectModule pprIdentityModule = new PPRIdentityModule("IdentityConnection");
             var kernel = new StandardKernel(orderModule, serviceModule);
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }

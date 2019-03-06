@@ -1,0 +1,97 @@
+﻿@model PPR.Web.Models.NextRepairReportInfoViewModel
+@using PPR.Web.HtmlHelpers
+
+@{
+    ViewBag.Title = "Отчет по следующему ремонту";
+}
+
+<h2>Отчет-карточка по следующему ремонту</h2>
+
+<div>
+    <hr />
+    <table class="table table-bordered">
+        <tr>
+            <td class="bg-primary">
+                <b>@Html.DisplayNameFor(model => model.CurrentDate):</b>
+            </td>
+            <td class="bg-primary">
+                @Html.DisplayFor(model => model.CurrentDate)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>@Html.DisplayNameFor(model => model.Equipment.InventoryNumber):</b>
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Equipment.InventoryNumber)
+            </td>
+        </tr>
+        <tr>
+            <td class="bg-primary">
+                <b>@Html.DisplayNameFor(model => model.Equipment.Name):</b>
+            </td>
+            <td class="bg-primary">
+                @Html.DisplayFor(model => model.Equipment.Name)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>@Html.DisplayNameFor(model => model.Equipment.URC):</b>
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Equipment.URC)
+            </td>
+        </tr>
+        <tr>
+            <td class="bg-primary">
+                <b>@Html.DisplayNameFor(model => model.Equipment.Model):</b>
+            </td>
+            <td class="bg-primary">
+                @Html.DisplayFor(model => model.Equipment.Model)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>@Html.DisplayNameFor(model => model.Equipment.NumberOfEngines):</b>
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Equipment.NumberOfEngines)
+            </td>
+        </tr>
+        <tr>
+            <td class="bg-primary">
+                <b>@Html.DisplayNameFor(model => model.NextRepair.RepairType):</b>
+            </td>
+            <td class="bg-primary">
+                @Html.DisplayFor(model => model.NextRepair.RepairType)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>@Html.DisplayNameFor(model => model.NextRepair.Technician):</b>
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.NextRepair.Technician)
+            </td>
+        </tr>
+        <tr>
+            <td class="bg-primary">
+                <b>@Html.DisplayNameFor(model => model.NextRepair.Date):</b>
+            </td>
+            <td class="bg-primary">
+                @Html.DisplayFor(model => model.NextRepair.Date)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>@Html.DisplayNameFor(model => model.Equipment.Department.Name):</b>
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Equipment.Department.Name)
+            </td>
+        </tr>
+    </table>
+</div>
+
+@Html.PrintPage("На печать", new { @class = "hidden-print btn btn-primary" })
+

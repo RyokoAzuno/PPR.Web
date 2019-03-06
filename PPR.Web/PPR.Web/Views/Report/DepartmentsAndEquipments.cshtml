@@ -1,0 +1,84 @@
+﻿@model IEnumerable<PPR.Web.Models.DepartmentViewModel>
+@using PPR.Web.HtmlHelpers
+
+@{
+    ViewBag.Title = "Отчет по оборудованию цехов";
+}
+
+<h2>Отчет по оборудованию цехов</h2>
+
+@foreach (var elt in Model)
+{
+    <div>
+        <div class="row">
+            <div class="col-md-2 bg-primary">
+                <b>@Html.DisplayNameFor(model => model.Code):</b>
+            </div>
+            <div class="col-md-2">
+                @Html.DisplayFor(model => elt.Code)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 bg-primary">
+                <b>@Html.DisplayNameFor(model => model.Name):</b>
+            </div>
+            <div class="col-md-2">
+                @Html.DisplayFor(model => elt.Name)
+            </div>
+        </div>
+        <table class="table table-bordered">
+            <thead class="bg-primary">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Equipments.First().InventoryNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Equipments.First().Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Equipments.First().Power)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Equipments.First().URC)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Equipments.First().Model)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Equipments.First().NumberOfEngines)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in elt.Equipments)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InventoryNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Power)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.URC)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Model)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberOfEngines)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+    </div>
+}
+<p>@Html.ActionLink("Сохранить как PDF файл", "SaveAsPdf", "Report", new { viewName = "DepartmentsAndEquipments" }, new { @class = "hidden-print btn btn-primary" })</p>
+
+@Html.PrintPage("На печать", new { @class = "hidden-print btn btn-primary" })
+

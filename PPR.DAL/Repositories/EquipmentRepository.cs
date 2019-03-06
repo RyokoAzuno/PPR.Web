@@ -20,12 +20,23 @@ namespace PPR.DAL.Repositories
         }
         public void Create(Equipment item)
         {
-            throw new NotImplementedException();
+            if (item != null)
+                _context.Equipments.Add(item);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            Equipment equipment = _context.Equipments.Where(e => e.Id == id).FirstOrDefault();
+            if(equipment != null)
+            {
+                LastRepair lr = _context.LastRepairs.Where(l => l.EquipmentId == id).FirstOrDefault();
+                NextRepair nr = _context.NextRepairs.Where(n => n.EquipmentId == id).FirstOrDefault();
+                if (lr != null)
+                    _context.LastRepairs.Remove(lr);
+                if (nr != null)
+                    _context.NextRepairs.Remove(nr);
+                _context.Equipments.Remove(equipment);
+            }
         }
 
         public IEnumerable<Equipment> GetAll()
@@ -35,7 +46,7 @@ namespace PPR.DAL.Repositories
 
         public Equipment GetById(int? id)
         {
-            return _context.Equipments.Where(e => e.Id == id.Value).FirstOrDefault();
+            return _context.Equipments.Include(d => d.Department).Include(l => l.LastRepairs).Include(n => n.NextRepairs).Where(e => e.Id == id.Value).FirstOrDefault();
         }
 
         public void Update(Equipment item)

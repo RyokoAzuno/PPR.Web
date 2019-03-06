@@ -1,9 +1,5 @@
 ﻿using PPR.BLL.DataTransferObjects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PPR.BLL.Interfaces
 {
@@ -14,5 +10,6 @@ namespace PPR.BLL.Interfaces
         void CreateBrigade(BrigadeDTO brigade);
         void UpdateBrigade(BrigadeDTO brigade);
         void DeleteBrigade(int id);
+        dynamic GetDepartmentsNamesAndCodes();
     }
 }

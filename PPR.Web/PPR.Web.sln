@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPR.DAL", "..\PPR.DAL\PPR.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPR.BLL", "..\PPR.BLL\PPR.BLL.csproj", "{889184A6-5987-4CA2-A0C9-FAF65DCAC670}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPR.CrossCutting", "..\PPR.CrossCutting\PPR.CrossCutting.csproj", "{09377203-3B5E-40BB-BB61-C747827177A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{889184A6-5987-4CA2-A0C9-FAF65DCAC670}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{889184A6-5987-4CA2-A0C9-FAF65DCAC670}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{889184A6-5987-4CA2-A0C9-FAF65DCAC670}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09377203-3B5E-40BB-BB61-C747827177A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09377203-3B5E-40BB-BB61-C747827177A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09377203-3B5E-40BB-BB61-C747827177A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09377203-3B5E-40BB-BB61-C747827177A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

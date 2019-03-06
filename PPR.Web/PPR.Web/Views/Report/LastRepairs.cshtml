@@ -1,0 +1,95 @@
+﻿@model IEnumerable<PPR.Web.Models.LastRepairViewModel>
+@using PPR.Web.HtmlHelpers
+
+@{
+    ViewBag.Title = "Отчет о последних ремонтах";
+}
+
+<h2>Отчет о последних ремонтах оборудования</h2>
+
+@foreach (var elt in Model)
+{
+    <div class="row">
+        <div class="col-md-2 bg-primary">
+            <b>@Html.DisplayNameFor(model => model.Equipment.InventoryNumber):</b>
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayFor(model => elt.Equipment.InventoryNumber)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <b>@Html.DisplayNameFor(model => model.Equipment.Name):</b>
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayFor(model => elt.Equipment.Name)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 bg-primary">
+            <b>@Html.DisplayNameFor(model => model.Equipment.Model):</b>
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayFor(model => elt.Equipment.Model)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <b>@Html.DisplayNameFor(model => model.Equipment.NumberOfEngines):</b>
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayFor(model => elt.Equipment.NumberOfEngines)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 bg-primary">
+            <b>@Html.DisplayNameFor(model => model.Equipment.Power):</b>
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayFor(model => elt.Equipment.Power)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <b>@Html.DisplayNameFor(model => model.Equipment.URC):</b>
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayFor(model => elt.Equipment.URC)
+        </div>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <thead class="bg-primary">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.RepairType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Technician)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => elt.RepairType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => elt.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => elt.Technician)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+    </div>
+}
+<p>@Html.ActionLink("Сохранить как PDF файл", "SaveAsPdf", "Report", new { viewName = "LastRepairs" }, new { @class = "hidden-print btn btn-primary" })</p>
+
+@Html.PrintPage("На печать", new { @class = "hidden-print btn btn-primary" })
+

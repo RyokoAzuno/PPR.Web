@@ -7,9 +7,9 @@
  * Released under the MIT license
  */
 (function( factory ) {
-	if ( RepairTypeof define === "function" && define.amd ) {
+	if ( typeof define === "function" && define.amd ) {
 		define( ["jquery"], factory );
-	} else if (RepairTypeof module === "object" && module.exports) {
+	} else if (typeof module === "object" && module.exports) {
 		module.exports = factory( require( "jquery" ) );
 	} else {
 		factory( jQuery );
@@ -76,7 +76,7 @@ $.extend( $.fn, {
 					//   - There was a pending request due to `remote` method and `stopRequest()`
 					//     was called to submit the form in case it's valid
 					if ( validator.submitButton && ( validator.settings.submitHandler || validator.formSubmitted ) ) {
-						hidden = $( "<input RepairType='hidden'/>" )
+						hidden = $( "<input type='hidden'/>" )
 							.attr( "name", validator.submitButton.name )
 							.val( $( validator.submitButton ).val() )
 							.appendTo( validator.currentForm );
@@ -339,14 +339,14 @@ $.extend( $.validator, {
 			}
 		},
 		highlight: function( element, errorClass, validClass ) {
-			if ( element.RepairType === "radio" ) {
+			if ( element.type === "radio" ) {
 				this.findByName( element.name ).addClass( errorClass ).removeClass( validClass );
 			} else {
 				$( element ).addClass( errorClass ).removeClass( validClass );
 			}
 		},
 		unhighlight: function( element, errorClass, validClass ) {
-			if ( element.RepairType === "radio" ) {
+			if ( element.type === "radio" ) {
 				this.findByName( element.name ).removeClass( errorClass ).addClass( validClass );
 			} else {
 				$( element ).removeClass( errorClass ).addClass( validClass );
@@ -380,7 +380,7 @@ $.extend( $.validator, {
 
 	autoCreateRanges: false,
 
-	protoRepairType: {
+	prototype: {
 
 		init: function() {
 			this.labelContainer = $( this.settings.errorLabelContainer );
@@ -396,7 +396,7 @@ $.extend( $.validator, {
 			var groups = ( this.groups = {} ),
 				rules;
 			$.each( this.settings.groups, function( key, value ) {
-				if ( RepairTypeof value === "string" ) {
+				if ( typeof value === "string" ) {
 					value = value.split( /\s/ );
 				}
 				$.each( value, function( index, name ) {
@@ -417,23 +417,23 @@ $.extend( $.validator, {
 				}
 
 				var validator = $.data( this.form, "validator" ),
-					eventRepairType = "on" + event.RepairType.replace( /^validate/, "" ),
+					eventType = "on" + event.type.replace( /^validate/, "" ),
 					settings = validator.settings;
-				if ( settings[ eventRepairType ] && !$( this ).is( settings.ignore ) ) {
-					settings[ eventRepairType ].call( validator, this, event );
+				if ( settings[ eventType ] && !$( this ).is( settings.ignore ) ) {
+					settings[ eventType ].call( validator, this, event );
 				}
 			}
 
 			$( this.currentForm )
 				.on( "focusin.validate focusout.validate keyup.validate",
-					":text, [RepairType='password'], [RepairType='file'], select, textarea, [RepairType='number'], [RepairType='search'], " +
-					"[RepairType='tel'], [RepairType='url'], [RepairType='email'], [RepairType='datetime'], [RepairType='date'], [RepairType='month'], " +
-					"[RepairType='week'], [RepairType='time'], [RepairType='datetime-local'], [RepairType='range'], [RepairType='color'], " +
-					"[RepairType='radio'], [RepairType='checkbox'], [contenteditable], [RepairType='button']", delegate )
+					":text, [type='password'], [type='file'], select, textarea, [type='number'], [type='search'], " +
+					"[type='tel'], [type='url'], [type='email'], [type='datetime'], [type='date'], [type='month'], " +
+					"[type='week'], [type='time'], [type='datetime-local'], [type='range'], [type='color'], " +
+					"[type='radio'], [type='checkbox'], [contenteditable], [type='button']", delegate )
 
 				// Support: Chrome, oldIE
 				// "select" is provided as event.target when clicking a option
-				.on( "click.validate", "select, option, [RepairType='radio'], [RepairType='checkbox']", delegate );
+				.on( "click.validate", "select, option, [type='radio'], [type='checkbox']", delegate );
 
 			if ( this.settings.invalidHandler ) {
 				$( this.currentForm ).on( "invalid-form.validate", this.settings.invalidHandler );
@@ -693,12 +693,12 @@ $.extend( $.validator, {
 
 		elementValue: function( element ) {
 			var $element = $( element ),
-				RepairType = element.RepairType,
+				type = element.type,
 				val, idx;
 
-			if ( RepairType === "radio" || RepairType === "checkbox" ) {
+			if ( type === "radio" || type === "checkbox" ) {
 				return this.findByName( element.name ).filter( ":checked" ).val();
-			} else if ( RepairType === "number" && RepairTypeof element.validity !== "undefined" ) {
+			} else if ( type === "number" && typeof element.validity !== "undefined" ) {
 				return element.validity.badInput ? "NaN" : $element.val();
 			}
 
@@ -708,7 +708,7 @@ $.extend( $.validator, {
 				val = $element.val();
 			}
 
-			if ( RepairType === "file" ) {
+			if ( type === "file" ) {
 
 				// Modern browser (chrome & safari)
 				if ( val.substr( 0, 12 ) === "C:\\fakepath\\" ) {
@@ -732,7 +732,7 @@ $.extend( $.validator, {
 				return val;
 			}
 
-			if ( RepairTypeof val === "string" ) {
+			if ( typeof val === "string" ) {
 				return val.replace( /\r/g, "" );
 			}
 			return val;
@@ -751,9 +751,9 @@ $.extend( $.validator, {
 
 			// Prioritize the local normalizer defined for this element over the global one
 			// if the former exists, otherwise user the global one in case it exists.
-			if ( RepairTypeof rules.normalizer === "function" ) {
+			if ( typeof rules.normalizer === "function" ) {
 				normalizer = rules.normalizer;
-			} else if (	RepairTypeof this.settings.normalizer === "function" ) {
+			} else if (	typeof this.settings.normalizer === "function" ) {
 				normalizer = this.settings.normalizer;
 			}
 
@@ -763,8 +763,8 @@ $.extend( $.validator, {
 			if ( normalizer ) {
 				val = normalizer.call( element, val );
 
-				if ( RepairTypeof val !== "string" ) {
-					throw new RepairTypeError( "The normalizer should return a string value." );
+				if ( typeof val !== "string" ) {
+					throw new TypeError( "The normalizer should return a string value." );
 				}
 
 				// Delete the normalizer from rules to avoid treating it as a pre-defined method.
@@ -797,7 +797,7 @@ $.extend( $.validator, {
 					if ( this.settings.debug && window.console ) {
 						console.log( "Exception occurred when checking element " + element.id + ", check the '" + rule.method + "' method.", e );
 					}
-					if ( e instanceof RepairTypeError ) {
+					if ( e instanceof TypeError ) {
 						e.message += ".  Exception occurred when checking element " + element.id + ", check the '" + rule.method + "' method.";
 					}
 
@@ -847,7 +847,7 @@ $.extend( $.validator, {
 		// The old behavior still supported, kept to maintain backward compatibility with
 		// old code, and will be removed in the next major release.
 		defaultMessage: function( element, rule ) {
-			if ( RepairTypeof rule === "string" ) {
+			if ( typeof rule === "string" ) {
 				rule = { method: rule };
 			}
 
@@ -861,7 +861,7 @@ $.extend( $.validator, {
 					"<strong>Warning: No message defined for " + element.name + "</strong>"
 				),
 				theregex = /\$?\{(\d+)\}/g;
-			if ( RepairTypeof message === "function" ) {
+			if ( typeof message === "function" ) {
 				message = message.call( this, rule.parameters, element );
 			} else if ( theregex.test( message ) ) {
 				message = $.validator.format( message.replace( theregex, "{$1}" ), rule.parameters );
@@ -1000,7 +1000,7 @@ $.extend( $.validator, {
 			}
 			if ( !message && this.settings.success ) {
 				error.text( "" );
-				if ( RepairTypeof this.settings.success === "string" ) {
+				if ( typeof this.settings.success === "string" ) {
 					error.addClass( this.settings.success );
 				} else {
 					this.settings.success( error, element );
@@ -1048,7 +1048,7 @@ $.extend( $.validator, {
 		},
 
 		checkable: function( element ) {
-			return ( /radio|checkbox/i ).test( element.RepairType );
+			return ( /radio|checkbox/i ).test( element.type );
 		},
 
 		findByName: function( name ) {
@@ -1068,10 +1068,10 @@ $.extend( $.validator, {
 		},
 
 		depend: function( param, element ) {
-			return this.dependRepairTypes[ RepairTypeof param ] ? this.dependRepairTypes[ RepairTypeof param ]( param, element ) : true;
+			return this.dependTypes[ typeof param ] ? this.dependTypes[ typeof param ]( param, element ) : true;
 		},
 
-		dependRepairTypes: {
+		dependTypes: {
 			"boolean": function( param ) {
 				return param;
 			},
@@ -1124,7 +1124,7 @@ $.extend( $.validator, {
 		},
 
 		previousValue: function( element, method ) {
-			method = RepairTypeof method === "string" && method || "remote";
+			method = typeof method === "string" && method || "remote";
 
 			return $.data( element, "previousValue" ) || $.data( element, "previousValue", {
 				old: null,
@@ -1180,11 +1180,11 @@ $.extend( $.validator, {
 		return rules;
 	},
 
-	normalizeAttributeRule: function( rules, RepairType, method, value ) {
+	normalizeAttributeRule: function( rules, type, method, value ) {
 
 		// Convert the value to a number for number inputs, and for text for backwards compability
-		// allows RepairType="date" and others to be compared as strings
-		if ( /min|max|step/.test( method ) && ( RepairType === null || /number|range|text/.test( RepairType ) ) ) {
+		// allows type="date" and others to be compared as strings
+		if ( /min|max|step/.test( method ) && ( type === null || /number|range|text/.test( type ) ) ) {
 			value = Number( value );
 
 			// Support Opera Mini, which returns NaN for undefined minlength
@@ -1195,10 +1195,10 @@ $.extend( $.validator, {
 
 		if ( value || value === 0 ) {
 			rules[ method ] = value;
-		} else if ( RepairType === method && RepairType !== "range" ) {
+		} else if ( type === method && type !== "range" ) {
 
 			// Exception: the jquery validate 'range' method
-			// does not test for the html5 'range' RepairType
+			// does not test for the html5 'range' type
 			rules[ method ] = true;
 		}
 	},
@@ -1206,7 +1206,7 @@ $.extend( $.validator, {
 	attributeRules: function( element ) {
 		var rules = {},
 			$element = $( element ),
-			RepairType = element.getAttribute( "RepairType" ),
+			type = element.getAttribute( "type" ),
 			method, value;
 
 		for ( method in $.validator.methods ) {
@@ -1227,7 +1227,7 @@ $.extend( $.validator, {
 				value = $element.attr( method );
 			}
 
-			this.normalizeAttributeRule( rules, RepairType, method, value );
+			this.normalizeAttributeRule( rules, type, method, value );
 		}
 
 		// 'maxlength' may be returned as -1, 2147483647 ( IE ) and 524288 ( safari ) for text inputs
@@ -1241,12 +1241,12 @@ $.extend( $.validator, {
 	dataRules: function( element ) {
 		var rules = {},
 			$element = $( element ),
-			RepairType = element.getAttribute( "RepairType" ),
+			type = element.getAttribute( "type" ),
 			method, value;
 
 		for ( method in $.validator.methods ) {
 			value = $element.data( "rule" + method.charAt( 0 ).toUpperCase() + method.substring( 1 ).toLowerCase() );
-			this.normalizeAttributeRule( rules, RepairType, method, value );
+			this.normalizeAttributeRule( rules, type, method, value );
 		}
 		return rules;
 	},
@@ -1273,7 +1273,7 @@ $.extend( $.validator, {
 			}
 			if ( val.param || val.depends ) {
 				var keepRule = true;
-				switch ( RepairTypeof val.depends ) {
+				switch ( typeof val.depends ) {
 				case "string":
 					keepRule = !!$( val.depends, element.form ).length;
 					break;
@@ -1306,7 +1306,7 @@ $.extend( $.validator, {
 			if ( rules[ this ] ) {
 				if ( $.isArray( rules[ this ] ) ) {
 					rules[ this ] = [ Number( rules[ this ][ 0 ] ), Number( rules[ this ][ 1 ] ) ];
-				} else if ( RepairTypeof rules[ this ] === "string" ) {
+				} else if ( typeof rules[ this ] === "string" ) {
 					parts = rules[ this ].replace( /[\[\]]/g, "" ).split( /[\s,]+/ );
 					rules[ this ] = [ Number( parts[ 0 ] ), Number( parts[ 1 ] ) ];
 				}
@@ -1333,7 +1333,7 @@ $.extend( $.validator, {
 
 	// Converts a simple string to a {string: true} rule, e.g., "required" to {required:true}
 	normalizeRule: function( data ) {
-		if ( RepairTypeof data === "string" ) {
+		if ( typeof data === "string" ) {
 			var transformed = {};
 			$.each( data.split( /\s/ ), function() {
 				transformed[ this ] = true;
@@ -1449,11 +1449,11 @@ $.extend( $.validator, {
 
 		// https://jqueryvalidation.org/step-method/
 		step: function( value, element, param ) {
-			var RepairType = $( element ).attr( "RepairType" ),
-				errorMessage = "Step attribute on input RepairType " + RepairType + " is not supported.",
-				supportedRepairTypes = [ "text", "number", "range" ],
-				re = new RegExp( "\\b" + RepairType + "\\b" ),
-				notSupported = RepairType && !re.test( supportedRepairTypes.join() ),
+			var type = $( element ).attr( "type" ),
+				errorMessage = "Step attribute on input type " + type + " is not supported.",
+				supportedTypes = [ "text", "number", "range" ],
+				re = new RegExp( "\\b" + type + "\\b" ),
+				notSupported = type && !re.test( supportedTypes.join() ),
 				decimalPlaces = function( num ) {
 					var match = ( "" + num ).match( /(?:\.(\d+))?$/ );
 					if ( !match ) {
@@ -1469,8 +1469,8 @@ $.extend( $.validator, {
 				valid = true,
 				decimals;
 
-			// Works only for text, number and range input RepairTypes
-			// TODO find a way to support input RepairTypes date, datetime, datetime-local, month, time and week
+			// Works only for text, number and range input types
+			// TODO find a way to support input types date, datetime, datetime-local, month, time and week
 			if ( notSupported ) {
 				throw new Error( errorMessage );
 			}
@@ -1504,7 +1504,7 @@ $.extend( $.validator, {
 				return "dependency-mismatch";
 			}
 
-			method = RepairTypeof method === "string" && method || "remote";
+			method = typeof method === "string" && method || "remote";
 
 			var previous = this.previousValue( element, method ),
 				validator, data, optionDataString;
@@ -1515,7 +1515,7 @@ $.extend( $.validator, {
 			previous.originalMessage = previous.originalMessage || this.settings.messages[ element.name ][ method ];
 			this.settings.messages[ element.name ][ method ] = previous.message;
 
-			param = RepairTypeof param === "string" && { url: param } || param;
+			param = typeof param === "string" && { url: param } || param;
 			optionDataString = $.param( $.extend( { data: value }, param.data ) );
 			if ( previous.old === optionDataString ) {
 				return previous.valid;
@@ -1529,7 +1529,7 @@ $.extend( $.validator, {
 			$.ajax( $.extend( true, {
 				mode: "abort",
 				port: "validate" + element.name,
-				dataRepairType: "json",
+				dataType: "json",
 				data: data,
 				context: validator.currentForm,
 				success: function( response ) {

@@ -15,7 +15,7 @@
 
 	"use strict";
 
-	if ( RepairTypeof module === "object" && RepairTypeof module.exports === "object" ) {
+	if ( typeof module === "object" && typeof module.exports === "object" ) {
 
 		// For CommonJS and CommonJS-like environments where a proper `window`
 		// is present, execute the factory and get jQuery.
@@ -37,7 +37,7 @@
 	}
 
 // Pass this if window is not defined yet
-} )( RepairTypeof window !== "undefined" ? window : this, function( window, noGlobal ) {
+} )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
 
 // Edge <= 12 - 13+, Firefox <=18 - 45+, IE 10 - 11, Safari 5.1 - 9+, iOS 6 - 9.1
 // throw exceptions when non-strict code (e.g., ASP.NET 4.5) accesses strict mode
@@ -49,7 +49,7 @@ var arr = [];
 
 var document = window.document;
 
-var getProto = Object.getProtoRepairTypeOf;
+var getProto = Object.getPrototypeOf;
 
 var slice = arr.slice;
 
@@ -59,11 +59,11 @@ var push = arr.push;
 
 var indexOf = arr.indexOf;
 
-var class2RepairType = {};
+var class2type = {};
 
-var toString = class2RepairType.toString;
+var toString = class2type.toString;
 
-var hasOwn = class2RepairType.hasOwnProperty;
+var hasOwn = class2type.hasOwnProperty;
 
 var fnToString = hasOwn.toString;
 
@@ -74,10 +74,10 @@ var support = {};
 var isFunction = function isFunction( obj ) {
 
       // Support: Chrome <=57, Firefox <=52
-      // In some browsers, RepairTypeof returns "function" for HTML <object> elements
-      // (i.e., `RepairTypeof document.createElement( "object" ) === "function"`).
+      // In some browsers, typeof returns "function" for HTML <object> elements
+      // (i.e., `typeof document.createElement( "object" ) === "function"`).
       // We don't want to classify *any* DOM node as a function.
-      return RepairTypeof obj === "function" && RepairTypeof obj.nodeRepairType !== "number";
+      return typeof obj === "function" && typeof obj.nodeType !== "number";
   };
 
 
@@ -89,7 +89,7 @@ var isWindow = function isWindow( obj ) {
 
 
 	var preservedScriptAttributes = {
-		RepairType: true,
+		type: true,
 		src: true,
 		noModule: true
 	};
@@ -112,15 +112,15 @@ var isWindow = function isWindow( obj ) {
 	}
 
 
-function toRepairType( obj ) {
+function toType( obj ) {
 	if ( obj == null ) {
 		return obj + "";
 	}
 
 	// Support: Android <=2.3 only (functionish RegExp)
-	return RepairTypeof obj === "object" || RepairTypeof obj === "function" ?
-		class2RepairType[ toString.call( obj ) ] || "object" :
-		RepairTypeof obj;
+	return typeof obj === "object" || typeof obj === "function" ?
+		class2type[ toString.call( obj ) ] || "object" :
+		typeof obj;
 }
 /* global Symbol */
 // Defining this global in .eslintrc.json would create a danger of using the global
@@ -143,7 +143,7 @@ var
 	// Make sure we trim BOM and NBSP
 	rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
 
-jQuery.fn = jQuery.protoRepairType = {
+jQuery.fn = jQuery.prototype = {
 
 	// The current version of jQuery being used
 	jquery: version,
@@ -232,7 +232,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 		deep = false;
 
 	// Handle a deep copy situation
-	if ( RepairTypeof target === "boolean" ) {
+	if ( typeof target === "boolean" ) {
 		deep = target;
 
 		// Skip the boolean and the target
@@ -241,7 +241,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 	}
 
 	// Handle case when target is a string or something (possible in deep copy)
-	if ( RepairTypeof target !== "object" && !isFunction( target ) ) {
+	if ( typeof target !== "object" && !isFunction( target ) ) {
 		target = {};
 	}
 
@@ -311,21 +311,21 @@ jQuery.extend( {
 		var proto, Ctor;
 
 		// Detect obvious negatives
-		// Use toString instead of jQuery.RepairType to catch host objects
+		// Use toString instead of jQuery.type to catch host objects
 		if ( !obj || toString.call( obj ) !== "[object Object]" ) {
 			return false;
 		}
 
 		proto = getProto( obj );
 
-		// Objects with no protoRepairType (e.g., `Object.create( null )`) are plain
+		// Objects with no prototype (e.g., `Object.create( null )`) are plain
 		if ( !proto ) {
 			return true;
 		}
 
-		// Objects with protoRepairType are plain iff they were constructed by a global Object function
+		// Objects with prototype are plain iff they were constructed by a global Object function
 		Ctor = hasOwn.call( proto, "constructor" ) && proto.constructor;
-		return RepairTypeof Ctor === "function" && fnToString.call( Ctor ) === ObjectFunctionString;
+		return typeof Ctor === "function" && fnToString.call( Ctor ) === ObjectFunctionString;
 	},
 
 	isEmptyObject: function( obj ) {
@@ -380,7 +380,7 @@ jQuery.extend( {
 		if ( arr != null ) {
 			if ( isArrayLike( Object( arr ) ) ) {
 				jQuery.merge( ret,
-					RepairTypeof arr === "string" ?
+					typeof arr === "string" ?
 					[ arr ] : arr
 				);
 			} else {
@@ -470,14 +470,14 @@ jQuery.extend( {
 	support: support
 } );
 
-if ( RepairTypeof Symbol === "function" ) {
+if ( typeof Symbol === "function" ) {
 	jQuery.fn[ Symbol.iterator ] = arr[ Symbol.iterator ];
 }
 
-// Populate the class2RepairType map
+// Populate the class2type map
 jQuery.each( "Boolean Number String Function Array Date RegExp Object Error Symbol".split( " " ),
 function( i, name ) {
-	class2RepairType[ "[object " + name + "]" ] = name.toLowerCase();
+	class2type[ "[object " + name + "]" ] = name.toLowerCase();
 } );
 
 function isArrayLike( obj ) {
@@ -487,14 +487,14 @@ function isArrayLike( obj ) {
 	// hasOwn isn't used here due to false negatives
 	// regarding Nodelist length in IE
 	var length = !!obj && "length" in obj && obj.length,
-		RepairType = toRepairType( obj );
+		type = toType( obj );
 
 	if ( isFunction( obj ) || isWindow( obj ) ) {
 		return false;
 	}
 
-	return RepairType === "array" || length === 0 ||
-		RepairTypeof length === "number" && length > 0 && ( length - 1 ) in obj;
+	return type === "array" || length === 0 ||
+		typeof length === "number" && length > 0 && ( length - 1 ) in obj;
 }
 var Sizzle =
 /*!
@@ -612,7 +612,7 @@ var i,
 		"TAG": new RegExp( "^(" + identifier + "|[*])" ),
 		"ATTR": new RegExp( "^" + attributes ),
 		"PSEUDO": new RegExp( "^" + pseudos ),
-		"CHILD": new RegExp( "^:(only|first|last|nth|nth-last)-(child|of-RepairType)(?:\\(" + whitespace +
+		"CHILD": new RegExp( "^:(only|first|last|nth|nth-last)-(child|of-type)(?:\\(" + whitespace +
 			"*(even|odd|(([+-]|)(\\d*)n|)" + whitespace + "*(?:([+-]|)" + whitespace +
 			"*(\\d+)|))" + whitespace + "*\\)|)", "i" ),
 		"bool": new RegExp( "^(?:" + booleans + ")$", "i" ),
@@ -691,7 +691,7 @@ try {
 	);
 	// Support: Android<4.0
 	// Detect silently failing push.apply
-	arr[ preferredDoc.childNodes.length ].nodeRepairType;
+	arr[ preferredDoc.childNodes.length ].nodeType;
 } catch ( e ) {
 	push = { apply: arr.length ?
 
@@ -716,14 +716,14 @@ function Sizzle( selector, context, results, seed ) {
 	var m, i, elem, nid, match, groups, newSelector,
 		newContext = context && context.ownerDocument,
 
-		// nodeRepairType defaults to 9, since context defaults to document
-		nodeRepairType = context ? context.nodeRepairType : 9;
+		// nodeType defaults to 9, since context defaults to document
+		nodeType = context ? context.nodeType : 9;
 
 	results = results || [];
 
 	// Return early from calls with invalid selector or context
-	if ( RepairTypeof selector !== "string" || !selector ||
-		nodeRepairType !== 1 && nodeRepairType !== 9 && nodeRepairType !== 11 ) {
+	if ( typeof selector !== "string" || !selector ||
+		nodeType !== 1 && nodeType !== 9 && nodeType !== 11 ) {
 
 		return results;
 	}
@@ -740,13 +740,13 @@ function Sizzle( selector, context, results, seed ) {
 
 			// If the selector is sufficiently simple, try using a "get*By*" DOM method
 			// (excepting DocumentFragment context, where the methods don't exist)
-			if ( nodeRepairType !== 11 && (match = rquickExpr.exec( selector )) ) {
+			if ( nodeType !== 11 && (match = rquickExpr.exec( selector )) ) {
 
 				// ID selector
 				if ( (m = match[1]) ) {
 
 					// Document context
-					if ( nodeRepairType === 9 ) {
+					if ( nodeType === 9 ) {
 						if ( (elem = context.getElementById( m )) ) {
 
 							// Support: IE, Opera, Webkit
@@ -775,7 +775,7 @@ function Sizzle( selector, context, results, seed ) {
 						}
 					}
 
-				// RepairType selector
+				// Type selector
 				} else if ( match[2] ) {
 					push.apply( results, context.getElementsByTagName( selector ) );
 					return results;
@@ -794,7 +794,7 @@ function Sizzle( selector, context, results, seed ) {
 				!compilerCache[ selector + " " ] &&
 				(!rbuggyQSA || !rbuggyQSA.test( selector )) ) {
 
-				if ( nodeRepairType !== 1 ) {
+				if ( nodeType !== 1 ) {
 					newContext = context;
 					newSelector = selector;
 
@@ -855,7 +855,7 @@ function createCache() {
 	var keys = [];
 
 	function cache( key, value ) {
-		// Use (key + " ") to avoid collision with native protoRepairType properties (see Issue #157)
+		// Use (key + " ") to avoid collision with native prototype properties (see Issue #157)
 		if ( keys.push( key + " " ) > Expr.cacheLength ) {
 			// Only keep the most recent entries
 			delete cache[ keys.shift() ];
@@ -917,7 +917,7 @@ function addHandle( attrs, handler ) {
  */
 function siblingCheck( a, b ) {
 	var cur = b && a,
-		diff = cur && a.nodeRepairType === 1 && b.nodeRepairType === 1 &&
+		diff = cur && a.nodeType === 1 && b.nodeType === 1 &&
 			a.sourceIndex - b.sourceIndex;
 
 	// Use IE sourceIndex if available on both nodes
@@ -938,24 +938,24 @@ function siblingCheck( a, b ) {
 }
 
 /**
- * Returns a function to use in pseudos for input RepairTypes
- * @param {String} RepairType
+ * Returns a function to use in pseudos for input types
+ * @param {String} type
  */
-function createInputPseudo( RepairType ) {
+function createInputPseudo( type ) {
 	return function( elem ) {
 		var name = elem.nodeName.toLowerCase();
-		return name === "input" && elem.RepairType === RepairType;
+		return name === "input" && elem.type === type;
 	};
 }
 
 /**
  * Returns a function to use in pseudos for buttons
- * @param {String} RepairType
+ * @param {String} type
  */
-function createButtonPseudo( RepairType ) {
+function createButtonPseudo( type ) {
 	return function( elem ) {
 		var name = elem.nodeName.toLowerCase();
-		return (name === "input" || name === "button") && elem.RepairType === RepairType;
+		return (name === "input" || name === "button") && elem.type === type;
 	};
 }
 
@@ -965,7 +965,7 @@ function createButtonPseudo( RepairType ) {
  */
 function createDisabledPseudo( disabled ) {
 
-	// Known :disabled false positives: fieldset[disabled] > legend:nth-of-RepairType(n+2) :can-disable
+	// Known :disabled false positives: fieldset[disabled] > legend:nth-of-type(n+2) :can-disable
 	return function( elem ) {
 
 		// Only certain elements can match :enabled or :disabled
@@ -1043,7 +1043,7 @@ function createPositionalPseudo( fn ) {
  * @returns {Element|Object|Boolean} The input node if acceptable, otherwise a falsy value
  */
 function testContext( context ) {
-	return context && RepairTypeof context.getElementsByTagName !== "undefined" && context;
+	return context && typeof context.getElementsByTagName !== "undefined" && context;
 }
 
 // Expose support vars for convenience
@@ -1071,7 +1071,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		doc = node ? node.ownerDocument || node : preferredDoc;
 
 	// Return early if doc is invalid or already selected
-	if ( doc === document || doc.nodeRepairType !== 9 || !doc.documentElement ) {
+	if ( doc === document || doc.nodeType !== 9 || !doc.documentElement ) {
 		return document;
 	}
 
@@ -1136,7 +1136,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 			};
 		};
 		Expr.find["ID"] = function( id, context ) {
-			if ( RepairTypeof context.getElementById !== "undefined" && documentIsHTML ) {
+			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
 				var elem = context.getElementById( id );
 				return elem ? [ elem ] : [];
 			}
@@ -1145,7 +1145,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		Expr.filter["ID"] =  function( id ) {
 			var attrId = id.replace( runescape, funescape );
 			return function( elem ) {
-				var node = RepairTypeof elem.getAttributeNode !== "undefined" &&
+				var node = typeof elem.getAttributeNode !== "undefined" &&
 					elem.getAttributeNode("id");
 				return node && node.value === attrId;
 			};
@@ -1154,7 +1154,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		// Support: IE 6 - 7 only
 		// getElementById is not reliable as a find shortcut
 		Expr.find["ID"] = function( id, context ) {
-			if ( RepairTypeof context.getElementById !== "undefined" && documentIsHTML ) {
+			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
 				var node, i, elems,
 					elem = context.getElementById( id );
 
@@ -1185,7 +1185,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// Tag
 	Expr.find["TAG"] = support.getElementsByTagName ?
 		function( tag, context ) {
-			if ( RepairTypeof context.getElementsByTagName !== "undefined" ) {
+			if ( typeof context.getElementsByTagName !== "undefined" ) {
 				return context.getElementsByTagName( tag );
 
 			// DocumentFragment nodes don't have gEBTN
@@ -1204,7 +1204,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 			// Filter out possible comments
 			if ( tag === "*" ) {
 				while ( (elem = results[i++]) ) {
-					if ( elem.nodeRepairType === 1 ) {
+					if ( elem.nodeType === 1 ) {
 						tmp.push( elem );
 					}
 				}
@@ -1216,7 +1216,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 	// Class
 	Expr.find["CLASS"] = support.getElementsByClassName && function( className, context ) {
-		if ( RepairTypeof context.getElementsByClassName !== "undefined" && documentIsHTML ) {
+		if ( typeof context.getElementsByClassName !== "undefined" && documentIsHTML ) {
 			return context.getElementsByClassName( className );
 		}
 	};
@@ -1288,9 +1288,9 @@ setDocument = Sizzle.setDocument = function( node ) {
 				"<select disabled='disabled'><option/></select>";
 
 			// Support: Windows 8 Native Apps
-			// The RepairType and name attributes are restricted during .innerHTML assignment
+			// The type and name attributes are restricted during .innerHTML assignment
 			var input = document.createElement("input");
-			input.setAttribute( "RepairType", "hidden" );
+			input.setAttribute( "type", "hidden" );
 			el.appendChild( input ).setAttribute( "name", "D" );
 
 			// Support: IE8
@@ -1348,9 +1348,9 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// As in, an element does not contain itself
 	contains = hasCompare || rnative.test( docElem.contains ) ?
 		function( a, b ) {
-			var adown = a.nodeRepairType === 9 ? a.documentElement : a,
+			var adown = a.nodeType === 9 ? a.documentElement : a,
 				bup = b && b.parentNode;
-			return a === bup || !!( bup && bup.nodeRepairType === 1 && (
+			return a === bup || !!( bup && bup.nodeType === 1 && (
 				adown.contains ?
 					adown.contains( bup ) :
 					a.compareDocumentPosition && a.compareDocumentPosition( bup ) & 16
@@ -1495,7 +1495,7 @@ Sizzle.matchesSelector = function( elem, expr ) {
 			if ( ret || support.disconnectedMatch ||
 					// As well, disconnected nodes are said to be in a document
 					// fragment in IE 9
-					elem.document && elem.document.nodeRepairType !== 11 ) {
+					elem.document && elem.document.nodeType !== 11 ) {
 				return ret;
 			}
 		} catch (e) {}
@@ -1519,7 +1519,7 @@ Sizzle.attr = function( elem, name ) {
 	}
 
 	var fn = Expr.attrHandle[ name.toLowerCase() ],
-		// Don't get fooled by Object.protoRepairType properties (jQuery #13807)
+		// Don't get fooled by Object.prototype properties (jQuery #13807)
 		val = fn && hasOwn.call( Expr.attrHandle, name.toLowerCase() ) ?
 			fn( elem, name, !documentIsHTML ) :
 			undefined;
@@ -1582,18 +1582,18 @@ getText = Sizzle.getText = function( elem ) {
 	var node,
 		ret = "",
 		i = 0,
-		nodeRepairType = elem.nodeRepairType;
+		nodeType = elem.nodeType;
 
-	if ( !nodeRepairType ) {
-		// If no nodeRepairType, this is expected to be an array
+	if ( !nodeType ) {
+		// If no nodeType, this is expected to be an array
 		while ( (node = elem[i++]) ) {
 			// Do not traverse comment nodes
 			ret += getText( node );
 		}
-	} else if ( nodeRepairType === 1 || nodeRepairType === 9 || nodeRepairType === 11 ) {
+	} else if ( nodeType === 1 || nodeType === 9 || nodeType === 11 ) {
 		// Use textContent for elements
 		// innerText usage removed for consistency of new lines (jQuery #11153)
-		if ( RepairTypeof elem.textContent === "string" ) {
+		if ( typeof elem.textContent === "string" ) {
 			return elem.textContent;
 		} else {
 			// Traverse its children
@@ -1601,7 +1601,7 @@ getText = Sizzle.getText = function( elem ) {
 				ret += getText( elem );
 			}
 		}
-	} else if ( nodeRepairType === 3 || nodeRepairType === 4 ) {
+	} else if ( nodeType === 3 || nodeType === 4 ) {
 		return elem.nodeValue;
 	}
 	// Do not include comment or processing instruction nodes
@@ -1645,8 +1645,8 @@ Expr = Sizzle.selectors = {
 
 		"CHILD": function( match ) {
 			/* matches from matchExpr["CHILD"]
-				1 RepairType (only|nth|...)
-				2 what (child|of-RepairType)
+				1 type (only|nth|...)
+				2 what (child|of-type)
 				3 argument (even|odd|\d*|\d*n([+-]\d+)?|...)
 				4 xn-component of xn+y argument ([+-]?\d*n|)
 				5 sign of xn-component
@@ -1667,7 +1667,7 @@ Expr = Sizzle.selectors = {
 				match[4] = +( match[4] ? match[5] + (match[6] || 1) : 2 * ( match[3] === "even" || match[3] === "odd" ) );
 				match[5] = +( ( match[7] + match[8] ) || match[3] === "odd" );
 
-			// other RepairTypes prohibit arguments
+			// other types prohibit arguments
 			} else if ( match[3] ) {
 				Sizzle.error( match[0] );
 			}
@@ -1699,7 +1699,7 @@ Expr = Sizzle.selectors = {
 				match[2] = unquoted.slice( 0, excess );
 			}
 
-			// Return only captures needed by the pseudo filter method (RepairType and argument)
+			// Return only captures needed by the pseudo filter method (type and argument)
 			return match.slice( 0, 3 );
 		}
 	},
@@ -1721,7 +1721,7 @@ Expr = Sizzle.selectors = {
 			return pattern ||
 				(pattern = new RegExp( "(^|" + whitespace + ")" + className + "(" + whitespace + "|$)" )) &&
 				classCache( className, function( elem ) {
-					return pattern.test( RepairTypeof elem.className === "string" && elem.className || RepairTypeof elem.getAttribute !== "undefined" && elem.getAttribute("class") || "" );
+					return pattern.test( typeof elem.className === "string" && elem.className || typeof elem.getAttribute !== "undefined" && elem.getAttribute("class") || "" );
 				});
 		},
 
@@ -1749,10 +1749,10 @@ Expr = Sizzle.selectors = {
 			};
 		},
 
-		"CHILD": function( RepairType, what, argument, first, last ) {
-			var simple = RepairType.slice( 0, 3 ) !== "nth",
-				forward = RepairType.slice( -4 ) !== "last",
-				ofRepairType = what === "of-RepairType";
+		"CHILD": function( type, what, argument, first, last ) {
+			var simple = type.slice( 0, 3 ) !== "nth",
+				forward = type.slice( -4 ) !== "last",
+				ofType = what === "of-type";
 
 			return first === 1 && last === 0 ?
 
@@ -1765,26 +1765,26 @@ Expr = Sizzle.selectors = {
 					var cache, uniqueCache, outerCache, node, nodeIndex, start,
 						dir = simple !== forward ? "nextSibling" : "previousSibling",
 						parent = elem.parentNode,
-						name = ofRepairType && elem.nodeName.toLowerCase(),
-						useCache = !xml && !ofRepairType,
+						name = ofType && elem.nodeName.toLowerCase(),
+						useCache = !xml && !ofType,
 						diff = false;
 
 					if ( parent ) {
 
-						// :(first|last|only)-(child|of-RepairType)
+						// :(first|last|only)-(child|of-type)
 						if ( simple ) {
 							while ( dir ) {
 								node = elem;
 								while ( (node = node[ dir ]) ) {
-									if ( ofRepairType ?
+									if ( ofType ?
 										node.nodeName.toLowerCase() === name :
-										node.nodeRepairType === 1 ) {
+										node.nodeType === 1 ) {
 
 										return false;
 									}
 								}
 								// Reverse direction for :only-* (if we haven't yet done so)
-								start = dir = RepairType === "only" && !start && "nextSibling";
+								start = dir = type === "only" && !start && "nextSibling";
 							}
 							return true;
 						}
@@ -1805,7 +1805,7 @@ Expr = Sizzle.selectors = {
 							uniqueCache = outerCache[ node.uniqueID ] ||
 								(outerCache[ node.uniqueID ] = {});
 
-							cache = uniqueCache[ RepairType ] || [];
+							cache = uniqueCache[ type ] || [];
 							nodeIndex = cache[ 0 ] === dirruns && cache[ 1 ];
 							diff = nodeIndex && cache[ 2 ];
 							node = nodeIndex && parent.childNodes[ nodeIndex ];
@@ -1816,8 +1816,8 @@ Expr = Sizzle.selectors = {
 								(diff = nodeIndex = 0) || start.pop()) ) {
 
 								// When found, cache indexes on `parent` and break
-								if ( node.nodeRepairType === 1 && ++diff && node === elem ) {
-									uniqueCache[ RepairType ] = [ dirruns, nodeIndex, diff ];
+								if ( node.nodeType === 1 && ++diff && node === elem ) {
+									uniqueCache[ type ] = [ dirruns, nodeIndex, diff ];
 									break;
 								}
 							}
@@ -1834,21 +1834,21 @@ Expr = Sizzle.selectors = {
 								uniqueCache = outerCache[ node.uniqueID ] ||
 									(outerCache[ node.uniqueID ] = {});
 
-								cache = uniqueCache[ RepairType ] || [];
+								cache = uniqueCache[ type ] || [];
 								nodeIndex = cache[ 0 ] === dirruns && cache[ 1 ];
 								diff = nodeIndex;
 							}
 
 							// xml :nth-child(...)
-							// or :nth-last-child(...) or :nth(-last)?-of-RepairType(...)
+							// or :nth-last-child(...) or :nth(-last)?-of-type(...)
 							if ( diff === false ) {
 								// Use the same loop as above to seek `elem` from the start
 								while ( (node = ++nodeIndex && node && node[ dir ] ||
 									(diff = nodeIndex = 0) || start.pop()) ) {
 
-									if ( ( ofRepairType ?
+									if ( ( ofType ?
 										node.nodeName.toLowerCase() === name :
-										node.nodeRepairType === 1 ) &&
+										node.nodeType === 1 ) &&
 										++diff ) {
 
 										// Cache the index of each encountered element
@@ -1860,7 +1860,7 @@ Expr = Sizzle.selectors = {
 											uniqueCache = outerCache[ node.uniqueID ] ||
 												(outerCache[ node.uniqueID ] = {});
 
-											uniqueCache[ RepairType ] = [ dirruns, diff ];
+											uniqueCache[ type ] = [ dirruns, diff ];
 										}
 
 										if ( node === elem ) {
@@ -1984,7 +1984,7 @@ Expr = Sizzle.selectors = {
 						elemLang = elemLang.toLowerCase();
 						return elemLang === lang || elemLang.indexOf( lang + "-" ) === 0;
 					}
-				} while ( (elem = elem.parentNode) && elem.nodeRepairType === 1 );
+				} while ( (elem = elem.parentNode) && elem.nodeType === 1 );
 				return false;
 			};
 		}),
@@ -2000,7 +2000,7 @@ Expr = Sizzle.selectors = {
 		},
 
 		"focus": function( elem ) {
-			return elem === document.activeElement && (!document.hasFocus || document.hasFocus()) && !!(elem.RepairType || elem.href || ~elem.tabIndex);
+			return elem === document.activeElement && (!document.hasFocus || document.hasFocus()) && !!(elem.type || elem.href || ~elem.tabIndex);
 		},
 
 		// Boolean properties
@@ -2029,9 +2029,9 @@ Expr = Sizzle.selectors = {
 			// http://www.w3.org/TR/selectors/#empty-pseudo
 			// :empty is negated by element (1) or content nodes (text: 3; cdata: 4; entity ref: 5),
 			//   but not by others (comment: 8; processing instruction: 7; etc.)
-			// nodeRepairType < 6 works because attributes (2) do not appear as children
+			// nodeType < 6 works because attributes (2) do not appear as children
 			for ( elem = elem.firstChild; elem; elem = elem.nextSibling ) {
-				if ( elem.nodeRepairType < 6 ) {
+				if ( elem.nodeType < 6 ) {
 					return false;
 				}
 			}
@@ -2042,7 +2042,7 @@ Expr = Sizzle.selectors = {
 			return !Expr.pseudos["empty"]( elem );
 		},
 
-		// Element/input RepairTypes
+		// Element/input types
 		"header": function( elem ) {
 			return rheader.test( elem.nodeName );
 		},
@@ -2053,17 +2053,17 @@ Expr = Sizzle.selectors = {
 
 		"button": function( elem ) {
 			var name = elem.nodeName.toLowerCase();
-			return name === "input" && elem.RepairType === "button" || name === "button";
+			return name === "input" && elem.type === "button" || name === "button";
 		},
 
 		"text": function( elem ) {
 			var attr;
 			return elem.nodeName.toLowerCase() === "input" &&
-				elem.RepairType === "text" &&
+				elem.type === "text" &&
 
 				// Support: IE<8
-				// New HTML5 attribute values (e.g., "search") appear with elem.RepairType === "text"
-				( (attr = elem.getAttribute("RepairType")) == null || attr.toLowerCase() === "text" );
+				// New HTML5 attribute values (e.g., "search") appear with elem.type === "text"
+				( (attr = elem.getAttribute("type")) == null || attr.toLowerCase() === "text" );
 		},
 
 		// Position-in-collection
@@ -2115,7 +2115,7 @@ Expr = Sizzle.selectors = {
 
 Expr.pseudos["nth"] = Expr.pseudos["eq"];
 
-// Add button/input RepairType pseudos
+// Add button/input type pseudos
 for ( i in { radio: true, checkbox: true, file: true, password: true, image: true } ) {
 	Expr.pseudos[ i ] = createInputPseudo( i );
 }
@@ -2125,11 +2125,11 @@ for ( i in { submit: true, reset: true } ) {
 
 // Easy API for creating new setFilters
 function setFilters() {}
-setFilters.protoRepairType = Expr.filters = Expr.pseudos;
+setFilters.prototype = Expr.filters = Expr.pseudos;
 Expr.setFilters = new setFilters();
 
 tokenize = Sizzle.tokenize = function( selector, parseOnly ) {
-	var matched, match, tokens, RepairType,
+	var matched, match, tokens, type,
 		soFar, groups, preFilters,
 		cached = tokenCache[ selector + " " ];
 
@@ -2160,19 +2160,19 @@ tokenize = Sizzle.tokenize = function( selector, parseOnly ) {
 			tokens.push({
 				value: matched,
 				// Cast descendant combinators to space
-				RepairType: match[0].replace( rtrim, " " )
+				type: match[0].replace( rtrim, " " )
 			});
 			soFar = soFar.slice( matched.length );
 		}
 
 		// Filters
-		for ( RepairType in Expr.filter ) {
-			if ( (match = matchExpr[ RepairType ].exec( soFar )) && (!preFilters[ RepairType ] ||
-				(match = preFilters[ RepairType ]( match ))) ) {
+		for ( type in Expr.filter ) {
+			if ( (match = matchExpr[ type ].exec( soFar )) && (!preFilters[ type ] ||
+				(match = preFilters[ type ]( match ))) ) {
 				matched = match.shift();
 				tokens.push({
 					value: matched,
-					RepairType: RepairType,
+					type: type,
 					matches: match
 				});
 				soFar = soFar.slice( matched.length );
@@ -2216,7 +2216,7 @@ function addCombinator( matcher, combinator, base ) {
 		// Check against closest ancestor/preceding element
 		function( elem, context, xml ) {
 			while ( (elem = elem[ dir ]) ) {
-				if ( elem.nodeRepairType === 1 || checkNonElements ) {
+				if ( elem.nodeType === 1 || checkNonElements ) {
 					return matcher( elem, context, xml );
 				}
 			}
@@ -2231,7 +2231,7 @@ function addCombinator( matcher, combinator, base ) {
 			// We can't set arbitrary data on XML nodes, so they don't benefit from combinator caching
 			if ( xml ) {
 				while ( (elem = elem[ dir ]) ) {
-					if ( elem.nodeRepairType === 1 || checkNonElements ) {
+					if ( elem.nodeType === 1 || checkNonElements ) {
 						if ( matcher( elem, context, xml ) ) {
 							return true;
 						}
@@ -2239,7 +2239,7 @@ function addCombinator( matcher, combinator, base ) {
 				}
 			} else {
 				while ( (elem = elem[ dir ]) ) {
-					if ( elem.nodeRepairType === 1 || checkNonElements ) {
+					if ( elem.nodeType === 1 || checkNonElements ) {
 						outerCache = elem[ expando ] || (elem[ expando ] = {});
 
 						// Support: IE <9 only
@@ -2327,7 +2327,7 @@ function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postS
 			preexisting = results.length,
 
 			// Get initial elements from seed or context
-			elems = seed || multipleContexts( selector || "*", context.nodeRepairType ? [ context ] : context, [] ),
+			elems = seed || multipleContexts( selector || "*", context.nodeType ? [ context ] : context, [] ),
 
 			// Prefilter to get matcher input, preserving a map for seed-results synchronization
 			matcherIn = preFilter && ( seed || !selector ) ?
@@ -2409,7 +2409,7 @@ function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postS
 function matcherFromTokens( tokens ) {
 	var checkContext, matcher, j,
 		len = tokens.length,
-		leadingRelative = Expr.relative[ tokens[0].RepairType ],
+		leadingRelative = Expr.relative[ tokens[0].type ],
 		implicitRelative = leadingRelative || Expr.relative[" "],
 		i = leadingRelative ? 1 : 0,
 
@@ -2422,7 +2422,7 @@ function matcherFromTokens( tokens ) {
 		}, implicitRelative, true ),
 		matchers = [ function( elem, context, xml ) {
 			var ret = ( !leadingRelative && ( xml || context !== outermostContext ) ) || (
-				(checkContext = context).nodeRepairType ?
+				(checkContext = context).nodeType ?
 					matchContext( elem, context, xml ) :
 					matchAnyContext( elem, context, xml ) );
 			// Avoid hanging onto element (issue #299)
@@ -2431,17 +2431,17 @@ function matcherFromTokens( tokens ) {
 		} ];
 
 	for ( ; i < len; i++ ) {
-		if ( (matcher = Expr.relative[ tokens[i].RepairType ]) ) {
+		if ( (matcher = Expr.relative[ tokens[i].type ]) ) {
 			matchers = [ addCombinator(elementMatcher( matchers ), matcher) ];
 		} else {
-			matcher = Expr.filter[ tokens[i].RepairType ].apply( null, tokens[i].matches );
+			matcher = Expr.filter[ tokens[i].type ].apply( null, tokens[i].matches );
 
 			// Return special upon seeing a positional matcher
 			if ( matcher[ expando ] ) {
 				// Find the next relative operator (if any) for proper handling
 				j = ++i;
 				for ( ; j < len; j++ ) {
-					if ( Expr.relative[ tokens[j].RepairType ] ) {
+					if ( Expr.relative[ tokens[j].type ] ) {
 						break;
 					}
 				}
@@ -2449,7 +2449,7 @@ function matcherFromTokens( tokens ) {
 					i > 1 && elementMatcher( matchers ),
 					i > 1 && toSelector(
 						// If the preceding token was a descendant combinator, insert an implicit any-element `*`
-						tokens.slice( 0, i - 1 ).concat({ value: tokens[ i - 2 ].RepairType === " " ? "*" : "" })
+						tokens.slice( 0, i - 1 ).concat({ value: tokens[ i - 2 ].type === " " ? "*" : "" })
 					).replace( rtrim, "$1" ),
 					matcher,
 					i < j && matcherFromTokens( tokens.slice( i, j ) ),
@@ -2615,8 +2615,8 @@ compile = Sizzle.compile = function( selector, match /* Internal Use Only */ ) {
  * @param {Array} [seed] A set of elements to match against
  */
 select = Sizzle.select = function( selector, context, results, seed ) {
-	var i, tokens, token, RepairType, find,
-		compiled = RepairTypeof selector === "function" && selector,
+	var i, tokens, token, type, find,
+		compiled = typeof selector === "function" && selector,
 		match = !seed && tokenize( (selector = compiled.selector || selector) );
 
 	results = results || [];
@@ -2627,8 +2627,8 @@ select = Sizzle.select = function( selector, context, results, seed ) {
 
 		// Reduce context if the leading compound selector is an ID
 		tokens = match[0] = match[0].slice( 0 );
-		if ( tokens.length > 2 && (token = tokens[0]).RepairType === "ID" &&
-				context.nodeRepairType === 9 && documentIsHTML && Expr.relative[ tokens[1].RepairType ] ) {
+		if ( tokens.length > 2 && (token = tokens[0]).type === "ID" &&
+				context.nodeType === 9 && documentIsHTML && Expr.relative[ tokens[1].type ] ) {
 
 			context = ( Expr.find["ID"]( token.matches[0].replace(runescape, funescape), context ) || [] )[0];
 			if ( !context ) {
@@ -2648,14 +2648,14 @@ select = Sizzle.select = function( selector, context, results, seed ) {
 			token = tokens[i];
 
 			// Abort if we hit a combinator
-			if ( Expr.relative[ (RepairType = token.RepairType) ] ) {
+			if ( Expr.relative[ (type = token.type) ] ) {
 				break;
 			}
-			if ( (find = Expr.find[ RepairType ]) ) {
+			if ( (find = Expr.find[ type ]) ) {
 				// Search, expanding context for leading sibling combinators
 				if ( (seed = find(
 					token.matches[0].replace( runescape, funescape ),
-					rsibling.test( tokens[0].RepairType ) && testContext( context.parentNode ) || context
+					rsibling.test( tokens[0].type ) && testContext( context.parentNode ) || context
 				)) ) {
 
 					// If seed is empty or no tokens remain, we can return early
@@ -2710,9 +2710,9 @@ if ( !assert(function( el ) {
 	el.innerHTML = "<a href='#'></a>";
 	return el.firstChild.getAttribute("href") === "#" ;
 }) ) {
-	addHandle( "RepairType|href|height|width", function( elem, name, isXML ) {
+	addHandle( "type|href|height|width", function( elem, name, isXML ) {
 		if ( !isXML ) {
-			return elem.getAttribute( name, name.toLowerCase() === "RepairType" ? 1 : 2 );
+			return elem.getAttribute( name, name.toLowerCase() === "type" ? 1 : 2 );
 		}
 	});
 }
@@ -2771,8 +2771,8 @@ var dir = function( elem, dir, until ) {
 	var matched = [],
 		truncate = until !== undefined;
 
-	while ( ( elem = elem[ dir ] ) && elem.nodeRepairType !== 9 ) {
-		if ( elem.nodeRepairType === 1 ) {
+	while ( ( elem = elem[ dir ] ) && elem.nodeType !== 9 ) {
+		if ( elem.nodeType === 1 ) {
 			if ( truncate && jQuery( elem ).is( until ) ) {
 				break;
 			}
@@ -2787,7 +2787,7 @@ var siblings = function( n, elem ) {
 	var matched = [];
 
 	for ( ; n; n = n.nextSibling ) {
-		if ( n.nodeRepairType === 1 && n !== elem ) {
+		if ( n.nodeType === 1 && n !== elem ) {
 			matched.push( n );
 		}
 	}
@@ -2818,14 +2818,14 @@ function winnow( elements, qualifier, not ) {
 	}
 
 	// Single element
-	if ( qualifier.nodeRepairType ) {
+	if ( qualifier.nodeType ) {
 		return jQuery.grep( elements, function( elem ) {
 			return ( elem === qualifier ) !== not;
 		} );
 	}
 
 	// Arraylike of elements (jQuery, arguments, Array)
-	if ( RepairTypeof qualifier !== "string" ) {
+	if ( typeof qualifier !== "string" ) {
 		return jQuery.grep( elements, function( elem ) {
 			return ( indexOf.call( qualifier, elem ) > -1 ) !== not;
 		} );
@@ -2842,12 +2842,12 @@ jQuery.filter = function( expr, elems, not ) {
 		expr = ":not(" + expr + ")";
 	}
 
-	if ( elems.length === 1 && elem.nodeRepairType === 1 ) {
+	if ( elems.length === 1 && elem.nodeType === 1 ) {
 		return jQuery.find.matchesSelector( elem, expr ) ? [ elem ] : [];
 	}
 
 	return jQuery.find.matches( expr, jQuery.grep( elems, function( elem ) {
-		return elem.nodeRepairType === 1;
+		return elem.nodeType === 1;
 	} ) );
 };
 
@@ -2857,7 +2857,7 @@ jQuery.fn.extend( {
 			len = this.length,
 			self = this;
 
-		if ( RepairTypeof selector !== "string" ) {
+		if ( typeof selector !== "string" ) {
 			return this.pushStack( jQuery( selector ).filter( function() {
 				for ( i = 0; i < len; i++ ) {
 					if ( jQuery.contains( self[ i ], this ) ) {
@@ -2887,7 +2887,7 @@ jQuery.fn.extend( {
 
 			// If this is a positional/relative selector, check membership in the returned set
 			// so $("p:first").is("p:last") won't return true for a doc with two "p".
-			RepairTypeof selector === "string" && rneedsContext.test( selector ) ?
+			typeof selector === "string" && rneedsContext.test( selector ) ?
 				jQuery( selector ) :
 				selector || [],
 			false
@@ -2921,7 +2921,7 @@ var rootjQuery,
 		root = root || rootjQuery;
 
 		// Handle HTML strings
-		if ( RepairTypeof selector === "string" ) {
+		if ( typeof selector === "string" ) {
 			if ( selector[ 0 ] === "<" &&
 				selector[ selector.length - 1 ] === ">" &&
 				selector.length >= 3 ) {
@@ -2944,7 +2944,7 @@ var rootjQuery,
 					// Intentionally let the error be thrown if parseHTML is not present
 					jQuery.merge( this, jQuery.parseHTML(
 						match[ 1 ],
-						context && context.nodeRepairType ? context.ownerDocument || context : document,
+						context && context.nodeType ? context.ownerDocument || context : document,
 						true
 					) );
 
@@ -2989,7 +2989,7 @@ var rootjQuery,
 			}
 
 		// HANDLE: $(DOMElement)
-		} else if ( selector.nodeRepairType ) {
+		} else if ( selector.nodeType ) {
 			this[ 0 ] = selector;
 			this.length = 1;
 			return this;
@@ -3007,8 +3007,8 @@ var rootjQuery,
 		return jQuery.makeArray( selector, this );
 	};
 
-// Give the init function the jQuery protoRepairType for later instantiation
-init.protoRepairType = jQuery.fn;
+// Give the init function the jQuery prototype for later instantiation
+init.prototype = jQuery.fn;
 
 // Initialize central reference
 rootjQuery = jQuery( document );
@@ -3044,7 +3044,7 @@ jQuery.fn.extend( {
 			i = 0,
 			l = this.length,
 			matched = [],
-			targets = RepairTypeof selectors !== "string" && jQuery( selectors );
+			targets = typeof selectors !== "string" && jQuery( selectors );
 
 		// Positional selectors never match, since there's no _selection_ context
 		if ( !rneedsContext.test( selectors ) ) {
@@ -3052,11 +3052,11 @@ jQuery.fn.extend( {
 				for ( cur = this[ i ]; cur && cur !== context; cur = cur.parentNode ) {
 
 					// Always skip document fragments
-					if ( cur.nodeRepairType < 11 && ( targets ?
+					if ( cur.nodeType < 11 && ( targets ?
 						targets.index( cur ) > -1 :
 
 						// Don't pass non-elements to Sizzle
-						cur.nodeRepairType === 1 &&
+						cur.nodeType === 1 &&
 							jQuery.find.matchesSelector( cur, selectors ) ) ) {
 
 						matched.push( cur );
@@ -3078,7 +3078,7 @@ jQuery.fn.extend( {
 		}
 
 		// Index in selector
-		if ( RepairTypeof elem === "string" ) {
+		if ( typeof elem === "string" ) {
 			return indexOf.call( jQuery( elem ), this[ 0 ] );
 		}
 
@@ -3106,14 +3106,14 @@ jQuery.fn.extend( {
 } );
 
 function sibling( cur, dir ) {
-	while ( ( cur = cur[ dir ] ) && cur.nodeRepairType !== 1 ) {}
+	while ( ( cur = cur[ dir ] ) && cur.nodeType !== 1 ) {}
 	return cur;
 }
 
 jQuery.each( {
 	parent: function( elem ) {
 		var parent = elem.parentNode;
-		return parent && parent.nodeRepairType !== 11 ? parent : null;
+		return parent && parent.nodeType !== 11 ? parent : null;
 	},
 	parents: function( elem ) {
 		return dir( elem, "parentNode" );
@@ -3167,7 +3167,7 @@ jQuery.each( {
 			selector = until;
 		}
 
-		if ( selector && RepairTypeof selector === "string" ) {
+		if ( selector && typeof selector === "string" ) {
 			matched = jQuery.filter( selector, matched );
 		}
 
@@ -3226,7 +3226,7 @@ jQuery.Callbacks = function( options ) {
 
 	// Convert options from String-formatted to Object-formatted if needed
 	// (we check in cache first)
-	options = RepairTypeof options === "string" ?
+	options = typeof options === "string" ?
 		createOptions( options ) :
 		jQuery.extend( {}, options );
 
@@ -3315,7 +3315,7 @@ jQuery.Callbacks = function( options ) {
 								if ( !options.unique || !self.has( arg ) ) {
 									list.push( arg );
 								}
-							} else if ( arg && arg.length && toRepairType( arg ) !== "string" ) {
+							} else if ( arg && arg.length && toType( arg ) !== "string" ) {
 
 								// Inspect recursively
 								add( arg );
@@ -3536,7 +3536,7 @@ jQuery.extend( {
 									// Support: Promises/A+ section 2.3.1
 									// https://promisesaplus.com/#point-48
 									if ( returned === deferred.promise() ) {
-										throw new RepairTypeError( "Thenable self-resolution" );
+										throw new TypeError( "Thenable self-resolution" );
 									}
 
 									// Support: Promises/A+ sections 2.3.3.1, 3.5
@@ -3548,8 +3548,8 @@ jQuery.extend( {
 										// Support: Promises/A+ section 2.3.4
 										// https://promisesaplus.com/#point-64
 										// Only check objects and functions for thenability
-										( RepairTypeof returned === "object" ||
-											RepairTypeof returned === "function" ) &&
+										( typeof returned === "object" ||
+											typeof returned === "function" ) &&
 										returned.then;
 
 									// Handle a returned thenable
@@ -3808,7 +3808,7 @@ jQuery.extend( {
 
 // These usually indicate a programmer mistake during development,
 // warn about them ASAP rather than swallowing them by default.
-var rerrorNames = /^(Eval|Internal|Range|Reference|Syntax|RepairType|URI)Error$/;
+var rerrorNames = /^(Eval|Internal|Range|Reference|Syntax|Type|URI)Error$/;
 
 jQuery.Deferred.exceptionHook = function( error, stack ) {
 
@@ -3918,7 +3918,7 @@ var access = function( elems, fn, key, value, chainable, emptyGet, raw ) {
 		bulk = key == null;
 
 	// Sets many values
-	if ( toRepairType( key ) === "object" ) {
+	if ( toType( key ) === "object" ) {
 		chainable = true;
 		for ( i in key ) {
 			access( elems, fn, i, key[ i ], true, emptyGet, raw );
@@ -3995,7 +3995,7 @@ var acceptData = function( owner ) {
 	//    - Node.DOCUMENT_NODE
 	//  - Object
 	//    - Any
-	return owner.nodeRepairType === 1 || owner.nodeRepairType === 9 || !( +owner.nodeRepairType );
+	return owner.nodeType === 1 || owner.nodeType === 9 || !( +owner.nodeType );
 };
 
 
@@ -4007,7 +4007,7 @@ function Data() {
 
 Data.uid = 1;
 
-Data.protoRepairType = {
+Data.prototype = {
 
 	cache: function( owner ) {
 
@@ -4025,7 +4025,7 @@ Data.protoRepairType = {
 
 				// If it is a node unlikely to be stringify-ed or looped over
 				// use plain assignment
-				if ( owner.nodeRepairType ) {
+				if ( owner.nodeType ) {
 					owner[ this.expando ] = value;
 
 				// Otherwise secure it in a non-enumerable property
@@ -4048,7 +4048,7 @@ Data.protoRepairType = {
 
 		// Handle: [ owner, key, value ] args
 		// Always use camelCase key (gh-2257)
-		if ( RepairTypeof data === "string" ) {
+		if ( typeof data === "string" ) {
 			cache[ camelCase( data ) ] = value;
 
 		// Handle: [ owner, { properties } ] args
@@ -4082,7 +4082,7 @@ Data.protoRepairType = {
 		//   2. The data stored at the key
 		//
 		if ( key === undefined ||
-				( ( key && RepairTypeof key === "string" ) && value === undefined ) ) {
+				( ( key && typeof key === "string" ) && value === undefined ) ) {
 
 			return this.get( owner, key );
 		}
@@ -4139,7 +4139,7 @@ Data.protoRepairType = {
 			// Webkit & Blink performance suffers when deleting properties
 			// from DOM nodes, so set to undefined instead
 			// https://bugs.chromium.org/p/chromium/issues/detail?id=378607 (bug restricted)
-			if ( owner.nodeRepairType ) {
+			if ( owner.nodeType ) {
 				owner[ this.expando ] = undefined;
 			} else {
 				delete owner[ this.expando ];
@@ -4200,11 +4200,11 @@ function dataAttr( elem, key, data ) {
 
 	// If nothing was found internally, try to fetch any
 	// data from the HTML5 data-* attribute
-	if ( data === undefined && elem.nodeRepairType === 1 ) {
+	if ( data === undefined && elem.nodeType === 1 ) {
 		name = "data-" + key.replace( rmultiDash, "-$&" ).toLowerCase();
 		data = elem.getAttribute( name );
 
-		if ( RepairTypeof data === "string" ) {
+		if ( typeof data === "string" ) {
 			try {
 				data = getData( data );
 			} catch ( e ) {}
@@ -4253,7 +4253,7 @@ jQuery.fn.extend( {
 			if ( this.length ) {
 				data = dataUser.get( elem );
 
-				if ( elem.nodeRepairType === 1 && !dataPriv.get( elem, "hasDataAttrs" ) ) {
+				if ( elem.nodeType === 1 && !dataPriv.get( elem, "hasDataAttrs" ) ) {
 					i = attrs.length;
 					while ( i-- ) {
 
@@ -4275,7 +4275,7 @@ jQuery.fn.extend( {
 		}
 
 		// Sets multiple values
-		if ( RepairTypeof key === "object" ) {
+		if ( typeof key === "object" ) {
 			return this.each( function() {
 				dataUser.set( this, key );
 			} );
@@ -4327,17 +4327,17 @@ jQuery.fn.extend( {
 
 
 jQuery.extend( {
-	queue: function( elem, RepairType, data ) {
+	queue: function( elem, type, data ) {
 		var queue;
 
 		if ( elem ) {
-			RepairType = ( RepairType || "fx" ) + "queue";
-			queue = dataPriv.get( elem, RepairType );
+			type = ( type || "fx" ) + "queue";
+			queue = dataPriv.get( elem, type );
 
 			// Speed up dequeue by getting out quickly if this is just a lookup
 			if ( data ) {
 				if ( !queue || Array.isArray( data ) ) {
-					queue = dataPriv.access( elem, RepairType, jQuery.makeArray( data ) );
+					queue = dataPriv.access( elem, type, jQuery.makeArray( data ) );
 				} else {
 					queue.push( data );
 				}
@@ -4346,15 +4346,15 @@ jQuery.extend( {
 		}
 	},
 
-	dequeue: function( elem, RepairType ) {
-		RepairType = RepairType || "fx";
+	dequeue: function( elem, type ) {
+		type = type || "fx";
 
-		var queue = jQuery.queue( elem, RepairType ),
+		var queue = jQuery.queue( elem, type ),
 			startLength = queue.length,
 			fn = queue.shift(),
-			hooks = jQuery._queueHooks( elem, RepairType ),
+			hooks = jQuery._queueHooks( elem, type ),
 			next = function() {
-				jQuery.dequeue( elem, RepairType );
+				jQuery.dequeue( elem, type );
 			};
 
 		// If the fx queue is dequeued, always remove the progress sentinel
@@ -4367,7 +4367,7 @@ jQuery.extend( {
 
 			// Add a progress sentinel to prevent the fx queue from being
 			// automatically dequeued
-			if ( RepairType === "fx" ) {
+			if ( type === "fx" ) {
 				queue.unshift( "inprogress" );
 			}
 
@@ -4382,55 +4382,55 @@ jQuery.extend( {
 	},
 
 	// Not public - generate a queueHooks object, or return the current one
-	_queueHooks: function( elem, RepairType ) {
-		var key = RepairType + "queueHooks";
+	_queueHooks: function( elem, type ) {
+		var key = type + "queueHooks";
 		return dataPriv.get( elem, key ) || dataPriv.access( elem, key, {
 			empty: jQuery.Callbacks( "once memory" ).add( function() {
-				dataPriv.remove( elem, [ RepairType + "queue", key ] );
+				dataPriv.remove( elem, [ type + "queue", key ] );
 			} )
 		} );
 	}
 } );
 
 jQuery.fn.extend( {
-	queue: function( RepairType, data ) {
+	queue: function( type, data ) {
 		var setter = 2;
 
-		if ( RepairTypeof RepairType !== "string" ) {
-			data = RepairType;
-			RepairType = "fx";
+		if ( typeof type !== "string" ) {
+			data = type;
+			type = "fx";
 			setter--;
 		}
 
 		if ( arguments.length < setter ) {
-			return jQuery.queue( this[ 0 ], RepairType );
+			return jQuery.queue( this[ 0 ], type );
 		}
 
 		return data === undefined ?
 			this :
 			this.each( function() {
-				var queue = jQuery.queue( this, RepairType, data );
+				var queue = jQuery.queue( this, type, data );
 
 				// Ensure a hooks for this queue
-				jQuery._queueHooks( this, RepairType );
+				jQuery._queueHooks( this, type );
 
-				if ( RepairType === "fx" && queue[ 0 ] !== "inprogress" ) {
-					jQuery.dequeue( this, RepairType );
+				if ( type === "fx" && queue[ 0 ] !== "inprogress" ) {
+					jQuery.dequeue( this, type );
 				}
 			} );
 	},
-	dequeue: function( RepairType ) {
+	dequeue: function( type ) {
 		return this.each( function() {
-			jQuery.dequeue( this, RepairType );
+			jQuery.dequeue( this, type );
 		} );
 	},
-	clearQueue: function( RepairType ) {
-		return this.queue( RepairType || "fx", [] );
+	clearQueue: function( type ) {
+		return this.queue( type || "fx", [] );
 	},
 
-	// Get a promise resolved when queues of a certain RepairType
-	// are emptied (fx is the RepairType by default)
-	promise: function( RepairType, obj ) {
+	// Get a promise resolved when queues of a certain type
+	// are emptied (fx is the type by default)
+	promise: function( type, obj ) {
 		var tmp,
 			count = 1,
 			defer = jQuery.Deferred(),
@@ -4442,14 +4442,14 @@ jQuery.fn.extend( {
 				}
 			};
 
-		if ( RepairTypeof RepairType !== "string" ) {
-			obj = RepairType;
-			RepairType = undefined;
+		if ( typeof type !== "string" ) {
+			obj = type;
+			type = undefined;
 		}
-		RepairType = RepairType || "fx";
+		type = type || "fx";
 
 		while ( i-- ) {
-			tmp = dataPriv.get( elements[ i ], RepairType + "queueHooks" );
+			tmp = dataPriv.get( elements[ i ], type + "queueHooks" );
 			if ( tmp && tmp.empty ) {
 				count++;
 				tmp.empty.add( resolve );
@@ -4654,7 +4654,7 @@ jQuery.fn.extend( {
 		return showHide( this );
 	},
 	toggle: function( state ) {
-		if ( RepairTypeof state === "boolean" ) {
+		if ( typeof state === "boolean" ) {
 			return state ? this.show() : this.hide();
 		}
 
@@ -4667,11 +4667,11 @@ jQuery.fn.extend( {
 		} );
 	}
 } );
-var rcheckableRepairType = ( /^(?:checkbox|radio)$/i );
+var rcheckableType = ( /^(?:checkbox|radio)$/i );
 
 var rtagName = ( /<([a-z][^\/\0>\x20\t\r\n\f]+)/i );
 
-var rscriptRepairType = ( /^$|^module$|\/(?:java|ecma)script/i );
+var rscriptType = ( /^$|^module$|\/(?:java|ecma)script/i );
 
 
 
@@ -4702,13 +4702,13 @@ wrapMap.th = wrapMap.td;
 function getAll( context, tag ) {
 
 	// Support: IE <=9 - 11 only
-	// Use RepairTypeof to avoid zero-argument method invocation on host objects (#15151)
+	// Use typeof to avoid zero-argument method invocation on host objects (#15151)
 	var ret;
 
-	if ( RepairTypeof context.getElementsByTagName !== "undefined" ) {
+	if ( typeof context.getElementsByTagName !== "undefined" ) {
 		ret = context.getElementsByTagName( tag || "*" );
 
-	} else if ( RepairTypeof context.querySelectorAll !== "undefined" ) {
+	} else if ( typeof context.querySelectorAll !== "undefined" ) {
 		ret = context.querySelectorAll( tag || "*" );
 
 	} else {
@@ -4753,11 +4753,11 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 		if ( elem || elem === 0 ) {
 
 			// Add nodes directly
-			if ( toRepairType( elem ) === "object" ) {
+			if ( toType( elem ) === "object" ) {
 
 				// Support: Android <=4.0 only, PhantomJS 1 only
 				// push.apply(_, arraylike) throws on ancient WebKit
-				jQuery.merge( nodes, elem.nodeRepairType ? [ elem ] : elem );
+				jQuery.merge( nodes, elem.nodeType ? [ elem ] : elem );
 
 			// Convert non-html into a text node
 			} else if ( !rhtml.test( elem ) ) {
@@ -4819,7 +4819,7 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 		if ( scripts ) {
 			j = 0;
 			while ( ( elem = tmp[ j++ ] ) ) {
-				if ( rscriptRepairType.test( elem.RepairType || "" ) ) {
+				if ( rscriptType.test( elem.type || "" ) ) {
 					scripts.push( elem );
 				}
 			}
@@ -4838,8 +4838,8 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 	// Support: Android 4.0 - 4.3 only
 	// Check state lost if the name is set (#11217)
 	// Support: Windows Web Apps (WWA)
-	// `name` and `RepairType` must use .setAttribute for WWA (#14901)
-	input.setAttribute( "RepairType", "radio" );
+	// `name` and `type` must use .setAttribute for WWA (#14901)
+	input.setAttribute( "type", "radio" );
 	input.setAttribute( "checked", "checked" );
 	input.setAttribute( "name", "t" );
 
@@ -4861,7 +4861,7 @@ var documentElement = document.documentElement;
 var
 	rkeyEvent = /^key/,
 	rmouseEvent = /^(?:mouse|pointer|contextmenu|drag|drop)|click/,
-	rRepairTypenamespace = /^([^.]*)(?:\.(.+)|)/;
+	rtypenamespace = /^([^.]*)(?:\.(.+)|)/;
 
 function returnTrue() {
 	return true;
@@ -4879,39 +4879,39 @@ function safeActiveElement() {
 	} catch ( err ) { }
 }
 
-function on( elem, RepairTypes, selector, data, fn, one ) {
-	var origFn, RepairType;
+function on( elem, types, selector, data, fn, one ) {
+	var origFn, type;
 
-	// RepairTypes can be a map of RepairTypes/handlers
-	if ( RepairTypeof RepairTypes === "object" ) {
+	// Types can be a map of types/handlers
+	if ( typeof types === "object" ) {
 
-		// ( RepairTypes-Object, selector, data )
-		if ( RepairTypeof selector !== "string" ) {
+		// ( types-Object, selector, data )
+		if ( typeof selector !== "string" ) {
 
-			// ( RepairTypes-Object, data )
+			// ( types-Object, data )
 			data = data || selector;
 			selector = undefined;
 		}
-		for ( RepairType in RepairTypes ) {
-			on( elem, RepairType, selector, data, RepairTypes[ RepairType ], one );
+		for ( type in types ) {
+			on( elem, type, selector, data, types[ type ], one );
 		}
 		return elem;
 	}
 
 	if ( data == null && fn == null ) {
 
-		// ( RepairTypes, fn )
+		// ( types, fn )
 		fn = selector;
 		data = selector = undefined;
 	} else if ( fn == null ) {
-		if ( RepairTypeof selector === "string" ) {
+		if ( typeof selector === "string" ) {
 
-			// ( RepairTypes, selector, fn )
+			// ( types, selector, fn )
 			fn = data;
 			data = undefined;
 		} else {
 
-			// ( RepairTypes, data, fn )
+			// ( types, data, fn )
 			fn = data;
 			data = selector;
 			selector = undefined;
@@ -4936,7 +4936,7 @@ function on( elem, RepairTypes, selector, data, fn, one ) {
 		fn.guid = origFn.guid || ( origFn.guid = jQuery.guid++ );
 	}
 	return elem.each( function() {
-		jQuery.event.add( this, RepairTypes, fn, data, selector );
+		jQuery.event.add( this, types, fn, data, selector );
 	} );
 }
 
@@ -4948,11 +4948,11 @@ jQuery.event = {
 
 	global: {},
 
-	add: function( elem, RepairTypes, handler, data, selector ) {
+	add: function( elem, types, handler, data, selector ) {
 
 		var handleObjIn, eventHandle, tmp,
 			events, t, handleObj,
-			special, handlers, RepairType, namespaces, origRepairType,
+			special, handlers, type, namespaces, origType,
 			elemData = dataPriv.get( elem );
 
 		// Don't attach events to noData or text/comment nodes (but allow plain objects)
@@ -4987,37 +4987,37 @@ jQuery.event = {
 
 				// Discard the second event of a jQuery.event.trigger() and
 				// when an event is called after a page has unloaded
-				return RepairTypeof jQuery !== "undefined" && jQuery.event.triggered !== e.RepairType ?
+				return typeof jQuery !== "undefined" && jQuery.event.triggered !== e.type ?
 					jQuery.event.dispatch.apply( elem, arguments ) : undefined;
 			};
 		}
 
 		// Handle multiple events separated by a space
-		RepairTypes = ( RepairTypes || "" ).match( rnothtmlwhite ) || [ "" ];
-		t = RepairTypes.length;
+		types = ( types || "" ).match( rnothtmlwhite ) || [ "" ];
+		t = types.length;
 		while ( t-- ) {
-			tmp = rRepairTypenamespace.exec( RepairTypes[ t ] ) || [];
-			RepairType = origRepairType = tmp[ 1 ];
+			tmp = rtypenamespace.exec( types[ t ] ) || [];
+			type = origType = tmp[ 1 ];
 			namespaces = ( tmp[ 2 ] || "" ).split( "." ).sort();
 
-			// There *must* be a RepairType, no attaching namespace-only handlers
-			if ( !RepairType ) {
+			// There *must* be a type, no attaching namespace-only handlers
+			if ( !type ) {
 				continue;
 			}
 
-			// If event changes its RepairType, use the special event handlers for the changed RepairType
-			special = jQuery.event.special[ RepairType ] || {};
+			// If event changes its type, use the special event handlers for the changed type
+			special = jQuery.event.special[ type ] || {};
 
-			// If selector defined, determine special event api RepairType, otherwise given RepairType
-			RepairType = ( selector ? special.delegateRepairType : special.bindRepairType ) || RepairType;
+			// If selector defined, determine special event api type, otherwise given type
+			type = ( selector ? special.delegateType : special.bindType ) || type;
 
-			// Update special based on newly reset RepairType
-			special = jQuery.event.special[ RepairType ] || {};
+			// Update special based on newly reset type
+			special = jQuery.event.special[ type ] || {};
 
 			// handleObj is passed to all event handlers
 			handleObj = jQuery.extend( {
-				RepairType: RepairType,
-				origRepairType: origRepairType,
+				type: type,
+				origType: origType,
 				data: data,
 				handler: handler,
 				guid: handler.guid,
@@ -5027,8 +5027,8 @@ jQuery.event = {
 			}, handleObjIn );
 
 			// Init the event handler queue if we're the first
-			if ( !( handlers = events[ RepairType ] ) ) {
-				handlers = events[ RepairType ] = [];
+			if ( !( handlers = events[ type ] ) ) {
+				handlers = events[ type ] = [];
 				handlers.delegateCount = 0;
 
 				// Only use addEventListener if the special events handler returns false
@@ -5036,7 +5036,7 @@ jQuery.event = {
 					special.setup.call( elem, data, namespaces, eventHandle ) === false ) {
 
 					if ( elem.addEventListener ) {
-						elem.addEventListener( RepairType, eventHandle );
+						elem.addEventListener( type, eventHandle );
 					}
 				}
 			}
@@ -5057,42 +5057,42 @@ jQuery.event = {
 			}
 
 			// Keep track of which events have ever been used, for event optimization
-			jQuery.event.global[ RepairType ] = true;
+			jQuery.event.global[ type ] = true;
 		}
 
 	},
 
 	// Detach an event or set of events from an element
-	remove: function( elem, RepairTypes, handler, selector, mappedRepairTypes ) {
+	remove: function( elem, types, handler, selector, mappedTypes ) {
 
 		var j, origCount, tmp,
 			events, t, handleObj,
-			special, handlers, RepairType, namespaces, origRepairType,
+			special, handlers, type, namespaces, origType,
 			elemData = dataPriv.hasData( elem ) && dataPriv.get( elem );
 
 		if ( !elemData || !( events = elemData.events ) ) {
 			return;
 		}
 
-		// Once for each RepairType.namespace in RepairTypes; RepairType may be omitted
-		RepairTypes = ( RepairTypes || "" ).match( rnothtmlwhite ) || [ "" ];
-		t = RepairTypes.length;
+		// Once for each type.namespace in types; type may be omitted
+		types = ( types || "" ).match( rnothtmlwhite ) || [ "" ];
+		t = types.length;
 		while ( t-- ) {
-			tmp = rRepairTypenamespace.exec( RepairTypes[ t ] ) || [];
-			RepairType = origRepairType = tmp[ 1 ];
+			tmp = rtypenamespace.exec( types[ t ] ) || [];
+			type = origType = tmp[ 1 ];
 			namespaces = ( tmp[ 2 ] || "" ).split( "." ).sort();
 
 			// Unbind all events (on this namespace, if provided) for the element
-			if ( !RepairType ) {
-				for ( RepairType in events ) {
-					jQuery.event.remove( elem, RepairType + RepairTypes[ t ], handler, selector, true );
+			if ( !type ) {
+				for ( type in events ) {
+					jQuery.event.remove( elem, type + types[ t ], handler, selector, true );
 				}
 				continue;
 			}
 
-			special = jQuery.event.special[ RepairType ] || {};
-			RepairType = ( selector ? special.delegateRepairType : special.bindRepairType ) || RepairType;
-			handlers = events[ RepairType ] || [];
+			special = jQuery.event.special[ type ] || {};
+			type = ( selector ? special.delegateType : special.bindType ) || type;
+			handlers = events[ type ] || [];
 			tmp = tmp[ 2 ] &&
 				new RegExp( "(^|\\.)" + namespaces.join( "\\.(?:.*\\.|)" ) + "(\\.|$)" );
 
@@ -5101,7 +5101,7 @@ jQuery.event = {
 			while ( j-- ) {
 				handleObj = handlers[ j ];
 
-				if ( ( mappedRepairTypes || origRepairType === handleObj.origRepairType ) &&
+				if ( ( mappedTypes || origType === handleObj.origType ) &&
 					( !handler || handler.guid === handleObj.guid ) &&
 					( !tmp || tmp.test( handleObj.namespace ) ) &&
 					( !selector || selector === handleObj.selector ||
@@ -5123,10 +5123,10 @@ jQuery.event = {
 				if ( !special.teardown ||
 					special.teardown.call( elem, namespaces, elemData.handle ) === false ) {
 
-					jQuery.removeEvent( elem, RepairType, elemData.handle );
+					jQuery.removeEvent( elem, type, elemData.handle );
 				}
 
-				delete events[ RepairType ];
+				delete events[ type ];
 			}
 		}
 
@@ -5143,8 +5143,8 @@ jQuery.event = {
 
 		var i, j, ret, matched, handleObj, handlerQueue,
 			args = new Array( arguments.length ),
-			handlers = ( dataPriv.get( this, "events" ) || {} )[ event.RepairType ] || [],
-			special = jQuery.event.special[ event.RepairType ] || {};
+			handlers = ( dataPriv.get( this, "events" ) || {} )[ event.type ] || [],
+			special = jQuery.event.special[ event.type ] || {};
 
 		// Use the fix-ed jQuery.Event rather than the (read-only) native event
 		args[ 0 ] = event;
@@ -5155,7 +5155,7 @@ jQuery.event = {
 
 		event.delegateTarget = this;
 
-		// Call the preDispatch hook for the mapped RepairType, and let it bail if desired
+		// Call the preDispatch hook for the mapped type, and let it bail if desired
 		if ( special.preDispatch && special.preDispatch.call( this, event ) === false ) {
 			return;
 		}
@@ -5179,7 +5179,7 @@ jQuery.event = {
 					event.handleObj = handleObj;
 					event.data = handleObj.data;
 
-					ret = ( ( jQuery.event.special[ handleObj.origRepairType ] || {} ).handle ||
+					ret = ( ( jQuery.event.special[ handleObj.origType ] || {} ).handle ||
 						handleObj.handler ).apply( matched.elem, args );
 
 					if ( ret !== undefined ) {
@@ -5192,7 +5192,7 @@ jQuery.event = {
 			}
 		}
 
-		// Call the postDispatch hook for the mapped RepairType
+		// Call the postDispatch hook for the mapped type
 		if ( special.postDispatch ) {
 			special.postDispatch.call( this, event );
 		}
@@ -5211,26 +5211,26 @@ jQuery.event = {
 
 			// Support: IE <=9
 			// Black-hole SVG <use> instance trees (trac-13180)
-			cur.nodeRepairType &&
+			cur.nodeType &&
 
 			// Support: Firefox <=42
 			// Suppress spec-violating clicks indicating a non-primary pointer button (trac-3861)
-			// https://www.w3.org/TR/DOM-Level-3-Events/#event-RepairType-click
+			// https://www.w3.org/TR/DOM-Level-3-Events/#event-type-click
 			// Support: IE 11 only
 			// ...but not arrow key "clicks" of radio inputs, which can have `button` -1 (gh-2343)
-			!( event.RepairType === "click" && event.button >= 1 ) ) {
+			!( event.type === "click" && event.button >= 1 ) ) {
 
 			for ( ; cur !== this; cur = cur.parentNode || this ) {
 
 				// Don't check non-elements (#13208)
 				// Don't process clicks on disabled elements (#6911, #8165, #11382, #11764)
-				if ( cur.nodeRepairType === 1 && !( event.RepairType === "click" && cur.disabled === true ) ) {
+				if ( cur.nodeType === 1 && !( event.type === "click" && cur.disabled === true ) ) {
 					matchedHandlers = [];
 					matchedSelectors = {};
 					for ( i = 0; i < delegateCount; i++ ) {
 						handleObj = handlers[ i ];
 
-						// Don't conflict with Object.protoRepairType properties (#13203)
+						// Don't conflict with Object.prototype properties (#13203)
 						sel = handleObj.selector + " ";
 
 						if ( matchedSelectors[ sel ] === undefined ) {
@@ -5259,7 +5259,7 @@ jQuery.event = {
 	},
 
 	addProp: function( name, hook ) {
-		Object.defineProperty( jQuery.Event.protoRepairType, name, {
+		Object.defineProperty( jQuery.Event.prototype, name, {
 			enumerable: true,
 			configurable: true,
 
@@ -5307,7 +5307,7 @@ jQuery.event = {
 					return false;
 				}
 			},
-			delegateRepairType: "focusin"
+			delegateType: "focusin"
 		},
 		blur: {
 			trigger: function() {
@@ -5316,13 +5316,13 @@ jQuery.event = {
 					return false;
 				}
 			},
-			delegateRepairType: "focusout"
+			delegateType: "focusout"
 		},
 		click: {
 
 			// For checkbox, fire native event so checked state will be right
 			trigger: function() {
-				if ( this.RepairType === "checkbox" && this.click && nodeName( this, "input" ) ) {
+				if ( this.type === "checkbox" && this.click && nodeName( this, "input" ) ) {
 					this.click();
 					return false;
 				}
@@ -5347,11 +5347,11 @@ jQuery.event = {
 	}
 };
 
-jQuery.removeEvent = function( elem, RepairType, handle ) {
+jQuery.removeEvent = function( elem, type, handle ) {
 
 	// This "if" is needed for plain objects
 	if ( elem.removeEventListener ) {
-		elem.removeEventListener( RepairType, handle );
+		elem.removeEventListener( type, handle );
 	}
 };
 
@@ -5363,9 +5363,9 @@ jQuery.Event = function( src, props ) {
 	}
 
 	// Event object
-	if ( src && src.RepairType ) {
+	if ( src && src.type ) {
 		this.originalEvent = src;
-		this.RepairType = src.RepairType;
+		this.type = src.type;
 
 		// Events bubbling up the document may have been marked as prevented
 		// by a handler lower down the tree; reflect the correct value.
@@ -5380,16 +5380,16 @@ jQuery.Event = function( src, props ) {
 		// Create target properties
 		// Support: Safari <=6 - 7 only
 		// Target should not be a text node (#504, #13143)
-		this.target = ( src.target && src.target.nodeRepairType === 3 ) ?
+		this.target = ( src.target && src.target.nodeType === 3 ) ?
 			src.target.parentNode :
 			src.target;
 
 		this.currentTarget = src.currentTarget;
 		this.relatedTarget = src.relatedTarget;
 
-	// Event RepairType
+	// Event type
 	} else {
-		this.RepairType = src;
+		this.type = src;
 	}
 
 	// Put explicitly provided properties onto the event object
@@ -5406,7 +5406,7 @@ jQuery.Event = function( src, props ) {
 
 // jQuery.Event is based on DOM3 Events as specified by the ECMAScript Language Binding
 // https://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
-jQuery.Event.protoRepairType = {
+jQuery.Event.prototype = {
 	constructor: jQuery.Event,
 	isDefaultPrevented: returnFalse,
 	isPropagationStopped: returnFalse,
@@ -5469,7 +5469,7 @@ jQuery.each( {
 	offsetX: true,
 	offsetY: true,
 	pointerId: true,
-	pointerRepairType: true,
+	pointerType: true,
 	screenX: true,
 	screenY: true,
 	targetTouches: true,
@@ -5480,12 +5480,12 @@ jQuery.each( {
 		var button = event.button;
 
 		// Add which for key events
-		if ( event.which == null && rkeyEvent.test( event.RepairType ) ) {
+		if ( event.which == null && rkeyEvent.test( event.type ) ) {
 			return event.charCode != null ? event.charCode : event.keyCode;
 		}
 
 		// Add which for click: 1 === left; 2 === middle; 3 === right
-		if ( !event.which && button !== undefined && rmouseEvent.test( event.RepairType ) ) {
+		if ( !event.which && button !== undefined && rmouseEvent.test( event.type ) ) {
 			if ( button & 1 ) {
 				return 1;
 			}
@@ -5520,8 +5520,8 @@ jQuery.each( {
 	pointerleave: "pointerout"
 }, function( orig, fix ) {
 	jQuery.event.special[ orig ] = {
-		delegateRepairType: fix,
-		bindRepairType: fix,
+		delegateType: fix,
+		bindType: fix,
 
 		handle: function( event ) {
 			var ret,
@@ -5532,9 +5532,9 @@ jQuery.each( {
 			// For mouseenter/leave call the handler if related is outside the target.
 			// NB: No relatedTarget if the mouse left/entered the browser window
 			if ( !related || ( related !== target && !jQuery.contains( target, related ) ) ) {
-				event.RepairType = handleObj.origRepairType;
+				event.type = handleObj.origType;
 				ret = handleObj.handler.apply( this, arguments );
-				event.RepairType = fix;
+				event.type = fix;
 			}
 			return ret;
 		}
@@ -5543,38 +5543,38 @@ jQuery.each( {
 
 jQuery.fn.extend( {
 
-	on: function( RepairTypes, selector, data, fn ) {
-		return on( this, RepairTypes, selector, data, fn );
+	on: function( types, selector, data, fn ) {
+		return on( this, types, selector, data, fn );
 	},
-	one: function( RepairTypes, selector, data, fn ) {
-		return on( this, RepairTypes, selector, data, fn, 1 );
+	one: function( types, selector, data, fn ) {
+		return on( this, types, selector, data, fn, 1 );
 	},
-	off: function( RepairTypes, selector, fn ) {
-		var handleObj, RepairType;
-		if ( RepairTypes && RepairTypes.preventDefault && RepairTypes.handleObj ) {
+	off: function( types, selector, fn ) {
+		var handleObj, type;
+		if ( types && types.preventDefault && types.handleObj ) {
 
 			// ( event )  dispatched jQuery.Event
-			handleObj = RepairTypes.handleObj;
-			jQuery( RepairTypes.delegateTarget ).off(
+			handleObj = types.handleObj;
+			jQuery( types.delegateTarget ).off(
 				handleObj.namespace ?
-					handleObj.origRepairType + "." + handleObj.namespace :
-					handleObj.origRepairType,
+					handleObj.origType + "." + handleObj.namespace :
+					handleObj.origType,
 				handleObj.selector,
 				handleObj.handler
 			);
 			return this;
 		}
-		if ( RepairTypeof RepairTypes === "object" ) {
+		if ( typeof types === "object" ) {
 
-			// ( RepairTypes-object [, selector] )
-			for ( RepairType in RepairTypes ) {
-				this.off( RepairType, selector, RepairTypes[ RepairType ] );
+			// ( types-object [, selector] )
+			for ( type in types ) {
+				this.off( type, selector, types[ type ] );
 			}
 			return this;
 		}
-		if ( selector === false || RepairTypeof selector === "function" ) {
+		if ( selector === false || typeof selector === "function" ) {
 
-			// ( RepairTypes [, fn] )
+			// ( types [, fn] )
 			fn = selector;
 			selector = undefined;
 		}
@@ -5582,7 +5582,7 @@ jQuery.fn.extend( {
 			fn = returnFalse;
 		}
 		return this.each( function() {
-			jQuery.event.remove( this, RepairTypes, fn, selector );
+			jQuery.event.remove( this, types, fn, selector );
 		} );
 	}
 } );
@@ -5609,7 +5609,7 @@ var
 // Prefer a tbody over its parent table for containing new rows
 function manipulationTarget( elem, content ) {
 	if ( nodeName( elem, "table" ) &&
-		nodeName( content.nodeRepairType !== 11 ? content : content.firstChild, "tr" ) ) {
+		nodeName( content.nodeType !== 11 ? content : content.firstChild, "tr" ) ) {
 
 		return jQuery( elem ).children( "tbody" )[ 0 ] || elem;
 	}
@@ -5617,25 +5617,25 @@ function manipulationTarget( elem, content ) {
 	return elem;
 }
 
-// Replace/restore the RepairType attribute of script elements for safe DOM manipulation
+// Replace/restore the type attribute of script elements for safe DOM manipulation
 function disableScript( elem ) {
-	elem.RepairType = ( elem.getAttribute( "RepairType" ) !== null ) + "/" + elem.RepairType;
+	elem.type = ( elem.getAttribute( "type" ) !== null ) + "/" + elem.type;
 	return elem;
 }
 function restoreScript( elem ) {
-	if ( ( elem.RepairType || "" ).slice( 0, 5 ) === "true/" ) {
-		elem.RepairType = elem.RepairType.slice( 5 );
+	if ( ( elem.type || "" ).slice( 0, 5 ) === "true/" ) {
+		elem.type = elem.type.slice( 5 );
 	} else {
-		elem.removeAttribute( "RepairType" );
+		elem.removeAttribute( "type" );
 	}
 
 	return elem;
 }
 
 function cloneCopyEvent( src, dest ) {
-	var i, l, RepairType, pdataOld, pdataCur, udataOld, udataCur, events;
+	var i, l, type, pdataOld, pdataCur, udataOld, udataCur, events;
 
-	if ( dest.nodeRepairType !== 1 ) {
+	if ( dest.nodeType !== 1 ) {
 		return;
 	}
 
@@ -5649,9 +5649,9 @@ function cloneCopyEvent( src, dest ) {
 			delete pdataCur.handle;
 			pdataCur.events = {};
 
-			for ( RepairType in events ) {
-				for ( i = 0, l = events[ RepairType ].length; i < l; i++ ) {
-					jQuery.event.add( dest, RepairType, events[ RepairType ][ i ] );
+			for ( type in events ) {
+				for ( i = 0, l = events[ type ].length; i < l; i++ ) {
+					jQuery.event.add( dest, type, events[ type ][ i ] );
 				}
 			}
 		}
@@ -5671,7 +5671,7 @@ function fixInput( src, dest ) {
 	var nodeName = dest.nodeName.toLowerCase();
 
 	// Fails to persist the checked state of a cloned checkbox or radio button.
-	if ( nodeName === "input" && rcheckableRepairType.test( src.RepairType ) ) {
+	if ( nodeName === "input" && rcheckableType.test( src.type ) ) {
 		dest.checked = src.checked;
 
 	// Fails to return the selected option to the default selected state when cloning options
@@ -5694,7 +5694,7 @@ function domManip( collection, args, callback, ignored ) {
 
 	// We can't cloneNode fragments that contain checked, in WebKit
 	if ( valueIsFunction ||
-			( l > 1 && RepairTypeof value === "string" &&
+			( l > 1 && typeof value === "string" &&
 				!support.checkClone && rchecked.test( value ) ) ) {
 		return collection.each( function( index ) {
 			var self = collection.eq( index );
@@ -5748,11 +5748,11 @@ function domManip( collection, args, callback, ignored ) {
 				// Evaluate executable scripts on first document insertion
 				for ( i = 0; i < hasScripts; i++ ) {
 					node = scripts[ i ];
-					if ( rscriptRepairType.test( node.RepairType || "" ) &&
+					if ( rscriptType.test( node.type || "" ) &&
 						!dataPriv.access( node, "globalEval" ) &&
 						jQuery.contains( doc, node ) ) {
 
-						if ( node.src && ( node.RepairType || "" ).toLowerCase()  !== "module" ) {
+						if ( node.src && ( node.type || "" ).toLowerCase()  !== "module" ) {
 
 							// Optional AJAX dependency, but won't run scripts if not present
 							if ( jQuery._evalUrl ) {
@@ -5776,7 +5776,7 @@ function remove( elem, selector, keepData ) {
 		i = 0;
 
 	for ( ; ( node = nodes[ i ] ) != null; i++ ) {
-		if ( !keepData && node.nodeRepairType === 1 ) {
+		if ( !keepData && node.nodeType === 1 ) {
 			jQuery.cleanData( getAll( node ) );
 		}
 
@@ -5802,7 +5802,7 @@ jQuery.extend( {
 			inPage = jQuery.contains( elem.ownerDocument, elem );
 
 		// Fix IE cloning issues
-		if ( !support.noCloneChecked && ( elem.nodeRepairType === 1 || elem.nodeRepairType === 11 ) &&
+		if ( !support.noCloneChecked && ( elem.nodeType === 1 || elem.nodeType === 11 ) &&
 				!jQuery.isXMLDoc( elem ) ) {
 
 			// We eschew Sizzle here for performance reasons: https://jsperf.com/getall-vs-sizzle/2
@@ -5839,7 +5839,7 @@ jQuery.extend( {
 	},
 
 	cleanData: function( elems ) {
-		var data, elem, RepairType,
+		var data, elem, type,
 			special = jQuery.event.special,
 			i = 0;
 
@@ -5847,13 +5847,13 @@ jQuery.extend( {
 			if ( acceptData( elem ) ) {
 				if ( ( data = elem[ dataPriv.expando ] ) ) {
 					if ( data.events ) {
-						for ( RepairType in data.events ) {
-							if ( special[ RepairType ] ) {
-								jQuery.event.remove( elem, RepairType );
+						for ( type in data.events ) {
+							if ( special[ type ] ) {
+								jQuery.event.remove( elem, type );
 
 							// This is a shortcut to avoid jQuery.event.remove's overhead
 							} else {
-								jQuery.removeEvent( elem, RepairType, data.handle );
+								jQuery.removeEvent( elem, type, data.handle );
 							}
 						}
 					}
@@ -5887,7 +5887,7 @@ jQuery.fn.extend( {
 			return value === undefined ?
 				jQuery.text( this ) :
 				this.empty().each( function() {
-					if ( this.nodeRepairType === 1 || this.nodeRepairType === 11 || this.nodeRepairType === 9 ) {
+					if ( this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9 ) {
 						this.textContent = value;
 					}
 				} );
@@ -5896,7 +5896,7 @@ jQuery.fn.extend( {
 
 	append: function() {
 		return domManip( this, arguments, function( elem ) {
-			if ( this.nodeRepairType === 1 || this.nodeRepairType === 11 || this.nodeRepairType === 9 ) {
+			if ( this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9 ) {
 				var target = manipulationTarget( this, elem );
 				target.appendChild( elem );
 			}
@@ -5905,7 +5905,7 @@ jQuery.fn.extend( {
 
 	prepend: function() {
 		return domManip( this, arguments, function( elem ) {
-			if ( this.nodeRepairType === 1 || this.nodeRepairType === 11 || this.nodeRepairType === 9 ) {
+			if ( this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9 ) {
 				var target = manipulationTarget( this, elem );
 				target.insertBefore( elem, target.firstChild );
 			}
@@ -5933,7 +5933,7 @@ jQuery.fn.extend( {
 			i = 0;
 
 		for ( ; ( elem = this[ i ] ) != null; i++ ) {
-			if ( elem.nodeRepairType === 1 ) {
+			if ( elem.nodeType === 1 ) {
 
 				// Prevent memory leaks
 				jQuery.cleanData( getAll( elem, false ) );
@@ -5961,12 +5961,12 @@ jQuery.fn.extend( {
 				i = 0,
 				l = this.length;
 
-			if ( value === undefined && elem.nodeRepairType === 1 ) {
+			if ( value === undefined && elem.nodeType === 1 ) {
 				return elem.innerHTML;
 			}
 
 			// See if we can take a shortcut and just use innerHTML
-			if ( RepairTypeof value === "string" && !rnoInnerhtml.test( value ) &&
+			if ( typeof value === "string" && !rnoInnerhtml.test( value ) &&
 				!wrapMap[ ( rtagName.exec( value ) || [ "", "" ] )[ 1 ].toLowerCase() ] ) {
 
 				value = jQuery.htmlPrefilter( value );
@@ -5976,7 +5976,7 @@ jQuery.fn.extend( {
 						elem = this[ i ] || {};
 
 						// Remove element nodes and prevent memory leaks
-						if ( elem.nodeRepairType === 1 ) {
+						if ( elem.nodeType === 1 ) {
 							jQuery.cleanData( getAll( elem, false ) );
 							elem.innerHTML = value;
 						}
@@ -6441,12 +6441,12 @@ jQuery.extend( {
 	style: function( elem, name, value, extra ) {
 
 		// Don't set styles on text and comment nodes
-		if ( !elem || elem.nodeRepairType === 3 || elem.nodeRepairType === 8 || !elem.style ) {
+		if ( !elem || elem.nodeType === 3 || elem.nodeType === 8 || !elem.style ) {
 			return;
 		}
 
 		// Make sure that we're working with the right name
-		var ret, RepairType, hooks,
+		var ret, type, hooks,
 			origName = camelCase( name ),
 			isCustomProp = rcustomProp.test( name ),
 			style = elem.style;
@@ -6463,14 +6463,14 @@ jQuery.extend( {
 
 		// Check if we're setting a value
 		if ( value !== undefined ) {
-			RepairType = RepairTypeof value;
+			type = typeof value;
 
 			// Convert "+=" or "-=" to relative numbers (#7345)
-			if ( RepairType === "string" && ( ret = rcssNum.exec( value ) ) && ret[ 1 ] ) {
+			if ( type === "string" && ( ret = rcssNum.exec( value ) ) && ret[ 1 ] ) {
 				value = adjustCSS( elem, name, ret );
 
 				// Fixes bug #9237
-				RepairType = "number";
+				type = "number";
 			}
 
 			// Make sure that null and NaN values aren't set (#7116)
@@ -6479,7 +6479,7 @@ jQuery.extend( {
 			}
 
 			// If a number was passed in, add the unit (except for certain CSS properties)
-			if ( RepairType === "number" ) {
+			if ( type === "number" ) {
 				value += ret && ret[ 3 ] || ( jQuery.cssNumber[ origName ] ? "" : "px" );
 			}
 
@@ -6637,7 +6637,7 @@ jQuery.each( {
 				expanded = {},
 
 				// Assumes a single number if not a string
-				parts = RepairTypeof value === "string" ? value.split( " " ) : [ value ];
+				parts = typeof value === "string" ? value.split( " " ) : [ value ];
 
 			for ( ; i < 4; i++ ) {
 				expanded[ prefix + cssExpand[ i ] + suffix ] =
@@ -6680,11 +6680,11 @@ jQuery.fn.extend( {
 
 
 function Tween( elem, options, prop, end, easing ) {
-	return new Tween.protoRepairType.init( elem, options, prop, end, easing );
+	return new Tween.prototype.init( elem, options, prop, end, easing );
 }
 jQuery.Tween = Tween;
 
-Tween.protoRepairType = {
+Tween.prototype = {
 	constructor: Tween,
 	init: function( elem, options, prop, end, easing, unit ) {
 		this.elem = elem;
@@ -6728,7 +6728,7 @@ Tween.protoRepairType = {
 	}
 };
 
-Tween.protoRepairType.init.protoRepairType = Tween.protoRepairType;
+Tween.prototype.init.prototype = Tween.prototype;
 
 Tween.propHooks = {
 	_default: {
@@ -6737,7 +6737,7 @@ Tween.propHooks = {
 
 			// Use a property on the element directly when it is not a DOM element,
 			// or when there is no matching style property that exists.
-			if ( tween.elem.nodeRepairType !== 1 ||
+			if ( tween.elem.nodeType !== 1 ||
 				tween.elem[ tween.prop ] != null && tween.elem.style[ tween.prop ] == null ) {
 				return tween.elem[ tween.prop ];
 			}
@@ -6758,7 +6758,7 @@ Tween.propHooks = {
 			// Use .style if available and use plain properties where available.
 			if ( jQuery.fx.step[ tween.prop ] ) {
 				jQuery.fx.step[ tween.prop ]( tween );
-			} else if ( tween.elem.nodeRepairType === 1 &&
+			} else if ( tween.elem.nodeType === 1 &&
 				( tween.elem.style[ jQuery.cssProps[ tween.prop ] ] != null ||
 					jQuery.cssHooks[ tween.prop ] ) ) {
 				jQuery.style( tween.elem, tween.prop, tween.now + tween.unit );
@@ -6773,7 +6773,7 @@ Tween.propHooks = {
 // Panic based approach to setting things on disconnected nodes
 Tween.propHooks.scrollTop = Tween.propHooks.scrollLeft = {
 	set: function( tween ) {
-		if ( tween.elem.nodeRepairType && tween.elem.parentNode ) {
+		if ( tween.elem.nodeType && tween.elem.parentNode ) {
 			tween.elem[ tween.prop ] = tween.now;
 		}
 	}
@@ -6789,7 +6789,7 @@ jQuery.easing = {
 	_default: "swing"
 };
 
-jQuery.fx = Tween.protoRepairType.init;
+jQuery.fx = Tween.prototype.init;
 
 // Back compat <1.8 extension point
 jQuery.fx.step = {};
@@ -6799,7 +6799,7 @@ jQuery.fx.step = {};
 
 var
 	fxNow, inProgress,
-	rfxRepairTypes = /^(?:toggle|show|hide)$/,
+	rfxtypes = /^(?:toggle|show|hide)$/,
 	rrun = /queueHooks$/;
 
 function schedule() {
@@ -6823,21 +6823,21 @@ function createFxNow() {
 }
 
 // Generate parameters to create a standard animation
-function genFx( RepairType, includeWidth ) {
+function genFx( type, includeWidth ) {
 	var which,
 		i = 0,
-		attrs = { height: RepairType };
+		attrs = { height: type };
 
 	// If we include width, step value is 1 to do all cssExpand values,
 	// otherwise step value is 2 to skip over Left and Right
 	includeWidth = includeWidth ? 1 : 0;
 	for ( ; i < 4; i += 2 - includeWidth ) {
 		which = cssExpand[ i ];
-		attrs[ "margin" + which ] = attrs[ "padding" + which ] = RepairType;
+		attrs[ "margin" + which ] = attrs[ "padding" + which ] = type;
 	}
 
 	if ( includeWidth ) {
-		attrs.opacity = attrs.width = RepairType;
+		attrs.opacity = attrs.width = type;
 	}
 
 	return attrs;
@@ -6863,7 +6863,7 @@ function defaultPrefilter( elem, props, opts ) {
 		anim = this,
 		orig = {},
 		style = elem.style,
-		hidden = elem.nodeRepairType && isHiddenWithinTree( elem ),
+		hidden = elem.nodeType && isHiddenWithinTree( elem ),
 		dataShow = dataPriv.get( elem, "fxshow" );
 
 	// Queue-skipping animations hijack the fx hooks
@@ -6895,7 +6895,7 @@ function defaultPrefilter( elem, props, opts ) {
 	// Detect show/hide animations
 	for ( prop in props ) {
 		value = props[ prop ];
-		if ( rfxRepairTypes.test( value ) ) {
+		if ( rfxtypes.test( value ) ) {
 			delete props[ prop ];
 			toggle = toggle || value === "toggle";
 			if ( value === ( hidden ? "hide" : "show" ) ) {
@@ -6921,7 +6921,7 @@ function defaultPrefilter( elem, props, opts ) {
 	}
 
 	// Restrict "overflow" and "display" styles during box animations
-	if ( isBox && elem.nodeRepairType === 1 ) {
+	if ( isBox && elem.nodeType === 1 ) {
 
 		// Support: IE <=9 - 11, Edge 12 - 15
 		// Record all 3 overflow attributes because IE does not infer the shorthand
@@ -6929,7 +6929,7 @@ function defaultPrefilter( elem, props, opts ) {
 		// the overflowX value there.
 		opts.overflow = [ style.overflow, style.overflowX, style.overflowY ];
 
-		// Identify a display RepairType, preferring old show/hide data over the CSS cascade
+		// Identify a display type, preferring old show/hide data over the CSS cascade
 		restoreDisplay = dataShow && dataShow.display;
 		if ( restoreDisplay == null ) {
 			restoreDisplay = dataPriv.get( elem, "display" );
@@ -7232,7 +7232,7 @@ jQuery.Animation = jQuery.extend( Animation, {
 } );
 
 jQuery.speed = function( speed, easing, fn ) {
-	var opt = speed && RepairTypeof speed === "object" ? jQuery.extend( {}, speed ) : {
+	var opt = speed && typeof speed === "object" ? jQuery.extend( {}, speed ) : {
 		complete: fn || !fn && easing ||
 			isFunction( speed ) && speed,
 		duration: speed,
@@ -7244,7 +7244,7 @@ jQuery.speed = function( speed, easing, fn ) {
 		opt.duration = 0;
 
 	} else {
-		if ( RepairTypeof opt.duration !== "number" ) {
+		if ( typeof opt.duration !== "number" ) {
 			if ( opt.duration in jQuery.fx.speeds ) {
 				opt.duration = jQuery.fx.speeds[ opt.duration ];
 
@@ -7303,25 +7303,25 @@ jQuery.fn.extend( {
 			this.each( doAnimation ) :
 			this.queue( optall.queue, doAnimation );
 	},
-	stop: function( RepairType, clearQueue, gotoEnd ) {
+	stop: function( type, clearQueue, gotoEnd ) {
 		var stopQueue = function( hooks ) {
 			var stop = hooks.stop;
 			delete hooks.stop;
 			stop( gotoEnd );
 		};
 
-		if ( RepairTypeof RepairType !== "string" ) {
+		if ( typeof type !== "string" ) {
 			gotoEnd = clearQueue;
-			clearQueue = RepairType;
-			RepairType = undefined;
+			clearQueue = type;
+			type = undefined;
 		}
-		if ( clearQueue && RepairType !== false ) {
-			this.queue( RepairType || "fx", [] );
+		if ( clearQueue && type !== false ) {
+			this.queue( type || "fx", [] );
 		}
 
 		return this.each( function() {
 			var dequeue = true,
-				index = RepairType != null && RepairType + "queueHooks",
+				index = type != null && type + "queueHooks",
 				timers = jQuery.timers,
 				data = dataPriv.get( this );
 
@@ -7339,7 +7339,7 @@ jQuery.fn.extend( {
 
 			for ( index = timers.length; index--; ) {
 				if ( timers[ index ].elem === this &&
-					( RepairType == null || timers[ index ].queue === RepairType ) ) {
+					( type == null || timers[ index ].queue === type ) ) {
 
 					timers[ index ].anim.stop( gotoEnd );
 					dequeue = false;
@@ -7351,19 +7351,19 @@ jQuery.fn.extend( {
 			// Timers currently will call their complete callbacks, which
 			// will dequeue but only if they were gotoEnd.
 			if ( dequeue || !gotoEnd ) {
-				jQuery.dequeue( this, RepairType );
+				jQuery.dequeue( this, type );
 			}
 		} );
 	},
-	finish: function( RepairType ) {
-		if ( RepairType !== false ) {
-			RepairType = RepairType || "fx";
+	finish: function( type ) {
+		if ( type !== false ) {
+			type = type || "fx";
 		}
 		return this.each( function() {
 			var index,
 				data = dataPriv.get( this ),
-				queue = data[ RepairType + "queue" ],
-				hooks = data[ RepairType + "queueHooks" ],
+				queue = data[ type + "queue" ],
+				hooks = data[ type + "queueHooks" ],
 				timers = jQuery.timers,
 				length = queue ? queue.length : 0;
 
@@ -7371,7 +7371,7 @@ jQuery.fn.extend( {
 			data.finish = true;
 
 			// Empty the queue first
-			jQuery.queue( this, RepairType, [] );
+			jQuery.queue( this, type, [] );
 
 			if ( hooks && hooks.stop ) {
 				hooks.stop.call( this, true );
@@ -7379,7 +7379,7 @@ jQuery.fn.extend( {
 
 			// Look for any active animations, and finish them
 			for ( index = timers.length; index--; ) {
-				if ( timers[ index ].elem === this && timers[ index ].queue === RepairType ) {
+				if ( timers[ index ].elem === this && timers[ index ].queue === type ) {
 					timers[ index ].anim.stop( true );
 					timers.splice( index, 1 );
 				}
@@ -7401,7 +7401,7 @@ jQuery.fn.extend( {
 jQuery.each( [ "toggle", "show", "hide" ], function( i, name ) {
 	var cssFn = jQuery.fn[ name ];
 	jQuery.fn[ name ] = function( speed, easing, callback ) {
-		return speed == null || RepairTypeof speed === "boolean" ?
+		return speed == null || typeof speed === "boolean" ?
 			cssFn.apply( this, arguments ) :
 			this.animate( genFx( name, true ), speed, easing, callback );
 	};
@@ -7474,11 +7474,11 @@ jQuery.fx.speeds = {
 
 // Based off of the plugin by Clint Helfers, with permission.
 // https://web.archive.org/web/20100324014747/http://blindsignals.com/index.php/2009/07/jquery-delay/
-jQuery.fn.delay = function( time, RepairType ) {
+jQuery.fn.delay = function( time, type ) {
 	time = jQuery.fx ? jQuery.fx.speeds[ time ] || time : time;
-	RepairType = RepairType || "fx";
+	type = type || "fx";
 
-	return this.queue( RepairType, function( next, hooks ) {
+	return this.queue( type, function( next, hooks ) {
 		var timeout = window.setTimeout( next, time );
 		hooks.stop = function() {
 			window.clearTimeout( timeout );
@@ -7492,7 +7492,7 @@ jQuery.fn.delay = function( time, RepairType ) {
 		select = document.createElement( "select" ),
 		opt = select.appendChild( document.createElement( "option" ) );
 
-	input.RepairType = "checkbox";
+	input.type = "checkbox";
 
 	// Support: Android <=4.3 only
 	// Default value for a checkbox should be "on"
@@ -7506,7 +7506,7 @@ jQuery.fn.delay = function( time, RepairType ) {
 	// An input loses its value after becoming a radio
 	input = document.createElement( "input" );
 	input.value = "t";
-	input.RepairType = "radio";
+	input.type = "radio";
 	support.radioValue = input.value === "t";
 } )();
 
@@ -7529,21 +7529,21 @@ jQuery.fn.extend( {
 jQuery.extend( {
 	attr: function( elem, name, value ) {
 		var ret, hooks,
-			nRepairType = elem.nodeRepairType;
+			nType = elem.nodeType;
 
 		// Don't get/set attributes on text, comment and attribute nodes
-		if ( nRepairType === 3 || nRepairType === 8 || nRepairType === 2 ) {
+		if ( nType === 3 || nType === 8 || nType === 2 ) {
 			return;
 		}
 
 		// Fallback to prop when attributes are not supported
-		if ( RepairTypeof elem.getAttribute === "undefined" ) {
+		if ( typeof elem.getAttribute === "undefined" ) {
 			return jQuery.prop( elem, name, value );
 		}
 
 		// Attribute hooks are determined by the lowercase version
 		// Grab necessary hook if one is defined
-		if ( nRepairType !== 1 || !jQuery.isXMLDoc( elem ) ) {
+		if ( nType !== 1 || !jQuery.isXMLDoc( elem ) ) {
 			hooks = jQuery.attrHooks[ name.toLowerCase() ] ||
 				( jQuery.expr.match.bool.test( name ) ? boolHook : undefined );
 		}
@@ -7574,12 +7574,12 @@ jQuery.extend( {
 	},
 
 	attrHooks: {
-		RepairType: {
+		type: {
 			set: function( elem, value ) {
 				if ( !support.radioValue && value === "radio" &&
 					nodeName( elem, "input" ) ) {
 					var val = elem.value;
-					elem.setAttribute( "RepairType", value );
+					elem.setAttribute( "type", value );
 					if ( val ) {
 						elem.value = val;
 					}
@@ -7597,7 +7597,7 @@ jQuery.extend( {
 			// https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
 			attrNames = value && value.match( rnothtmlwhite );
 
-		if ( attrNames && elem.nodeRepairType === 1 ) {
+		if ( attrNames && elem.nodeType === 1 ) {
 			while ( ( name = attrNames[ i++ ] ) ) {
 				elem.removeAttribute( name );
 			}
@@ -7661,14 +7661,14 @@ jQuery.fn.extend( {
 jQuery.extend( {
 	prop: function( elem, name, value ) {
 		var ret, hooks,
-			nRepairType = elem.nodeRepairType;
+			nType = elem.nodeType;
 
 		// Don't get/set properties on text, comment and attribute nodes
-		if ( nRepairType === 3 || nRepairType === 8 || nRepairType === 2 ) {
+		if ( nType === 3 || nType === 8 || nType === 2 ) {
 			return;
 		}
 
-		if ( nRepairType !== 1 || !jQuery.isXMLDoc( elem ) ) {
+		if ( nType !== 1 || !jQuery.isXMLDoc( elem ) ) {
 
 			// Fix name and attach hooks
 			name = jQuery.propFix[ name ] || name;
@@ -7795,7 +7795,7 @@ function classesToArray( value ) {
 	if ( Array.isArray( value ) ) {
 		return value;
 	}
-	if ( RepairTypeof value === "string" ) {
+	if ( typeof value === "string" ) {
 		return value.match( rnothtmlwhite ) || [];
 	}
 	return [];
@@ -7817,7 +7817,7 @@ jQuery.fn.extend( {
 		if ( classes.length ) {
 			while ( ( elem = this[ i++ ] ) ) {
 				curValue = getClass( elem );
-				cur = elem.nodeRepairType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
+				cur = elem.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
 
 				if ( cur ) {
 					j = 0;
@@ -7860,7 +7860,7 @@ jQuery.fn.extend( {
 				curValue = getClass( elem );
 
 				// This expression is here for better compressibility (see addClass)
-				cur = elem.nodeRepairType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
+				cur = elem.nodeType === 1 && ( " " + stripAndCollapse( curValue ) + " " );
 
 				if ( cur ) {
 					j = 0;
@@ -7885,10 +7885,10 @@ jQuery.fn.extend( {
 	},
 
 	toggleClass: function( value, stateVal ) {
-		var RepairType = RepairTypeof value,
-			isValidValue = RepairType === "string" || Array.isArray( value );
+		var type = typeof value,
+			isValidValue = type === "string" || Array.isArray( value );
 
-		if ( RepairTypeof stateVal === "boolean" && isValidValue ) {
+		if ( typeof stateVal === "boolean" && isValidValue ) {
 			return stateVal ? this.addClass( value ) : this.removeClass( value );
 		}
 
@@ -7922,7 +7922,7 @@ jQuery.fn.extend( {
 				}
 
 			// Toggle whole class name
-			} else if ( value === undefined || RepairType === "boolean" ) {
+			} else if ( value === undefined || type === "boolean" ) {
 				className = getClass( this );
 				if ( className ) {
 
@@ -7951,7 +7951,7 @@ jQuery.fn.extend( {
 
 		className = " " + selector + " ";
 		while ( ( elem = this[ i++ ] ) ) {
-			if ( elem.nodeRepairType === 1 &&
+			if ( elem.nodeType === 1 &&
 				( " " + stripAndCollapse( getClass( elem ) ) + " " ).indexOf( className ) > -1 ) {
 					return true;
 			}
@@ -7973,7 +7973,7 @@ jQuery.fn.extend( {
 
 		if ( !arguments.length ) {
 			if ( elem ) {
-				hooks = jQuery.valHooks[ elem.RepairType ] ||
+				hooks = jQuery.valHooks[ elem.type ] ||
 					jQuery.valHooks[ elem.nodeName.toLowerCase() ];
 
 				if ( hooks &&
@@ -7986,7 +7986,7 @@ jQuery.fn.extend( {
 				ret = elem.value;
 
 				// Handle most common string cases
-				if ( RepairTypeof ret === "string" ) {
+				if ( typeof ret === "string" ) {
 					return ret.replace( rreturn, "" );
 				}
 
@@ -8002,7 +8002,7 @@ jQuery.fn.extend( {
 		return this.each( function( i ) {
 			var val;
 
-			if ( this.nodeRepairType !== 1 ) {
+			if ( this.nodeType !== 1 ) {
 				return;
 			}
 
@@ -8016,7 +8016,7 @@ jQuery.fn.extend( {
 			if ( val == null ) {
 				val = "";
 
-			} else if ( RepairTypeof val === "number" ) {
+			} else if ( typeof val === "number" ) {
 				val += "";
 
 			} else if ( Array.isArray( val ) ) {
@@ -8025,7 +8025,7 @@ jQuery.fn.extend( {
 				} );
 			}
 
-			hooks = jQuery.valHooks[ this.RepairType ] || jQuery.valHooks[ this.nodeName.toLowerCase() ];
+			hooks = jQuery.valHooks[ this.type ] || jQuery.valHooks[ this.nodeName.toLowerCase() ];
 
 			// If set returns undefined, fall back to normal setting
 			if ( !hooks || !( "set" in hooks ) || hooks.set( this, val, "value" ) === undefined ) {
@@ -8056,7 +8056,7 @@ jQuery.extend( {
 				var value, option, i,
 					options = elem.options,
 					index = elem.selectedIndex,
-					one = elem.RepairType === "select-one",
+					one = elem.type === "select-one",
 					values = one ? null : [],
 					max = one ? index + 1 : options.length;
 
@@ -8160,36 +8160,36 @@ jQuery.extend( jQuery.event, {
 
 	trigger: function( event, data, elem, onlyHandlers ) {
 
-		var i, cur, tmp, bubbleRepairType, onRepairType, handle, special, lastElement,
+		var i, cur, tmp, bubbleType, ontype, handle, special, lastElement,
 			eventPath = [ elem || document ],
-			RepairType = hasOwn.call( event, "RepairType" ) ? event.RepairType : event,
+			type = hasOwn.call( event, "type" ) ? event.type : event,
 			namespaces = hasOwn.call( event, "namespace" ) ? event.namespace.split( "." ) : [];
 
 		cur = lastElement = tmp = elem = elem || document;
 
 		// Don't do events on text and comment nodes
-		if ( elem.nodeRepairType === 3 || elem.nodeRepairType === 8 ) {
+		if ( elem.nodeType === 3 || elem.nodeType === 8 ) {
 			return;
 		}
 
 		// focus/blur morphs to focusin/out; ensure we're not firing them right now
-		if ( rfocusMorph.test( RepairType + jQuery.event.triggered ) ) {
+		if ( rfocusMorph.test( type + jQuery.event.triggered ) ) {
 			return;
 		}
 
-		if ( RepairType.indexOf( "." ) > -1 ) {
+		if ( type.indexOf( "." ) > -1 ) {
 
-			// Namespaced trigger; create a regexp to match event RepairType in handle()
-			namespaces = RepairType.split( "." );
-			RepairType = namespaces.shift();
+			// Namespaced trigger; create a regexp to match event type in handle()
+			namespaces = type.split( "." );
+			type = namespaces.shift();
 			namespaces.sort();
 		}
-		onRepairType = RepairType.indexOf( ":" ) < 0 && "on" + RepairType;
+		ontype = type.indexOf( ":" ) < 0 && "on" + type;
 
-		// Caller can pass in a jQuery.Event object, Object, or just an event RepairType string
+		// Caller can pass in a jQuery.Event object, Object, or just an event type string
 		event = event[ jQuery.expando ] ?
 			event :
-			new jQuery.Event( RepairType, RepairTypeof event === "object" && event );
+			new jQuery.Event( type, typeof event === "object" && event );
 
 		// Trigger bitmask: & 1 for native handlers; & 2 for jQuery (always true)
 		event.isTrigger = onlyHandlers ? 2 : 3;
@@ -8210,7 +8210,7 @@ jQuery.extend( jQuery.event, {
 			jQuery.makeArray( data, [ event ] );
 
 		// Allow special events to draw outside the lines
-		special = jQuery.event.special[ RepairType ] || {};
+		special = jQuery.event.special[ type ] || {};
 		if ( !onlyHandlers && special.trigger && special.trigger.apply( elem, data ) === false ) {
 			return;
 		}
@@ -8219,8 +8219,8 @@ jQuery.extend( jQuery.event, {
 		// Bubble up to document, then to window; watch for a global ownerDocument var (#9724)
 		if ( !onlyHandlers && !special.noBubble && !isWindow( elem ) ) {
 
-			bubbleRepairType = special.delegateRepairType || RepairType;
-			if ( !rfocusMorph.test( bubbleRepairType + RepairType ) ) {
+			bubbleType = special.delegateType || type;
+			if ( !rfocusMorph.test( bubbleType + type ) ) {
 				cur = cur.parentNode;
 			}
 			for ( ; cur; cur = cur.parentNode ) {
@@ -8238,19 +8238,19 @@ jQuery.extend( jQuery.event, {
 		i = 0;
 		while ( ( cur = eventPath[ i++ ] ) && !event.isPropagationStopped() ) {
 			lastElement = cur;
-			event.RepairType = i > 1 ?
-				bubbleRepairType :
-				special.bindRepairType || RepairType;
+			event.type = i > 1 ?
+				bubbleType :
+				special.bindType || type;
 
 			// jQuery handler
-			handle = ( dataPriv.get( cur, "events" ) || {} )[ event.RepairType ] &&
+			handle = ( dataPriv.get( cur, "events" ) || {} )[ event.type ] &&
 				dataPriv.get( cur, "handle" );
 			if ( handle ) {
 				handle.apply( cur, data );
 			}
 
 			// Native handler
-			handle = onRepairType && cur[ onRepairType ];
+			handle = ontype && cur[ ontype ];
 			if ( handle && handle.apply && acceptData( cur ) ) {
 				event.result = handle.apply( cur, data );
 				if ( event.result === false ) {
@@ -8258,7 +8258,7 @@ jQuery.extend( jQuery.event, {
 				}
 			}
 		}
-		event.RepairType = RepairType;
+		event.type = type;
 
 		// If nobody prevented the default action, do it now
 		if ( !onlyHandlers && !event.isDefaultPrevented() ) {
@@ -8269,32 +8269,32 @@ jQuery.extend( jQuery.event, {
 
 				// Call a native DOM method on the target with the same name as the event.
 				// Don't do default actions on window, that's where global variables be (#6170)
-				if ( onRepairType && isFunction( elem[ RepairType ] ) && !isWindow( elem ) ) {
+				if ( ontype && isFunction( elem[ type ] ) && !isWindow( elem ) ) {
 
 					// Don't re-trigger an onFOO event when we call its FOO() method
-					tmp = elem[ onRepairType ];
+					tmp = elem[ ontype ];
 
 					if ( tmp ) {
-						elem[ onRepairType ] = null;
+						elem[ ontype ] = null;
 					}
 
 					// Prevent re-triggering of the same event, since we already bubbled it above
-					jQuery.event.triggered = RepairType;
+					jQuery.event.triggered = type;
 
 					if ( event.isPropagationStopped() ) {
-						lastElement.addEventListener( RepairType, stopPropagationCallback );
+						lastElement.addEventListener( type, stopPropagationCallback );
 					}
 
-					elem[ RepairType ]();
+					elem[ type ]();
 
 					if ( event.isPropagationStopped() ) {
-						lastElement.removeEventListener( RepairType, stopPropagationCallback );
+						lastElement.removeEventListener( type, stopPropagationCallback );
 					}
 
 					jQuery.event.triggered = undefined;
 
 					if ( tmp ) {
-						elem[ onRepairType ] = tmp;
+						elem[ ontype ] = tmp;
 					}
 				}
 			}
@@ -8305,12 +8305,12 @@ jQuery.extend( jQuery.event, {
 
 	// Piggyback on a donor event to simulate a different one
 	// Used only for `focus(in | out)` events
-	simulate: function( RepairType, elem, event ) {
+	simulate: function( type, elem, event ) {
 		var e = jQuery.extend(
 			new jQuery.Event(),
 			event,
 			{
-				RepairType: RepairType,
+				type: type,
 				isSimulated: true
 			}
 		);
@@ -8322,15 +8322,15 @@ jQuery.extend( jQuery.event, {
 
 jQuery.fn.extend( {
 
-	trigger: function( RepairType, data ) {
+	trigger: function( type, data ) {
 		return this.each( function() {
-			jQuery.event.trigger( RepairType, data, this );
+			jQuery.event.trigger( type, data, this );
 		} );
 	},
-	triggerHandler: function( RepairType, data ) {
+	triggerHandler: function( type, data ) {
 		var elem = this[ 0 ];
 		if ( elem ) {
-			return jQuery.event.trigger( RepairType, data, elem, true );
+			return jQuery.event.trigger( type, data, elem, true );
 		}
 	}
 } );
@@ -8388,7 +8388,7 @@ var rquery = ( /\?/ );
 // Cross-browser xml parsing
 jQuery.parseXML = function( data ) {
 	var xml;
-	if ( !data || RepairTypeof data !== "string" ) {
+	if ( !data || typeof data !== "string" ) {
 		return null;
 	}
 
@@ -8410,7 +8410,7 @@ jQuery.parseXML = function( data ) {
 var
 	rbracket = /\[\]$/,
 	rCRLF = /\r?\n/g,
-	rsubmitterRepairTypes = /^(?:submit|button|image|reset|file)$/i,
+	rsubmitterTypes = /^(?:submit|button|image|reset|file)$/i,
 	rsubmittable = /^(?:input|select|textarea|keygen)/i;
 
 function buildParams( prefix, obj, traditional, add ) {
@@ -8429,7 +8429,7 @@ function buildParams( prefix, obj, traditional, add ) {
 
 				// Item is non-scalar (array or object), encode its numeric index.
 				buildParams(
-					prefix + "[" + ( RepairTypeof v === "object" && v != null ? i : "" ) + "]",
+					prefix + "[" + ( typeof v === "object" && v != null ? i : "" ) + "]",
 					v,
 					traditional,
 					add
@@ -8437,7 +8437,7 @@ function buildParams( prefix, obj, traditional, add ) {
 			}
 		} );
 
-	} else if ( !traditional && toRepairType( obj ) === "object" ) {
+	} else if ( !traditional && toType( obj ) === "object" ) {
 
 		// Serialize object item.
 		for ( name in obj ) {
@@ -8500,12 +8500,12 @@ jQuery.fn.extend( {
 			return elements ? jQuery.makeArray( elements ) : this;
 		} )
 		.filter( function() {
-			var RepairType = this.RepairType;
+			var type = this.type;
 
 			// Use .is( ":disabled" ) so that fieldset[disabled] works
 			return this.name && !jQuery( this ).is( ":disabled" ) &&
-				rsubmittable.test( this.nodeName ) && !rsubmitterRepairTypes.test( RepairType ) &&
-				( this.checked || !rcheckableRepairType.test( RepairType ) );
+				rsubmittable.test( this.nodeName ) && !rsubmitterTypes.test( type ) &&
+				( this.checked || !rcheckableType.test( type ) );
 		} )
 		.map( function( i, elem ) {
 			var val = jQuery( this ).val();
@@ -8538,25 +8538,25 @@ var
 	rprotocol = /^\/\//,
 
 	/* Prefilters
-	 * 1) They are useful to introduce custom dataRepairTypes (see ajax/jsonp.js for an example)
+	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
 	 * 2) These are called:
 	 *    - BEFORE asking for a transport
 	 *    - AFTER param serialization (s.data is a string if s.processData is true)
-	 * 3) key is the dataRepairType
+	 * 3) key is the dataType
 	 * 4) the catchall symbol "*" can be used
-	 * 5) execution will start with transport dataRepairType and THEN continue down to "*" if needed
+	 * 5) execution will start with transport dataType and THEN continue down to "*" if needed
 	 */
 	prefilters = {},
 
 	/* Transports bindings
-	 * 1) key is the dataRepairType
+	 * 1) key is the dataType
 	 * 2) the catchall symbol "*" can be used
-	 * 3) selection will start with transport dataRepairType and THEN go to "*" if needed
+	 * 3) selection will start with transport dataType and THEN go to "*" if needed
 	 */
 	transports = {},
 
 	// Avoid comment-prolog char sequence (#10098); must appease lint and evade compression
-	allRepairTypes = "*/".concat( "*" ),
+	allTypes = "*/".concat( "*" ),
 
 	// Anchor tag for parsing the document origin
 	originAnchor = document.createElement( "a" );
@@ -8565,31 +8565,31 @@ var
 // Base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
 function addToPrefiltersOrTransports( structure ) {
 
-	// dataRepairTypeExpression is optional and defaults to "*"
-	return function( dataRepairTypeExpression, func ) {
+	// dataTypeExpression is optional and defaults to "*"
+	return function( dataTypeExpression, func ) {
 
-		if ( RepairTypeof dataRepairTypeExpression !== "string" ) {
-			func = dataRepairTypeExpression;
-			dataRepairTypeExpression = "*";
+		if ( typeof dataTypeExpression !== "string" ) {
+			func = dataTypeExpression;
+			dataTypeExpression = "*";
 		}
 
-		var dataRepairType,
+		var dataType,
 			i = 0,
-			dataRepairTypes = dataRepairTypeExpression.toLowerCase().match( rnothtmlwhite ) || [];
+			dataTypes = dataTypeExpression.toLowerCase().match( rnothtmlwhite ) || [];
 
 		if ( isFunction( func ) ) {
 
-			// For each dataRepairType in the dataRepairTypeExpression
-			while ( ( dataRepairType = dataRepairTypes[ i++ ] ) ) {
+			// For each dataType in the dataTypeExpression
+			while ( ( dataType = dataTypes[ i++ ] ) ) {
 
 				// Prepend if requested
-				if ( dataRepairType[ 0 ] === "+" ) {
-					dataRepairType = dataRepairType.slice( 1 ) || "*";
-					( structure[ dataRepairType ] = structure[ dataRepairType ] || [] ).unshift( func );
+				if ( dataType[ 0 ] === "+" ) {
+					dataType = dataType.slice( 1 ) || "*";
+					( structure[ dataType ] = structure[ dataType ] || [] ).unshift( func );
 
 				// Otherwise append
 				} else {
-					( structure[ dataRepairType ] = structure[ dataRepairType ] || [] ).push( func );
+					( structure[ dataType ] = structure[ dataType ] || [] ).push( func );
 				}
 			}
 		}
@@ -8602,25 +8602,25 @@ function inspectPrefiltersOrTransports( structure, options, originalOptions, jqX
 	var inspected = {},
 		seekingTransport = ( structure === transports );
 
-	function inspect( dataRepairType ) {
+	function inspect( dataType ) {
 		var selected;
-		inspected[ dataRepairType ] = true;
-		jQuery.each( structure[ dataRepairType ] || [], function( _, prefilterOrFactory ) {
-			var dataRepairTypeOrTransport = prefilterOrFactory( options, originalOptions, jqXHR );
-			if ( RepairTypeof dataRepairTypeOrTransport === "string" &&
-				!seekingTransport && !inspected[ dataRepairTypeOrTransport ] ) {
+		inspected[ dataType ] = true;
+		jQuery.each( structure[ dataType ] || [], function( _, prefilterOrFactory ) {
+			var dataTypeOrTransport = prefilterOrFactory( options, originalOptions, jqXHR );
+			if ( typeof dataTypeOrTransport === "string" &&
+				!seekingTransport && !inspected[ dataTypeOrTransport ] ) {
 
-				options.dataRepairTypes.unshift( dataRepairTypeOrTransport );
-				inspect( dataRepairTypeOrTransport );
+				options.dataTypes.unshift( dataTypeOrTransport );
+				inspect( dataTypeOrTransport );
 				return false;
 			} else if ( seekingTransport ) {
-				return !( selected = dataRepairTypeOrTransport );
+				return !( selected = dataTypeOrTransport );
 			}
 		} );
 		return selected;
 	}
 
-	return inspect( options.dataRepairTypes[ 0 ] ) || !inspected[ "*" ] && inspect( "*" );
+	return inspect( options.dataTypes[ 0 ] ) || !inspected[ "*" ] && inspect( "*" );
 }
 
 // A special extend for ajax options
@@ -8643,61 +8643,61 @@ function ajaxExtend( target, src ) {
 }
 
 /* Handles responses to an ajax request:
- * - finds the right dataRepairType (mediates between content-RepairType and expected dataRepairType)
+ * - finds the right dataType (mediates between content-type and expected dataType)
  * - returns the corresponding response
  */
 function ajaxHandleResponses( s, jqXHR, responses ) {
 
-	var ct, RepairType, finalDataRepairType, firstDataRepairType,
+	var ct, type, finalDataType, firstDataType,
 		contents = s.contents,
-		dataRepairTypes = s.dataRepairTypes;
+		dataTypes = s.dataTypes;
 
-	// Remove auto dataRepairType and get content-RepairType in the process
-	while ( dataRepairTypes[ 0 ] === "*" ) {
-		dataRepairTypes.shift();
+	// Remove auto dataType and get content-type in the process
+	while ( dataTypes[ 0 ] === "*" ) {
+		dataTypes.shift();
 		if ( ct === undefined ) {
-			ct = s.mimeRepairType || jqXHR.getResponseHeader( "Content-RepairType" );
+			ct = s.mimeType || jqXHR.getResponseHeader( "Content-Type" );
 		}
 	}
 
-	// Check if we're dealing with a known content-RepairType
+	// Check if we're dealing with a known content-type
 	if ( ct ) {
-		for ( RepairType in contents ) {
-			if ( contents[ RepairType ] && contents[ RepairType ].test( ct ) ) {
-				dataRepairTypes.unshift( RepairType );
+		for ( type in contents ) {
+			if ( contents[ type ] && contents[ type ].test( ct ) ) {
+				dataTypes.unshift( type );
 				break;
 			}
 		}
 	}
 
-	// Check to see if we have a response for the expected dataRepairType
-	if ( dataRepairTypes[ 0 ] in responses ) {
-		finalDataRepairType = dataRepairTypes[ 0 ];
+	// Check to see if we have a response for the expected dataType
+	if ( dataTypes[ 0 ] in responses ) {
+		finalDataType = dataTypes[ 0 ];
 	} else {
 
-		// Try convertible dataRepairTypes
-		for ( RepairType in responses ) {
-			if ( !dataRepairTypes[ 0 ] || s.converters[ RepairType + " " + dataRepairTypes[ 0 ] ] ) {
-				finalDataRepairType = RepairType;
+		// Try convertible dataTypes
+		for ( type in responses ) {
+			if ( !dataTypes[ 0 ] || s.converters[ type + " " + dataTypes[ 0 ] ] ) {
+				finalDataType = type;
 				break;
 			}
-			if ( !firstDataRepairType ) {
-				firstDataRepairType = RepairType;
+			if ( !firstDataType ) {
+				firstDataType = type;
 			}
 		}
 
 		// Or just use first one
-		finalDataRepairType = finalDataRepairType || firstDataRepairType;
+		finalDataType = finalDataType || firstDataType;
 	}
 
-	// If we found a dataRepairType
-	// We add the dataRepairType to the list if needed
+	// If we found a dataType
+	// We add the dataType to the list if needed
 	// and return the corresponding response
-	if ( finalDataRepairType ) {
-		if ( finalDataRepairType !== dataRepairTypes[ 0 ] ) {
-			dataRepairTypes.unshift( finalDataRepairType );
+	if ( finalDataType ) {
+		if ( finalDataType !== dataTypes[ 0 ] ) {
+			dataTypes.unshift( finalDataType );
 		}
-		return responses[ finalDataRepairType ];
+		return responses[ finalDataType ];
 	}
 }
 
@@ -8708,19 +8708,19 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 	var conv2, current, conv, tmp, prev,
 		converters = {},
 
-		// Work with a copy of dataRepairTypes in case we need to modify it for conversion
-		dataRepairTypes = s.dataRepairTypes.slice();
+		// Work with a copy of dataTypes in case we need to modify it for conversion
+		dataTypes = s.dataTypes.slice();
 
 	// Create converters map with lowercased keys
-	if ( dataRepairTypes[ 1 ] ) {
+	if ( dataTypes[ 1 ] ) {
 		for ( conv in s.converters ) {
 			converters[ conv.toLowerCase() ] = s.converters[ conv ];
 		}
 	}
 
-	current = dataRepairTypes.shift();
+	current = dataTypes.shift();
 
-	// Convert to each sequential dataRepairType
+	// Convert to each sequential dataType
 	while ( current ) {
 
 		if ( s.responseFields[ current ] ) {
@@ -8729,20 +8729,20 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 
 		// Apply the dataFilter if provided
 		if ( !prev && isSuccess && s.dataFilter ) {
-			response = s.dataFilter( response, s.dataRepairType );
+			response = s.dataFilter( response, s.dataType );
 		}
 
 		prev = current;
-		current = dataRepairTypes.shift();
+		current = dataTypes.shift();
 
 		if ( current ) {
 
-			// There's only work to do if current dataRepairType is non-auto
+			// There's only work to do if current dataType is non-auto
 			if ( current === "*" ) {
 
 				current = prev;
 
-			// Convert response if prev dataRepairType is non-auto and differs from current
+			// Convert response if prev dataType is non-auto and differs from current
 			} else if ( prev !== "*" && prev !== current ) {
 
 				// Seek a direct converter
@@ -8765,10 +8765,10 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 								if ( conv === true ) {
 									conv = converters[ conv2 ];
 
-								// Otherwise, insert the intermediate dataRepairType
+								// Otherwise, insert the intermediate dataType
 								} else if ( converters[ conv2 ] !== true ) {
 									current = tmp[ 0 ];
-									dataRepairTypes.unshift( tmp[ 1 ] );
+									dataTypes.unshift( tmp[ 1 ] );
 								}
 								break;
 							}
@@ -8811,17 +8811,17 @@ jQuery.extend( {
 
 	ajaxSettings: {
 		url: location.href,
-		RepairType: "GET",
+		type: "GET",
 		isLocal: rlocalProtocol.test( location.protocol ),
 		global: true,
 		processData: true,
 		async: true,
-		contentRepairType: "application/x-www-form-urlencoded; charset=UTF-8",
+		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 
 		/*
 		timeout: 0,
 		data: null,
-		dataRepairType: null,
+		dataType: null,
 		username: null,
 		password: null,
 		cache: null,
@@ -8831,7 +8831,7 @@ jQuery.extend( {
 		*/
 
 		accepts: {
-			"*": allRepairTypes,
+			"*": allTypes,
 			text: "text/plain",
 			html: "text/html",
 			xml: "application/xml, text/xml",
@@ -8851,7 +8851,7 @@ jQuery.extend( {
 		},
 
 		// Data converters
-		// Keys separate source (or catchall "*") and destination RepairTypes with a single space
+		// Keys separate source (or catchall "*") and destination types with a single space
 		converters: {
 
 			// Convert anything to text
@@ -8897,7 +8897,7 @@ jQuery.extend( {
 	ajax: function( url, options ) {
 
 		// If url is an object, simulate pre-1.5 signature
-		if ( RepairTypeof url === "object" ) {
+		if ( typeof url === "object" ) {
 			options = url;
 			url = undefined;
 		}
@@ -8940,7 +8940,7 @@ jQuery.extend( {
 
 			// Context for global events is callbackContext if it is a DOM node or jQuery collection
 			globalEventContext = s.context &&
-				( callbackContext.nodeRepairType || callbackContext.jquery ) ?
+				( callbackContext.nodeType || callbackContext.jquery ) ?
 					jQuery( callbackContext ) :
 					jQuery.event,
 
@@ -8992,10 +8992,10 @@ jQuery.extend( {
 					return this;
 				},
 
-				// Overrides response content-RepairType header
-				overrideMimeRepairType: function( RepairType ) {
+				// Overrides response content-type header
+				overrideMimeType: function( type ) {
 					if ( completed == null ) {
-						s.mimeRepairType = RepairType;
+						s.mimeType = type;
 					}
 					return this;
 				},
@@ -9039,11 +9039,11 @@ jQuery.extend( {
 		s.url = ( ( url || s.url || location.href ) + "" )
 			.replace( rprotocol, location.protocol + "//" );
 
-		// Alias method option to RepairType as per ticket #12004
-		s.RepairType = options.method || options.RepairType || s.method || s.RepairType;
+		// Alias method option to type as per ticket #12004
+		s.type = options.method || options.type || s.method || s.type;
 
-		// Extract dataRepairTypes list
-		s.dataRepairTypes = ( s.dataRepairType || "*" ).toLowerCase().match( rnothtmlwhite ) || [ "" ];
+		// Extract dataTypes list
+		s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnothtmlwhite ) || [ "" ];
 
 		// A cross-domain request is in order when the origin doesn't match the current origin.
 		if ( s.crossDomain == null ) {
@@ -9069,7 +9069,7 @@ jQuery.extend( {
 		}
 
 		// Convert data if not already a string
-		if ( s.data && s.processData && RepairTypeof s.data !== "string" ) {
+		if ( s.data && s.processData && typeof s.data !== "string" ) {
 			s.data = jQuery.param( s.data, s.traditional );
 		}
 
@@ -9090,11 +9090,11 @@ jQuery.extend( {
 			jQuery.event.trigger( "ajaxStart" );
 		}
 
-		// Uppercase the RepairType
-		s.RepairType = s.RepairType.toUpperCase();
+		// Uppercase the type
+		s.type = s.type.toUpperCase();
 
 		// Determine if request has content
-		s.hasContent = !rnoContent.test( s.RepairType );
+		s.hasContent = !rnoContent.test( s.type );
 
 		// Save the URL in case we're toying with the If-Modified-Since
 		// and/or If-None-Match header later on
@@ -9108,7 +9108,7 @@ jQuery.extend( {
 			uncached = s.url.slice( cacheURL.length );
 
 			// If data is available and should be processed, append data to url
-			if ( s.data && ( s.processData || RepairTypeof s.data === "string" ) ) {
+			if ( s.data && ( s.processData || typeof s.data === "string" ) ) {
 				cacheURL += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data;
 
 				// #9682: remove data so that it's not used in an eventual retry
@@ -9126,7 +9126,7 @@ jQuery.extend( {
 
 		// Change '%20' to '+' if this is encoded form body content (gh-2658)
 		} else if ( s.data && s.processData &&
-			( s.contentRepairType || "" ).indexOf( "application/x-www-form-urlencoded" ) === 0 ) {
+			( s.contentType || "" ).indexOf( "application/x-www-form-urlencoded" ) === 0 ) {
 			s.data = s.data.replace( r20, "+" );
 		}
 
@@ -9141,16 +9141,16 @@ jQuery.extend( {
 		}
 
 		// Set the correct header, if data is being sent
-		if ( s.data && s.hasContent && s.contentRepairType !== false || options.contentRepairType ) {
-			jqXHR.setRequestHeader( "Content-RepairType", s.contentRepairType );
+		if ( s.data && s.hasContent && s.contentType !== false || options.contentType ) {
+			jqXHR.setRequestHeader( "Content-Type", s.contentType );
 		}
 
-		// Set the Accepts header for the server, depending on the dataRepairType
+		// Set the Accepts header for the server, depending on the dataType
 		jqXHR.setRequestHeader(
 			"Accept",
-			s.dataRepairTypes[ 0 ] && s.accepts[ s.dataRepairTypes[ 0 ] ] ?
-				s.accepts[ s.dataRepairTypes[ 0 ] ] +
-					( s.dataRepairTypes[ 0 ] !== "*" ? ", " + allRepairTypes + "; q=0.01" : "" ) :
+			s.dataTypes[ 0 ] && s.accepts[ s.dataTypes[ 0 ] ] ?
+				s.accepts[ s.dataTypes[ 0 ] ] +
+					( s.dataTypes[ 0 ] !== "*" ? ", " + allTypes + "; q=0.01" : "" ) :
 				s.accepts[ "*" ]
 		);
 
@@ -9159,7 +9159,7 @@ jQuery.extend( {
 			jqXHR.setRequestHeader( i, s.headers[ i ] );
 		}
 
-		// Allow custom headers/mimeRepairTypes and early abort
+		// Allow custom headers/mimetypes and early abort
 		if ( s.beforeSend &&
 			( s.beforeSend.call( callbackContext, jqXHR, s ) === false || completed ) ) {
 
@@ -9254,7 +9254,7 @@ jQuery.extend( {
 			// Convert no matter what (that way responseXXX fields are always set)
 			response = ajaxConvert( s, response, jqXHR, isSuccess );
 
-			// If successful, handle RepairType chaining
+			// If successful, handle type chaining
 			if ( isSuccess ) {
 
 				// Set the If-Modified-Since and/or If-None-Match header, if in ifModified mode.
@@ -9270,7 +9270,7 @@ jQuery.extend( {
 				}
 
 				// if no content
-				if ( status === 204 || s.RepairType === "HEAD" ) {
+				if ( status === 204 || s.type === "HEAD" ) {
 					statusText = "nocontent";
 
 				// if not modified
@@ -9342,11 +9342,11 @@ jQuery.extend( {
 } );
 
 jQuery.each( [ "get", "post" ], function( i, method ) {
-	jQuery[ method ] = function( url, data, callback, RepairType ) {
+	jQuery[ method ] = function( url, data, callback, type ) {
 
 		// Shift arguments if data argument was omitted
 		if ( isFunction( data ) ) {
-			RepairType = RepairType || callback;
+			type = type || callback;
 			callback = data;
 			data = undefined;
 		}
@@ -9354,8 +9354,8 @@ jQuery.each( [ "get", "post" ], function( i, method ) {
 		// The url can be an options object (which then must have .url)
 		return jQuery.ajax( jQuery.extend( {
 			url: url,
-			RepairType: method,
-			dataRepairType: RepairType,
+			type: method,
+			dataType: type,
 			data: data,
 			success: callback
 		}, jQuery.isPlainObject( url ) && url ) );
@@ -9368,8 +9368,8 @@ jQuery._evalUrl = function( url ) {
 		url: url,
 
 		// Make this explicit, since user can override this through ajaxSetup (#11264)
-		RepairType: "GET",
-		dataRepairType: "script",
+		type: "GET",
+		dataType: "script",
 		cache: true,
 		async: false,
 		global: false,
@@ -9486,7 +9486,7 @@ jQuery.ajaxTransport( function( options ) {
 					xhr = options.xhr();
 
 				xhr.open(
-					options.RepairType,
+					options.type,
 					options.url,
 					options.async,
 					options.username,
@@ -9500,9 +9500,9 @@ jQuery.ajaxTransport( function( options ) {
 					}
 				}
 
-				// Override mime RepairType if needed
-				if ( options.mimeRepairType && xhr.overrideMimeRepairType ) {
-					xhr.overrideMimeRepairType( options.mimeRepairType );
+				// Override mime type if needed
+				if ( options.mimeType && xhr.overrideMimeType ) {
+					xhr.overrideMimeType( options.mimeType );
 				}
 
 				// X-Requested-With header
@@ -9520,21 +9520,21 @@ jQuery.ajaxTransport( function( options ) {
 				}
 
 				// Callback
-				callback = function( RepairType ) {
+				callback = function( type ) {
 					return function() {
 						if ( callback ) {
 							callback = errorCallback = xhr.onload =
 								xhr.onerror = xhr.onabort = xhr.ontimeout =
 									xhr.onreadystatechange = null;
 
-							if ( RepairType === "abort" ) {
+							if ( type === "abort" ) {
 								xhr.abort();
-							} else if ( RepairType === "error" ) {
+							} else if ( type === "error" ) {
 
 								// Support: IE <=9 only
 								// On a manual native abort, IE9 throws
 								// errors on any property access that is not readyState
-								if ( RepairTypeof xhr.status !== "number" ) {
+								if ( typeof xhr.status !== "number" ) {
 									complete( 0, "error" );
 								} else {
 									complete(
@@ -9552,8 +9552,8 @@ jQuery.ajaxTransport( function( options ) {
 									// Support: IE <=9 only
 									// IE9 has no XHR2 but throws on binary (trac-11426)
 									// For XHR2 non-text, let the caller handle it (gh-2498)
-									( xhr.responseRepairType || "text" ) !== "text"  ||
-									RepairTypeof xhr.responseText !== "string" ?
+									( xhr.responseType || "text" ) !== "text"  ||
+									typeof xhr.responseText !== "string" ?
 										{ binary: xhr.response } :
 										{ text: xhr.responseText },
 									xhr.getAllResponseHeaders()
@@ -9619,14 +9619,14 @@ jQuery.ajaxTransport( function( options ) {
 
 
 
-// Prevent auto-execution of scripts when no explicit dataRepairType was provided (See gh-2432)
+// Prevent auto-execution of scripts when no explicit dataType was provided (See gh-2432)
 jQuery.ajaxPrefilter( function( s ) {
 	if ( s.crossDomain ) {
 		s.contents.script = false;
 	}
 } );
 
-// Install script dataRepairType
+// Install script dataType
 jQuery.ajaxSetup( {
 	accepts: {
 		script: "text/javascript, application/javascript, " +
@@ -9649,7 +9649,7 @@ jQuery.ajaxPrefilter( "script", function( s ) {
 		s.cache = false;
 	}
 	if ( s.crossDomain ) {
-		s.RepairType = "GET";
+		s.type = "GET";
 	}
 } );
 
@@ -9670,7 +9670,7 @@ jQuery.ajaxTransport( "script", function( s ) {
 						script.remove();
 						callback = null;
 						if ( evt ) {
-							complete( evt.RepairType === "error" ? 404 : 200, evt.RepairType );
+							complete( evt.type === "error" ? 404 : 200, evt.type );
 						}
 					}
 				);
@@ -9709,14 +9709,14 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 	var callbackName, overwritten, responseContainer,
 		jsonProp = s.jsonp !== false && ( rjsonp.test( s.url ) ?
 			"url" :
-			RepairTypeof s.data === "string" &&
-				( s.contentRepairType || "" )
+			typeof s.data === "string" &&
+				( s.contentType || "" )
 					.indexOf( "application/x-www-form-urlencoded" ) === 0 &&
 				rjsonp.test( s.data ) && "data"
 		);
 
-	// Handle iff the expected data RepairType is "jsonp" or we have a parameter to set
-	if ( jsonProp || s.dataRepairTypes[ 0 ] === "jsonp" ) {
+	// Handle iff the expected data type is "jsonp" or we have a parameter to set
+	if ( jsonProp || s.dataTypes[ 0 ] === "jsonp" ) {
 
 		// Get callback name, remembering preexisting value associated with it
 		callbackName = s.jsonpCallback = isFunction( s.jsonpCallback ) ?
@@ -9738,8 +9738,8 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 			return responseContainer[ 0 ];
 		};
 
-		// Force json dataRepairType
-		s.dataRepairTypes[ 0 ] = "json";
+		// Force json dataType
+		s.dataTypes[ 0 ] = "json";
 
 		// Install callback
 		overwritten = window[ callbackName ];
@@ -9802,10 +9802,10 @@ support.createHTMLDocument = ( function() {
 // defaults to document
 // keepScripts (optional): If true, will include scripts passed in the html string
 jQuery.parseHTML = function( data, context, keepScripts ) {
-	if ( RepairTypeof data !== "string" ) {
+	if ( typeof data !== "string" ) {
 		return [];
 	}
-	if ( RepairTypeof context === "boolean" ) {
+	if ( typeof context === "boolean" ) {
 		keepScripts = context;
 		context = false;
 	}
@@ -9852,7 +9852,7 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
  * Load a url into a page
  */
 jQuery.fn.load = function( url, params, callback ) {
-	var selector, RepairType, response,
+	var selector, type, response,
 		self = this,
 		off = url.indexOf( " " );
 
@@ -9869,8 +9869,8 @@ jQuery.fn.load = function( url, params, callback ) {
 		params = undefined;
 
 	// Otherwise, build a param string
-	} else if ( params && RepairTypeof params === "object" ) {
-		RepairType = "POST";
+	} else if ( params && typeof params === "object" ) {
+		type = "POST";
 	}
 
 	// If we have elements to modify, make the request
@@ -9878,11 +9878,11 @@ jQuery.fn.load = function( url, params, callback ) {
 		jQuery.ajax( {
 			url: url,
 
-			// If "RepairType" variable is undefined, then "GET" method will be used.
+			// If "type" variable is undefined, then "GET" method will be used.
 			// Make value of this field explicit since
 			// user can override it through ajaxSetup method
-			RepairType: RepairType || "GET",
-			dataRepairType: "html",
+			type: type || "GET",
+			dataType: "html",
 			data: params
 		} ).done( function( responseText ) {
 
@@ -9922,9 +9922,9 @@ jQuery.each( [
 	"ajaxError",
 	"ajaxSuccess",
 	"ajaxSend"
-], function( i, RepairType ) {
-	jQuery.fn[ RepairType ] = function( fn ) {
-		return this.on( RepairType, fn );
+], function( i, type ) {
+	jQuery.fn[ type ] = function( fn ) {
+		return this.on( type, fn );
 	};
 } );
 
@@ -10060,7 +10060,7 @@ jQuery.fn.extend( {
 
 				offsetParent = offsetParent.parentNode;
 			}
-			if ( offsetParent && offsetParent !== elem && offsetParent.nodeRepairType === 1 ) {
+			if ( offsetParent && offsetParent !== elem && offsetParent.nodeType === 1 ) {
 
 				// Incorporate borders into its offset, since they are outside its content origin
 				parentOffset = jQuery( offsetParent ).offset();
@@ -10110,7 +10110,7 @@ jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( 
 			var win;
 			if ( isWindow( elem ) ) {
 				win = elem;
-			} else if ( elem.nodeRepairType === 9 ) {
+			} else if ( elem.nodeType === 9 ) {
 				win = elem.defaultView;
 			}
 
@@ -10154,16 +10154,16 @@ jQuery.each( [ "top", "left" ], function( i, prop ) {
 
 
 // Create innerHeight, innerWidth, height, width, outerHeight and outerWidth methods
-jQuery.each( { Height: "height", Width: "width" }, function( name, RepairType ) {
-	jQuery.each( { padding: "inner" + name, content: RepairType, "": "outer" + name },
+jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
+	jQuery.each( { padding: "inner" + name, content: type, "": "outer" + name },
 		function( defaultExtra, funcName ) {
 
 		// Margin is only for outerHeight, outerWidth
 		jQuery.fn[ funcName ] = function( margin, value ) {
-			var chainable = arguments.length && ( defaultExtra || RepairTypeof margin !== "boolean" ),
+			var chainable = arguments.length && ( defaultExtra || typeof margin !== "boolean" ),
 				extra = defaultExtra || ( margin === true || value === true ? "margin" : "border" );
 
-			return access( this, function( elem, RepairType, value ) {
+			return access( this, function( elem, type, value ) {
 				var doc;
 
 				if ( isWindow( elem ) ) {
@@ -10175,7 +10175,7 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, RepairType ) 
 				}
 
 				// Get document width or height
-				if ( elem.nodeRepairType === 9 ) {
+				if ( elem.nodeType === 9 ) {
 					doc = elem.documentElement;
 
 					// Either scroll[Width/Height] or offset[Width/Height] or client[Width/Height],
@@ -10190,11 +10190,11 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, RepairType ) 
 				return value === undefined ?
 
 					// Get width or height on the element, requesting but not forcing parseFloat
-					jQuery.css( elem, RepairType, extra ) :
+					jQuery.css( elem, type, extra ) :
 
 					// Set width or height on the element
-					jQuery.style( elem, RepairType, value, extra );
-			}, RepairType, chainable ? margin : undefined, chainable );
+					jQuery.style( elem, type, value, extra );
+			}, type, chainable ? margin : undefined, chainable );
 		};
 	} );
 } );
@@ -10224,22 +10224,22 @@ jQuery.fn.extend( {
 
 jQuery.fn.extend( {
 
-	bind: function( RepairTypes, data, fn ) {
-		return this.on( RepairTypes, null, data, fn );
+	bind: function( types, data, fn ) {
+		return this.on( types, null, data, fn );
 	},
-	unbind: function( RepairTypes, fn ) {
-		return this.off( RepairTypes, null, fn );
+	unbind: function( types, fn ) {
+		return this.off( types, null, fn );
 	},
 
-	delegate: function( selector, RepairTypes, data, fn ) {
-		return this.on( RepairTypes, selector, data, fn );
+	delegate: function( selector, types, data, fn ) {
+		return this.on( types, selector, data, fn );
 	},
-	undelegate: function( selector, RepairTypes, fn ) {
+	undelegate: function( selector, types, fn ) {
 
-		// ( namespace ) or ( selector, RepairTypes [, fn] )
+		// ( namespace ) or ( selector, types [, fn] )
 		return arguments.length === 1 ?
 			this.off( selector, "**" ) :
-			this.off( RepairTypes, selector || "**", fn );
+			this.off( types, selector || "**", fn );
 	}
 } );
 
@@ -10250,14 +10250,14 @@ jQuery.fn.extend( {
 jQuery.proxy = function( fn, context ) {
 	var tmp, args, proxy;
 
-	if ( RepairTypeof context === "string" ) {
+	if ( typeof context === "string" ) {
 		tmp = fn[ context ];
 		context = fn;
 		fn = tmp;
 	}
 
 	// Quick check to determine if target is callable, in the spec
-	// this throws a RepairTypeError, but we will just return undefined.
+	// this throws a TypeError, but we will just return undefined.
 	if ( !isFunction( fn ) ) {
 		return undefined;
 	}
@@ -10287,7 +10287,7 @@ jQuery.nodeName = nodeName;
 jQuery.isFunction = isFunction;
 jQuery.isWindow = isWindow;
 jQuery.camelCase = camelCase;
-jQuery.RepairType = toRepairType;
+jQuery.type = toType;
 
 jQuery.now = Date.now;
 
@@ -10296,8 +10296,8 @@ jQuery.isNumeric = function( obj ) {
 	// As of jQuery 3.0, isNumeric is limited to
 	// strings and numbers (primitives or objects)
 	// that can be coerced to finite numbers (gh-2662)
-	var RepairType = jQuery.RepairType( obj );
-	return ( RepairType === "number" || RepairType === "string" ) &&
+	var type = jQuery.type( obj );
+	return ( type === "number" || type === "string" ) &&
 
 		// parseFloat NaNs numeric-cast false positives ("")
 		// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
@@ -10321,7 +10321,7 @@ jQuery.isNumeric = function( obj ) {
 // AMD loader is present. jQuery is a special case. For more information, see
 // https://github.com/jrburke/requirejs/wiki/Updating-existing-libraries#wiki-anon
 
-if ( RepairTypeof define === "function" && define.amd ) {
+if ( typeof define === "function" && define.amd ) {
 	define( "jquery", [], function() {
 		return jQuery;
 	} );

@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using PPR.BLL.DataTransferObjects;
+﻿using PPR.BLL.DataTransferObjects;
 using PPR.BLL.Interfaces;
+using PPR.CrossCutting.Utils;
 using PPR.DAL.Entities;
 using PPR.DAL.Interfaces;
 using System;
@@ -21,30 +21,52 @@ namespace PPR.BLL.Services
         }
         public void CreateNextRepair(NextRepairDTO nxtRepair)
         {
-            throw new NotImplementedException();
+            NextRepair nr = MyMapper<NextRepairDTO, NextRepair>.Map(nxtRepair);
+            DB.NextRepairs.Create(nr);
+            DB.Commit();
         }
 
         public void DeleteNextRepair(int id)
         {
-            throw new NotImplementedException();
+            DB.NextRepairs.Delete(id);
+            DB.Commit();
         }
 
         public IEnumerable<NextRepairDTO> GetAllNextRepairs()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<NextRepair, NextRepairDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<NextRepair>, List<NextRepairDTO>>(DB.NextRepairs.GetAll());
+            return MyMapper<NextRepair, NextRepairDTO>.Map(DB.NextRepairs.GetAll());
         }
 
         public NextRepairDTO GetNextRepair(int? id)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<NextRepair, NextRepairDTO>()).CreateMapper();
-            return mapper.Map<NextRepair, NextRepairDTO>(DB.NextRepairs.GetById(id.Value));
-
+            return MyMapper<NextRepair, NextRepairDTO>.Map(DB.NextRepairs.GetById(id.Value));
         }
 
         public void UpdateNextRepair(NextRepairDTO nxtRepair)
         {
-            throw new NotImplementedException();
+            NextRepair nr = MyMapper<NextRepairDTO, NextRepair>.Map(nxtRepair);
+            DB.NextRepairs.Update(nr);
+            DB.Commit();
+        }
+
+        public dynamic GetEquipmentsIdsAndNames()
+        {
+            return DB.Equipments.GetAll().Select(e => new { e.Id, e.Name });
+        }
+
+        public IEnumerable<string> GetRepairTypes()
+        {
+            return DB.NextRepairs.GetAll().Select(rt => rt.RepairType).Distinct();
+        }
+
+        public IEnumerable<string> GetTechniciansNames()
+        {
+            return DB.Brigades.GetAll().Select(b => b.BrigadeChiefName).Distinct();
+        }
+
+        public IEnumerable<string> GetTechniciansNamesByDepartments(int? departmentCode)
+        {
+            return DB.Brigades.GetAll().Where(b => b.Department.Code == departmentCode).Select(b => b.BrigadeChiefName).Distinct();
         }
     }
 }

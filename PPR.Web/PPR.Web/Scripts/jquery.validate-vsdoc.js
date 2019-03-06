@@ -32,7 +32,7 @@ $.extend($.fn, {
 		/// elements. Each one can be disabled, see the onxxx options (onsubmit, onfocusout,
 		/// onkeyup, onclick). focusInvalid focuses elements when submitting a invalid form.
 		/// </summary>
-		/// <param name="options" RepairType="Object">
+		/// <param name="options" type="Object">
 		/// A set of key/value pairs that configure the validate. All options are optional.
 		/// </param>
 
@@ -75,7 +75,7 @@ $.extend($.fn, {
 					if ( validator.settings.submitHandler ) {
 						if (validator.submitButton) {
 							// insert a hidden input as a replacement for the missing submit button
-							var hidden = $("<input RepairType='hidden'/>").attr("name", validator.submitButton.name).val(validator.submitButton.value).appendTo(validator.currentForm);
+							var hidden = $("<input type='hidden'/>").attr("name", validator.submitButton.name).val(validator.submitButton.value).appendTo(validator.currentForm);
 						}
 						validator.settings.submitHandler.call( validator, validator.currentForm );
 						if (validator.submitButton) {
@@ -113,7 +113,7 @@ $.extend($.fn, {
 		/// Checks if the selected form is valid or if all selected elements are valid.
 		/// validate() needs to be called on the form before checking it using this method.
 		/// </summary>
-		/// <returns RepairType="Boolean" />
+		/// <returns type="Boolean" />
 
         if ( $(this[0]).is('form')) {
             return this.validate().form();
@@ -131,7 +131,7 @@ $.extend($.fn, {
 		/// <summary>
 		/// Remove the specified attributes from the first matched element and return them.
 		/// </summary>
-		/// <param name="attributes" RepairType="String">
+		/// <param name="attributes" type="String">
 		/// A space-seperated list of attribute names to remove.
 		/// </param>
 
@@ -148,10 +148,10 @@ $.extend($.fn, {
 		/// <summary>
 		/// Return the validations rules for the first selected element.
 		/// </summary>
-		/// <param name="command" RepairType="String">
+		/// <param name="command" type="String">
 		/// Can be either "add" or "remove".
 		/// </param>
-		/// <param name="argument" RepairType="">
+		/// <param name="argument" type="">
 		/// A list of rules to add or remove.
 		/// </param>
 
@@ -225,13 +225,13 @@ $.validator.format = function(source, params) {
 	/// One or more arguments can be passed, in addition to the string template itself, to insert
 	/// into the string.
 	/// </summary>
-	/// <param name="source" RepairType="String">
+	/// <param name="source" type="String">
 	/// The string to format.
 	/// </param>
-	/// <param name="params" RepairType="String">
+	/// <param name="params" type="String">
 	/// The first argument to insert, or an array of Strings to insert
 	/// </param>
-	/// <returns RepairType="String" />
+	/// <returns type="String" />
 
 	if ( arguments.length == 1 ) 
 		return function() {
@@ -307,7 +307,7 @@ $.extend($.validator, {
 		/// Modify default settings for validation.
 		/// Accepts everything that Plugins/Validation/validate accepts.
 		/// </summary>
-		/// <param name="settings" RepairType="Options">
+		/// <param name="settings" type="Options">
 		/// Options to set as default.
 		/// </param>
 
@@ -336,7 +336,7 @@ $.extend($.validator, {
 	
 	autoCreateRanges: false,
 	
-	protoRepairType: {
+	prototype: {
 		
 		init: function() {
 			this.labelContainer = $(this.settings.errorLabelContainer);
@@ -362,8 +362,8 @@ $.extend($.validator, {
 			
 			function delegate(event) {
 				var validator = $.data(this[0].form, "validator"),
-					eventRepairType = "on" + event.RepairType.replace(/^validate/, "");
-				validator.settings[eventRepairType] && validator.settings[eventRepairType].call(validator, this[0] );
+					eventType = "on" + event.type.replace(/^validate/, "");
+				validator.settings[eventType] && validator.settings[eventType].call(validator, this[0] );
 			}
 			$(this.currentForm)
 				.validateDelegate(":text, :password, :file, select, textarea", "focusin focusout keyup", delegate)
@@ -379,7 +379,7 @@ $.extend($.validator, {
 			/// Validates the form, returns true if it is valid, false otherwise.
 			/// This behaves as a normal submit event, but returns the result.
 			/// </summary>
-			/// <returns RepairType="Boolean" />
+			/// <returns type="Boolean" />
 
 			this.checkForm();
 			$.extend(this.submitted, this.errorMap);
@@ -404,10 +404,10 @@ $.extend($.validator, {
 			/// Validates a single element, returns true if it is valid, false otherwise.
 			/// This behaves as validation on blur or keyup, but returns the result.
 			/// </summary>
-			/// <param name="element" RepairType="Selector">
+			/// <param name="element" type="Selector">
 			/// An element to validate, must be inside the validated form.
 			/// </param>
-			/// <returns RepairType="Boolean" />
+			/// <returns type="Boolean" />
 
 			element = this.clean( element );
 			this.lastElement = element;
@@ -433,7 +433,7 @@ $.extend($.validator, {
 			/// Show the specified messages.
 			/// Keys have to refer to the names of elements, values are displayed for those elements, using the configured error placement.
 			/// </summary>
-			/// <param name="errors" RepairType="Object">
+			/// <param name="errors" type="Object">
 			/// One or more key/value pairs of input names and messages.
 			/// </param>
 
@@ -481,7 +481,7 @@ $.extend($.validator, {
 			/// a single element, only that element is counted. Most useful in combination with the
 			/// invalidHandler-option.
 			/// </summary>
-			/// <returns RepairType="Number" />
+			/// <returns type="Number" />
 
 			return this.objectLength(this.invalid);
 		},
@@ -664,7 +664,7 @@ $.extend($.validator, {
 		formatAndAdd: function( element, rule ) {
 			var message = this.defaultMessage( element, rule.method ),
 				theregex = /\$?\{(\d+)\}/g;
-			if ( RepairTypeof message == "function" ) {
+			if ( typeof message == "function" ) {
 				message = message.call(this, rule.parameters, element);
 			} else if (theregex.test(message)) {
 				message = jQuery.format(message.replace(theregex, '{$1}'), rule.parameters);
@@ -744,7 +744,7 @@ $.extend($.validator, {
 			}
 			if ( !message && this.settings.success ) {
 				label.text("");
-				RepairTypeof this.settings.success == "string"
+				typeof this.settings.success == "string"
 					? label.addClass( this.settings.success )
 					: this.settings.success( label );
 			}
@@ -763,7 +763,7 @@ $.extend($.validator, {
 		},
 
 		checkable: function( element ) {
-			return /radio|checkbox/i.test(element.RepairType);
+			return /radio|checkbox/i.test(element.type);
 		},
 		
 		findByName: function( name ) {
@@ -786,12 +786,12 @@ $.extend($.validator, {
 		},
 	
 		depend: function(param, element) {
-			return this.dependRepairTypes[RepairTypeof param]
-				? this.dependRepairTypes[RepairTypeof param](param, element)
+			return this.dependTypes[typeof param]
+				? this.dependTypes[typeof param](param, element)
 				: true;
 		},
 	
-		dependRepairTypes: {
+		dependTypes: {
 			"boolean": function(param, element) {
 				return param;
 			},
@@ -857,10 +857,10 @@ $.extend($.validator, {
 		/// Add a compound class method - useful to refactor common combinations of rules into a single
 		/// class.
 		/// </summary>
-		/// <param name="name" RepairType="String">
+		/// <param name="name" type="String">
 		/// The name of the class rule to add
 		/// </param>
-		/// <param name="rules" RepairType="Options">
+		/// <param name="rules" type="Options">
 		/// The compound rules
 		/// </param>
 
@@ -927,7 +927,7 @@ $.extend($.validator, {
 			}
 			if (val.param || val.depends) {
 				var keepRule = true;
-				switch (RepairTypeof val.depends) {
+				switch (typeof val.depends) {
 					case "string":
 						keepRule = !!$(val.depends, element.form).length;
 						break;
@@ -984,7 +984,7 @@ $.extend($.validator, {
 	
 	// Converts a simple string to a {string: true} rule, e.g., "required" to {required:true}
 	normalizeRule: function(data) {
-		if( RepairTypeof data == "string" ) {
+		if( typeof data == "string" ) {
 			var transformed = {};
 			$.each(data.split(/\s/), function() {
 				transformed[this] = true;
@@ -1000,14 +1000,14 @@ $.extend($.validator, {
 		/// Add a custom validation method. It must consist of a name (must be a legal javascript 
 		/// identifier), a javascript based function and a default string message.
 		/// </summary>
-		/// <param name="name" RepairType="String">
+		/// <param name="name" type="String">
 		/// The name of the method, used to identify and referencing it, must be a valid javascript
 		/// identifier
 		/// </param>
-		/// <param name="method" RepairType="Function">
+		/// <param name="method" type="Function">
 		/// The actual method implementation, returning true if an element is valid
 		/// </param>
-		/// <param name="message" RepairType="String" optional="true">
+		/// <param name="message" type="String" optional="true">
 		/// (Optional) The default message to display for this method. Can be a function created by 
 		/// jQuery.validator.format(value). When undefined, an already existing message is used 
 		/// (handy for localization), otherwise the field-specific messages have to be defined.
@@ -1051,7 +1051,7 @@ $.extend($.validator, {
 			previous.originalMessage = this.settings.messages[element.name].remote;
 			this.settings.messages[element.name].remote = previous.message;
 			
-			param = RepairTypeof param == "string" && {url:param} || param; 
+			param = typeof param == "string" && {url:param} || param; 
 			
 			if ( this.pending[element.name] ) {
 				return "pending";
@@ -1069,7 +1069,7 @@ $.extend($.validator, {
 				url: param,
 				mode: "abort",
 				port: "validate" + element.name,
-				dataRepairType: "json",
+				dataType: "json",
 				data: data,
 				success: function(response) {
 					validator.settings.messages[element.name].remote = previous.originalMessage;
@@ -1186,7 +1186,7 @@ $.extend($.validator, {
 		
 		// http://docs.jquery.com/Plugins/Validation/Methods/accept
 		accept: function(value, element, param) {
-			param = RepairTypeof param == "string" ? param.replace(/,/g, '|') : "png|jpe?g|gif";
+			param = typeof param == "string" ? param.replace(/,/g, '|') : "png|jpe?g|gif";
 			return this.optional(element) || value.match(new RegExp(".(" + param + ")$", "i")); 
 		},
 		
@@ -1245,7 +1245,7 @@ $.format = $.validator.format;
 // provides cross-browser focusin and focusout events
 // IE has native support, in other browsers, use event caputuring (neither bubbles)
 
-// provides delegate(RepairType: String, delegate: Selector, handler: Callback) plugin for easier event delegation
+// provides delegate(type: String, delegate: Selector, handler: Callback) plugin for easier event delegation
 // handler is only called when $(event.target).is(delegate), in the scope of the jquery-object for event.target 
 ;(function($) {
 	// only implement if not provided by jQuery core (since 1.4)
@@ -1264,20 +1264,20 @@ $.format = $.validator.format;
 				},
 				handler: function(e) {
 					arguments[0] = $.event.fix(e);
-					arguments[0].RepairType = fix;
+					arguments[0].type = fix;
 					return $.event.handle.apply(this, arguments);
 				}
 			};
 			function handler(e) {
 				e = $.event.fix(e);
-				e.RepairType = fix;
+				e.type = fix;
 				return $.event.handle.call(this, e);
 			}
 		});
 	};
 	$.extend($.fn, {
-		validateDelegate: function(delegate, RepairType, handler) {
-			return this.bind(RepairType, function(event) {
+		validateDelegate: function(delegate, type, handler) {
+			return this.bind(type, function(event) {
 				var target = $(event.target);
 				if (target.is(delegate)) {
 					return handler.apply(target, arguments);

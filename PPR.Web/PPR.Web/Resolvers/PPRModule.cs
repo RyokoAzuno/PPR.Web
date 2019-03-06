@@ -1,4 +1,5 @@
 ﻿using Ninject.Modules;
+using PPR.BLL.DataTransferObjects;
 using PPR.BLL.Interfaces;
 using PPR.BLL.Services;
 
@@ -13,6 +14,8 @@ namespace PPR.Web.Resolvers
             Bind<IEquipmentService>().To<EquipmentService>();
             Bind<ILastRepairService>().To<LastRepairService>();
             Bind<INextRepairService>().To<NextRepairService>();
+            Bind<IRepairReport<LastRepairReportInfoDTO>>().To<LastRepairReportService>();
+            Bind<IRepairReport<NextRepairReportInfoDTO>>().To<NextRepairReportService>();
         }
     }
 }

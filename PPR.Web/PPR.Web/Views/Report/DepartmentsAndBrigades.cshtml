@@ -1,0 +1,67 @@
+﻿@model IEnumerable<PPR.Web.Models.DepartmentViewModel>
+@using PPR.Web.HtmlHelpers
+
+@{
+    ViewBag.Title = "Отчет цеха и бригады";
+}
+
+<h2>Отчет цеха и бригады</h2>
+@foreach (var elt in Model)
+{
+    <div class="row">
+        <div class="col-md-2  bg-primary">
+            <b>@Html.DisplayNameFor(model => model.Code):</b>
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayFor(model => elt.Code)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            <b>@Html.DisplayNameFor(model => model.Name):</b>
+        </div>
+        <div class="col-md-2">
+            @Html.DisplayFor(model => elt.Name)
+        </div>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <thead class="bg-primary">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Brigades.First().Code)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Brigades.First().NumberOfPeople)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Brigades.First().BrigadeChiefName)
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in elt.Brigades)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberOfPeople)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BrigadeChiefName)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+    </div>
+}
+<p>@Html.ActionLink("Сохранить как PDF файл", "SaveAsPdf", "Report", new { viewName = "DepartmentsAndBrigades" }, new { @class = "hidden-print btn btn-primary" })</p>
+
+@Html.PrintPage("На печать", new { @class = "hidden-print btn btn-primary" })
+

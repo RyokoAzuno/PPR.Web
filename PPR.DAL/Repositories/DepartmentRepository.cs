@@ -41,7 +41,7 @@ namespace PPR.DAL.Repositories
 
         public IEnumerable<Department> GetAll()
         {
-            return _context.Departments.Include(d => d.Brigades).ToList();
+            return _context.Departments.Include(d => d.Brigades).Include(d => d.Equipments).ToList();
         }
 
         public Department GetById(int? id)

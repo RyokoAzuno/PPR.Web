@@ -234,20 +234,20 @@ window.Modernizr = (function( window, document, undefined ) {
     }
     else {
       hasOwnProp = function (object, property) { /* yes, this can give false positives/negatives, but most of the time we don't care about those */
-        return ((property in object) && is(object.constructor.protoRepairType[property], 'undefined'));
+        return ((property in object) && is(object.constructor.prototype[property], 'undefined'));
       };
     }
 
     // Adapted from ES5-shim https://github.com/kriskowal/es5-shim/blob/master/es5-shim.js
     // es5.github.com/#x15.3.4.5
 
-    if (!Function.protoRepairType.bind) {
-      Function.protoRepairType.bind = function bind(that) {
+    if (!Function.prototype.bind) {
+      Function.prototype.bind = function bind(that) {
 
         var target = this;
 
-        if (RepairTypeof target != "function") {
-            throw new RepairTypeError();
+        if (typeof target != "function") {
+            throw new TypeError();
         }
 
         var args = slice.call(arguments, 1),
@@ -256,7 +256,7 @@ window.Modernizr = (function( window, document, undefined ) {
             if (this instanceof bound) {
 
               var F = function(){};
-              F.protoRepairType = target.protoRepairType;
+              F.prototype = target.prototype;
               var self = new F();
 
               var result = target.apply(
@@ -298,10 +298,10 @@ window.Modernizr = (function( window, document, undefined ) {
     }
 
     /**
-     * is returns a boolean for if RepairTypeof obj is exactly RepairType.
+     * is returns a boolean for if typeof obj is exactly type.
      */
-    function is( obj, RepairType ) {
-        return RepairTypeof obj === RepairType;
+    function is( obj, type ) {
+        return typeof obj === type;
     }
 
     /**
@@ -711,7 +711,7 @@ window.Modernizr = (function( window, document, undefined ) {
 
 
     // These tests evaluate support of the video/audio elements, as well as
-    // testing what RepairTypes of content they support.
+    // testing what types of content they support.
     //
     // We're using the Boolean constructor here, so that we can extend the value
     // e.g.  Modernizr.video     // true
@@ -730,14 +730,14 @@ window.Modernizr = (function( window, document, undefined ) {
 
         // IE9 Running on Windows Server SKU can cause an exception to be thrown, bug #224
         try {
-            if ( bool = !!elem.canPlayRepairType ) {
+            if ( bool = !!elem.canPlayType ) {
                 bool      = new Boolean(bool);
-                bool.ogg  = elem.canPlayRepairType('video/ogg; codecs="theora"')      .replace(/^no$/,'');
+                bool.ogg  = elem.canPlayType('video/ogg; codecs="theora"')      .replace(/^no$/,'');
 
                 // Without QuickTime, this value will be `undefined`. github.com/Modernizr/Modernizr/issues/546
-                bool.h264 = elem.canPlayRepairType('video/mp4; codecs="avc1.42E01E"') .replace(/^no$/,'');
+                bool.h264 = elem.canPlayType('video/mp4; codecs="avc1.42E01E"') .replace(/^no$/,'');
 
-                bool.webm = elem.canPlayRepairType('video/webm; codecs="vp8, vorbis"').replace(/^no$/,'');
+                bool.webm = elem.canPlayType('video/webm; codecs="vp8, vorbis"').replace(/^no$/,'');
             }
 
         } catch(e) { }
@@ -750,17 +750,17 @@ window.Modernizr = (function( window, document, undefined ) {
             bool = false;
 
         try {
-            if ( bool = !!elem.canPlayRepairType ) {
+            if ( bool = !!elem.canPlayType ) {
                 bool      = new Boolean(bool);
-                bool.ogg  = elem.canPlayRepairType('audio/ogg; codecs="vorbis"').replace(/^no$/,'');
-                bool.mp3  = elem.canPlayRepairType('audio/mpeg;')               .replace(/^no$/,'');
+                bool.ogg  = elem.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/,'');
+                bool.mp3  = elem.canPlayType('audio/mpeg;')               .replace(/^no$/,'');
 
-                // MimeRepairTypes accepted:
+                // Mimetypes accepted:
                 //   developer.mozilla.org/En/Media_formats_supported_by_the_audio_and_video_elements
                 //   bit.ly/iphoneoscodecs
-                bool.wav  = elem.canPlayRepairType('audio/wav; codecs="1"')     .replace(/^no$/,'');
-                bool.m4a  = ( elem.canPlayRepairType('audio/x-m4a;')            ||
-                              elem.canPlayRepairType('audio/aac;'))             .replace(/^no$/,'');
+                bool.wav  = elem.canPlayType('audio/wav; codecs="1"')     .replace(/^no$/,'');
+                bool.m4a  = ( elem.canPlayType('audio/x-m4a;')            ||
+                              elem.canPlayType('audio/aac;'))             .replace(/^no$/,'');
             }
         } catch(e) { }
 
@@ -844,16 +844,16 @@ window.Modernizr = (function( window, document, undefined ) {
     };
 
     /*>>webforms*/
-    // input features and input RepairTypes go directly onto the ret object, bypassing the tests loop.
+    // input features and input types go directly onto the ret object, bypassing the tests loop.
     // Hold this guy to execute in a moment.
     function webforms() {
         /*>>input*/
         // Run through HTML5's new input attributes to see if the UA understands any.
         // We're using f which is the <input> element created early on
         // Mike Taylr has created a comprehensive resource for testing these attributes
-        //   when applied to all input RepairTypes:
-        //   miketaylr.com/code/input-RepairType-attr.html
-        // spec: www.whatwg.org/specs/web-apps/current-work/multipage/the-input-element.html#input-RepairType-attr-summary
+        //   when applied to all input types:
+        //   miketaylr.com/code/input-type-attr.html
+        // spec: www.whatwg.org/specs/web-apps/current-work/multipage/the-input-element.html#input-type-attr-summary
 
         // Only input placeholder is tested while textarea's placeholder is not.
         // Currently Safari 4 and Opera 11 have support only for the input placeholder
@@ -871,29 +871,29 @@ window.Modernizr = (function( window, document, undefined ) {
         })('autocomplete autofocus list placeholder max min multiple pattern required step'.split(' '));
         /*>>input*/
 
-        /*>>inputRepairTypes*/
-        // Run through HTML5's new input RepairTypes to see if the UA understands any.
+        /*>>inputtypes*/
+        // Run through HTML5's new input types to see if the UA understands any.
         //   This is put behind the tests runloop because it doesn't return a
         //   true/false like all the other tests; instead, it returns an object
-        //   containing each input RepairType with its corresponding true/false value
+        //   containing each input type with its corresponding true/false value
 
         // Big thanks to @miketaylr for the html5 forms expertise. miketaylr.com/
-        Modernizr['inputRepairTypes'] = (function(props) {
+        Modernizr['inputtypes'] = (function(props) {
 
-            for ( var i = 0, bool, inputElemRepairType, defaultView, len = props.length; i < len; i++ ) {
+            for ( var i = 0, bool, inputElemType, defaultView, len = props.length; i < len; i++ ) {
 
-                inputElem.setAttribute('RepairType', inputElemRepairType = props[i]);
-                bool = inputElem.RepairType !== 'text';
+                inputElem.setAttribute('type', inputElemType = props[i]);
+                bool = inputElem.type !== 'text';
 
-                // We first check to see if the RepairType we give it sticks..
-                // If the RepairType does, we feed it a textual value, which shouldn't be valid.
+                // We first check to see if the type we give it sticks..
+                // If the type does, we feed it a textual value, which shouldn't be valid.
                 // If the value doesn't stick, we know there's input sanitization which infers a custom UI
                 if ( bool ) {
 
                     inputElem.value         = smile;
                     inputElem.style.cssText = 'position:absolute;visibility:hidden;';
 
-                    if ( /^range$/.test(inputElemRepairType) && inputElem.style.WebkitAppearance !== undefined ) {
+                    if ( /^range$/.test(inputElemType) && inputElem.style.WebkitAppearance !== undefined ) {
 
                       docElement.appendChild(inputElem);
                       defaultView = document.defaultView;
@@ -907,14 +907,14 @@ window.Modernizr = (function( window, document, undefined ) {
 
                       docElement.removeChild(inputElem);
 
-                    } else if ( /^(search|tel)$/.test(inputElemRepairType) ){
+                    } else if ( /^(search|tel)$/.test(inputElemType) ){
                       // Spec doesn't define any special parsing or detectable UI
                       //   behaviors so we pass these through as true
 
                       // Interestingly, opera fails the earlier test, so it doesn't
                       //  even make it here.
 
-                    } else if ( /^(url|email)$/.test(inputElemRepairType) ) {
+                    } else if ( /^(url|email)$/.test(inputElemType) ) {
                       // Real url and email support comes with prebaked validation.
                       bool = inputElem.checkValidity && inputElem.checkValidity() === false;
 
@@ -928,7 +928,7 @@ window.Modernizr = (function( window, document, undefined ) {
             }
             return inputs;
         })('search tel url email datetime date month week time datetime-local number range color'.split(' '));
-        /*>>inputRepairTypes*/
+        /*>>inputtypes*/
     }
     /*>>webforms*/
 
@@ -967,7 +967,7 @@ window.Modernizr = (function( window, document, undefined ) {
      * @param test - Function returning true if feature is supported, false if not
      */
      Modernizr.addTest = function ( feature, test ) {
-       if ( RepairTypeof feature == 'object' ) {
+       if ( typeof feature == 'object' ) {
          for ( var key in feature ) {
            if ( hasOwnProp( feature, key ) ) {
              Modernizr.addTest( key, feature[ key ] );
@@ -986,9 +986,9 @@ window.Modernizr = (function( window, document, undefined ) {
            return Modernizr;
          }
 
-         test = RepairTypeof test == 'function' ? test() : test;
+         test = typeof test == 'function' ? test() : test;
 
-         if (RepairTypeof enableClasses !== "undefined" && enableClasses) {
+         if (typeof enableClasses !== "undefined" && enableClasses) {
            docElement.className += ' ' + (test ? '' : 'no-') + feature;
          }
          Modernizr[feature] = test;
@@ -1048,9 +1048,9 @@ window.Modernizr = (function( window, document, undefined ) {
               (document.createElement)('a');
               var frag = document.createDocumentFragment();
               return (
-                RepairTypeof frag.cloneNode == 'undefined' ||
-                RepairTypeof frag.createDocumentFragment == 'undefined' ||
-                RepairTypeof frag.createElement == 'undefined'
+                typeof frag.cloneNode == 'undefined' ||
+                typeof frag.createDocumentFragment == 'undefined' ||
+                typeof frag.createElement == 'undefined'
               );
             }());
           } catch(e) {
@@ -1085,7 +1085,7 @@ window.Modernizr = (function( window, document, undefined ) {
          */
         function getElements() {
           var elements = html5.elements;
-          return RepairTypeof elements == 'string' ? elements.split(' ') : elements;
+          return typeof elements == 'string' ? elements.split(' ') : elements;
         }
 
         /**
@@ -1133,7 +1133,7 @@ window.Modernizr = (function( window, document, undefined ) {
           }
 
           // Avoid adding some elements to fragments in IE < 9 because
-          // * Attributes like `name` or `RepairType` cannot be set/changed once an element
+          // * Attributes like `name` or `type` cannot be set/changed once an element
           //   is inserted into a document/fragment
           // * Link elements with `src` attributes that are inaccessible, as with
           //   a 403 response, will cause the tab/window to crash
@@ -1237,7 +1237,7 @@ window.Modernizr = (function( window, document, undefined ) {
         /**
          * The `html5` object is exposed so that more elements can be shived and
          * existing shiving can be detected on iframes.
-         * @RepairType Object
+         * @type Object
          * @example
          *
          * // options can be changed before the script is included
@@ -1248,7 +1248,7 @@ window.Modernizr = (function( window, document, undefined ) {
           /**
            * An array or space separated string of node names of the elements to shiv.
            * @memberOf html5
-           * @RepairType Array|String
+           * @type Array|String
            */
           'elements': options.elements || 'abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output progress section summary template time video',
 
@@ -1260,14 +1260,14 @@ window.Modernizr = (function( window, document, undefined ) {
           /**
            * A flag to indicate that the HTML5 style sheet should be inserted.
            * @memberOf html5
-           * @RepairType Boolean
+           * @type Boolean
            */
           'shivCSS': (options.shivCSS !== false),
 
           /**
            * Is equal to true if a browser supports creating unknown/HTML5 elements
            * @memberOf html5
-           * @RepairType boolean
+           * @type boolean
            */
           'supportsUnknownElements': supportsUnknownElements,
 
@@ -1275,16 +1275,16 @@ window.Modernizr = (function( window, document, undefined ) {
            * A flag to indicate that the document's `createElement` and `createDocumentFragment`
            * methods should be overwritten.
            * @memberOf html5
-           * @RepairType Boolean
+           * @type Boolean
            */
           'shivMethods': (options.shivMethods !== false),
 
           /**
-           * A string to describe the RepairType of `html5` object ("default" or "default print").
+           * A string to describe the type of `html5` object ("default" or "default print").
            * @memberOf html5
-           * @RepairType String
+           * @type String
            */
-          'RepairType': 'default',
+          'type': 'default',
 
           // shivs the document according to the specified `html5` object options
           'shivDocument': shivDocument,

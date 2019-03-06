@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using PPR.BLL.DataTransferObjects;
+﻿using PPR.BLL.DataTransferObjects;
 using PPR.BLL.Interfaces;
+using PPR.CrossCutting.Utils;
 using PPR.DAL.Entities;
 using PPR.DAL.Interfaces;
 using System;
@@ -21,29 +21,47 @@ namespace PPR.BLL.Services
         }
         public void CreateLastRepair(LastRepairDTO lstRepair)
         {
-            throw new NotImplementedException();
+            LastRepair lr = MyMapper<LastRepairDTO, LastRepair>.Map(lstRepair);
+            DB.LastRepairs.Create(lr);
+            DB.Commit();
         }
 
         public void DeleteLastRepair(int id)
         {
-            throw new NotImplementedException();
+            DB.LastRepairs.Delete(id);
+            DB.Commit();
         }
 
         public IEnumerable<LastRepairDTO> GetAllLastRepairs()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<LastRepair, LastRepairDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<LastRepair>, List<LastRepairDTO>>(DB.LastRepairs.GetAll());
+            return MyMapper<LastRepair, LastRepairDTO>.Map(DB.LastRepairs.GetAll());
         }
 
         public LastRepairDTO GetLastRepair(int? id)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<LastRepair, LastRepairDTO>()).CreateMapper();
-            return mapper.Map<LastRepair, LastRepairDTO>(DB.LastRepairs.GetById(id.Value));
+            return MyMapper<LastRepair, LastRepairDTO>.Map(DB.LastRepairs.GetById(id.Value));
         }
 
         public void UpdateLastRepair(LastRepairDTO lstRepair)
         {
-            throw new NotImplementedException();
+            LastRepair lr = MyMapper<LastRepairDTO, LastRepair>.Map(lstRepair);
+            DB.LastRepairs.Update(lr);
+            DB.Commit();
+        }
+
+        public dynamic GetEquipmentsIdsAndNames()
+        {
+            return DB.Equipments.GetAll().Select(e => new { e.Id, e.Name });
+        }
+
+        public IEnumerable<string> GetRepairTypes()
+        {
+            return DB.LastRepairs.GetAll().Select(rt => rt.RepairType).Distinct();
+        }
+
+        public IEnumerable<string> GetTechniciansNames()
+        {
+            return DB.LastRepairs.GetAll().Select(rt => rt.Technician).Distinct();
         }
     }
 }

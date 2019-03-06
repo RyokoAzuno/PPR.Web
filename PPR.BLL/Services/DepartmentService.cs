@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using PPR.BLL.DataTransferObjects;
+﻿using PPR.BLL.DataTransferObjects;
 using PPR.BLL.Interfaces;
+using PPR.CrossCutting.Utils;
 using PPR.DAL.Entities;
 using PPR.DAL.Interfaces;
 using System;
@@ -22,8 +22,7 @@ namespace PPR.BLL.Services
 
         public void CreateDepartment(DepartmentDTO dep)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DepartmentDTO, Department>()).CreateMapper();
-            Department d = mapper.Map<DepartmentDTO, Department>(dep);
+            Department d = MyMapper<DepartmentDTO, Department>.Map(dep); 
             DB.Departments.Create(d);
             DB.Commit();
         }
@@ -36,26 +35,25 @@ namespace PPR.BLL.Services
 
         public IEnumerable<DepartmentDTO> GetAllDepartments()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Department, DepartmentDTO>()).CreateMapper();
-            return mapper.Map<IEnumerable<Department>, List<DepartmentDTO>>(DB.Departments.GetAll());
+            return MyMapper<Department, DepartmentDTO>.Map(DB.Departments.GetAll());
         }
 
         public DepartmentDTO GetDepartment(int? id)
         {
-            var department = DB.Departments.GetById(id.Value);
-            return new DepartmentDTO
-            {
-               Id = department.Id,
-               Code = department.Code,
-               Name = department.Name,
-               NumberOfBrigades = department.NumberOfBrigades
-            };
+            //var department = DB.Departments.GetById(id.Value);
+            //return new DepartmentDTO
+            //{
+            //   Id = department.Id,
+            //   Code = department.Code,
+            //   Name = department.Name,
+            //   NumberOfBrigades = department.NumberOfBrigades
+            //};
+            return MyMapper<Department, DepartmentDTO>.Map(DB.Departments.GetById(id.Value));
         }
 
         public void UpdateDepartment(DepartmentDTO dep)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<DepartmentDTO, Department>()).CreateMapper();
-            Department d = mapper.Map<DepartmentDTO, Department>(dep);
+            Department d = MyMapper<DepartmentDTO, Department>.Map(dep);
             DB.Departments.Update(d);
             DB.Commit();
         }

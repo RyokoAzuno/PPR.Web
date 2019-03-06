@@ -1,26 +1,26 @@
 /*!
- * Bootstrap v3.3.7 (http://getbootstrap.com)
- * Copyright 2011-2016 Twitter, Inc.
+ * Bootstrap v3.3.5 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under the MIT license
  */
 
-if (RepairTypeof jQuery === 'undefined') {
+if (typeof jQuery === 'undefined') {
   throw new Error('Bootstrap\'s JavaScript requires jQuery')
 }
 
 +function ($) {
   'use strict';
   var version = $.fn.jquery.split(' ')[0].split('.')
-  if ((version[0] < 2 && version[1] < 9) || (version[0] == 1 && version[1] == 9 && version[2] < 1) || (version[0] > 3)) {
-    throw new Error('Bootstrap\'s JavaScript requires jQuery version 1.9.1 or higher, but lower than version 4')
+  if ((version[0] < 2 && version[1] < 9) || (version[0] == 1 && version[1] == 9 && version[2] < 1)) {
+    throw new Error('Bootstrap\'s JavaScript requires jQuery version 1.9.1 or higher')
   }
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: transition.js v3.3.7
+ * Bootstrap: transition.js v3.3.5
  * http://getbootstrap.com/javascript/#transitions
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -66,8 +66,8 @@ if (RepairTypeof jQuery === 'undefined') {
     if (!$.support.transition) return
 
     $.event.special.bsTransitionEnd = {
-      bindRepairType: $.support.transition.end,
-      delegateRepairType: $.support.transition.end,
+      bindType: $.support.transition.end,
+      delegateType: $.support.transition.end,
       handle: function (e) {
         if ($(e.target).is(this)) return e.handleObj.handler.apply(this, arguments)
       }
@@ -77,10 +77,10 @@ if (RepairTypeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: alert.js v3.3.7
+ * Bootstrap: alert.js v3.3.5
  * http://getbootstrap.com/javascript/#alerts
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -96,11 +96,11 @@ if (RepairTypeof jQuery === 'undefined') {
     $(el).on('click', dismiss, this.close)
   }
 
-  Alert.VERSION = '3.3.7'
+  Alert.VERSION = '3.3.5'
 
   Alert.TRANSITION_DURATION = 150
 
-  Alert.protoRepairType.close = function (e) {
+  Alert.prototype.close = function (e) {
     var $this    = $(this)
     var selector = $this.attr('data-target')
 
@@ -109,7 +109,7 @@ if (RepairTypeof jQuery === 'undefined') {
       selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
     }
 
-    var $parent = $(selector === '#' ? [] : selector)
+    var $parent = $(selector)
 
     if (e) e.preventDefault()
 
@@ -145,7 +145,7 @@ if (RepairTypeof jQuery === 'undefined') {
       var data  = $this.data('bs.alert')
 
       if (!data) $this.data('bs.alert', (data = new Alert(this)))
-      if (RepairTypeof option == 'string') data[option].call($this)
+      if (typeof option == 'string') data[option].call($this)
     })
   }
 
@@ -167,15 +167,15 @@ if (RepairTypeof jQuery === 'undefined') {
   // ALERT DATA-API
   // ==============
 
-  $(document).on('click.bs.alert.data-api', dismiss, Alert.protoRepairType.close)
+  $(document).on('click.bs.alert.data-api', dismiss, Alert.prototype.close)
 
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: button.js v3.3.7
+ * Bootstrap: button.js v3.3.5
  * http://getbootstrap.com/javascript/#buttons
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -192,13 +192,13 @@ if (RepairTypeof jQuery === 'undefined') {
     this.isLoading = false
   }
 
-  Button.VERSION  = '3.3.7'
+  Button.VERSION  = '3.3.5'
 
   Button.DEFAULTS = {
     loadingText: 'loading...'
   }
 
-  Button.protoRepairType.setState = function (state) {
+  Button.prototype.setState = function (state) {
     var d    = 'disabled'
     var $el  = this.$element
     var val  = $el.is('input') ? 'val' : 'html'
@@ -214,25 +214,25 @@ if (RepairTypeof jQuery === 'undefined') {
 
       if (state == 'loadingText') {
         this.isLoading = true
-        $el.addClass(d).attr(d, d).prop(d, true)
+        $el.addClass(d).attr(d, d)
       } else if (this.isLoading) {
         this.isLoading = false
-        $el.removeClass(d).removeAttr(d).prop(d, false)
+        $el.removeClass(d).removeAttr(d)
       }
     }, this), 0)
   }
 
-  Button.protoRepairType.toggle = function () {
+  Button.prototype.toggle = function () {
     var changed = true
     var $parent = this.$element.closest('[data-toggle="buttons"]')
 
     if ($parent.length) {
       var $input = this.$element.find('input')
-      if ($input.prop('RepairType') == 'radio') {
+      if ($input.prop('type') == 'radio') {
         if ($input.prop('checked')) changed = false
         $parent.find('.active').removeClass('active')
         this.$element.addClass('active')
-      } else if ($input.prop('RepairType') == 'checkbox') {
+      } else if ($input.prop('type') == 'checkbox') {
         if (($input.prop('checked')) !== this.$element.hasClass('active')) changed = false
         this.$element.toggleClass('active')
       }
@@ -252,7 +252,7 @@ if (RepairTypeof jQuery === 'undefined') {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.button')
-      var options = RepairTypeof option == 'object' && option
+      var options = typeof option == 'object' && option
 
       if (!data) $this.data('bs.button', (data = new Button(this, options)))
 
@@ -281,27 +281,22 @@ if (RepairTypeof jQuery === 'undefined') {
 
   $(document)
     .on('click.bs.button.data-api', '[data-toggle^="button"]', function (e) {
-      var $btn = $(e.target).closest('.btn')
+      var $btn = $(e.target)
+      if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
       Plugin.call($btn, 'toggle')
-      if (!($(e.target).is('input[RepairType="radio"], input[RepairType="checkbox"]'))) {
-        // Prevent double click on radios, and the double selections (so cancellation) on checkboxes
-        e.preventDefault()
-        // The target component still receive the focus
-        if ($btn.is('input,button')) $btn.trigger('focus')
-        else $btn.find('input:visible,button:visible').first().trigger('focus')
-      }
+      if (!($(e.target).is('input[type="radio"]') || $(e.target).is('input[type="checkbox"]'))) e.preventDefault()
     })
     .on('focus.bs.button.data-api blur.bs.button.data-api', '[data-toggle^="button"]', function (e) {
-      $(e.target).closest('.btn').toggleClass('focus', /^focus(in)?$/.test(e.RepairType))
+      $(e.target).closest('.btn').toggleClass('focus', /^focus(in)?$/.test(e.type))
     })
 
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: carousel.js v3.3.7
+ * Bootstrap: carousel.js v3.3.5
  * http://getbootstrap.com/javascript/#carousel
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -329,7 +324,7 @@ if (RepairTypeof jQuery === 'undefined') {
       .on('mouseleave.bs.carousel', $.proxy(this.cycle, this))
   }
 
-  Carousel.VERSION  = '3.3.7'
+  Carousel.VERSION  = '3.3.5'
 
   Carousel.TRANSITION_DURATION = 600
 
@@ -340,7 +335,7 @@ if (RepairTypeof jQuery === 'undefined') {
     keyboard: true
   }
 
-  Carousel.protoRepairType.keydown = function (e) {
+  Carousel.prototype.keydown = function (e) {
     if (/input|textarea/i.test(e.target.tagName)) return
     switch (e.which) {
       case 37: this.prev(); break
@@ -351,7 +346,7 @@ if (RepairTypeof jQuery === 'undefined') {
     e.preventDefault()
   }
 
-  Carousel.protoRepairType.cycle = function (e) {
+  Carousel.prototype.cycle = function (e) {
     e || (this.paused = false)
 
     this.interval && clearInterval(this.interval)
@@ -363,12 +358,12 @@ if (RepairTypeof jQuery === 'undefined') {
     return this
   }
 
-  Carousel.protoRepairType.getItemIndex = function (item) {
+  Carousel.prototype.getItemIndex = function (item) {
     this.$items = item.parent().children('.item')
     return this.$items.index(item || this.$active)
   }
 
-  Carousel.protoRepairType.getItemForDirection = function (direction, active) {
+  Carousel.prototype.getItemForDirection = function (direction, active) {
     var activeIndex = this.getItemIndex(active)
     var willWrap = (direction == 'prev' && activeIndex === 0)
                 || (direction == 'next' && activeIndex == (this.$items.length - 1))
@@ -378,7 +373,7 @@ if (RepairTypeof jQuery === 'undefined') {
     return this.$items.eq(itemIndex)
   }
 
-  Carousel.protoRepairType.to = function (pos) {
+  Carousel.prototype.to = function (pos) {
     var that        = this
     var activeIndex = this.getItemIndex(this.$active = this.$element.find('.item.active'))
 
@@ -390,7 +385,7 @@ if (RepairTypeof jQuery === 'undefined') {
     return this.slide(pos > activeIndex ? 'next' : 'prev', this.$items.eq(pos))
   }
 
-  Carousel.protoRepairType.pause = function (e) {
+  Carousel.prototype.pause = function (e) {
     e || (this.paused = true)
 
     if (this.$element.find('.next, .prev').length && $.support.transition) {
@@ -403,21 +398,21 @@ if (RepairTypeof jQuery === 'undefined') {
     return this
   }
 
-  Carousel.protoRepairType.next = function () {
+  Carousel.prototype.next = function () {
     if (this.sliding) return
     return this.slide('next')
   }
 
-  Carousel.protoRepairType.prev = function () {
+  Carousel.prototype.prev = function () {
     if (this.sliding) return
     return this.slide('prev')
   }
 
-  Carousel.protoRepairType.slide = function (RepairType, next) {
+  Carousel.prototype.slide = function (type, next) {
     var $active   = this.$element.find('.item.active')
-    var $next     = next || this.getItemForDirection(RepairType, $active)
+    var $next     = next || this.getItemForDirection(type, $active)
     var isCycling = this.interval
-    var direction = RepairType == 'next' ? 'left' : 'right'
+    var direction = type == 'next' ? 'left' : 'right'
     var that      = this
 
     if ($next.hasClass('active')) return (this.sliding = false)
@@ -442,13 +437,13 @@ if (RepairTypeof jQuery === 'undefined') {
 
     var slidEvent = $.Event('slid.bs.carousel', { relatedTarget: relatedTarget, direction: direction }) // yes, "slid"
     if ($.support.transition && this.$element.hasClass('slide')) {
-      $next.addClass(RepairType)
+      $next.addClass(type)
       $next[0].offsetWidth // force reflow
       $active.addClass(direction)
       $next.addClass(direction)
       $active
         .one('bsTransitionEnd', function () {
-          $next.removeClass([RepairType, direction].join(' ')).addClass('active')
+          $next.removeClass([type, direction].join(' ')).addClass('active')
           $active.removeClass(['active', direction].join(' '))
           that.sliding = false
           setTimeout(function () {
@@ -476,11 +471,11 @@ if (RepairTypeof jQuery === 'undefined') {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.carousel')
-      var options = $.extend({}, Carousel.DEFAULTS, $this.data(), RepairTypeof option == 'object' && option)
-      var action  = RepairTypeof option == 'string' ? option : options.slide
+      var options = $.extend({}, Carousel.DEFAULTS, $this.data(), typeof option == 'object' && option)
+      var action  = typeof option == 'string' ? option : options.slide
 
       if (!data) $this.data('bs.carousel', (data = new Carousel(this, options)))
-      if (RepairTypeof option == 'number') data.to(option)
+      if (typeof option == 'number') data.to(option)
       else if (action) data[action]()
       else if (options.interval) data.pause().cycle()
     })
@@ -536,14 +531,13 @@ if (RepairTypeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: collapse.js v3.3.7
+ * Bootstrap: collapse.js v3.3.5
  * http://getbootstrap.com/javascript/#collapse
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
-/* jshint latedef: false */
 
 +function ($) {
   'use strict';
@@ -567,7 +561,7 @@ if (RepairTypeof jQuery === 'undefined') {
     if (this.options.toggle) this.toggle()
   }
 
-  Collapse.VERSION  = '3.3.7'
+  Collapse.VERSION  = '3.3.5'
 
   Collapse.TRANSITION_DURATION = 350
 
@@ -575,12 +569,12 @@ if (RepairTypeof jQuery === 'undefined') {
     toggle: true
   }
 
-  Collapse.protoRepairType.dimension = function () {
+  Collapse.prototype.dimension = function () {
     var hasWidth = this.$element.hasClass('width')
     return hasWidth ? 'width' : 'height'
   }
 
-  Collapse.protoRepairType.show = function () {
+  Collapse.prototype.show = function () {
     if (this.transitioning || this.$element.hasClass('in')) return
 
     var activesData
@@ -631,7 +625,7 @@ if (RepairTypeof jQuery === 'undefined') {
       .emulateTransitionEnd(Collapse.TRANSITION_DURATION)[dimension](this.$element[0][scrollSize])
   }
 
-  Collapse.protoRepairType.hide = function () {
+  Collapse.prototype.hide = function () {
     if (this.transitioning || !this.$element.hasClass('in')) return
 
     var startEvent = $.Event('hide.bs.collapse')
@@ -669,11 +663,11 @@ if (RepairTypeof jQuery === 'undefined') {
       .emulateTransitionEnd(Collapse.TRANSITION_DURATION)
   }
 
-  Collapse.protoRepairType.toggle = function () {
+  Collapse.prototype.toggle = function () {
     this[this.$element.hasClass('in') ? 'hide' : 'show']()
   }
 
-  Collapse.protoRepairType.getParent = function () {
+  Collapse.prototype.getParent = function () {
     return $(this.options.parent)
       .find('[data-toggle="collapse"][data-parent="' + this.options.parent + '"]')
       .each($.proxy(function (i, element) {
@@ -683,7 +677,7 @@ if (RepairTypeof jQuery === 'undefined') {
       .end()
   }
 
-  Collapse.protoRepairType.addAriaAndCollapsedClass = function ($element, $trigger) {
+  Collapse.prototype.addAriaAndCollapsedClass = function ($element, $trigger) {
     var isOpen = $element.hasClass('in')
 
     $element.attr('aria-expanded', isOpen)
@@ -708,11 +702,11 @@ if (RepairTypeof jQuery === 'undefined') {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.collapse')
-      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), RepairTypeof option == 'object' && option)
+      var options = $.extend({}, Collapse.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
       if (!data && options.toggle && /show|hide/.test(option)) options.toggle = false
       if (!data) $this.data('bs.collapse', (data = new Collapse(this, options)))
-      if (RepairTypeof option == 'string') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 
@@ -749,10 +743,10 @@ if (RepairTypeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: dropdown.js v3.3.7
+ * Bootstrap: dropdown.js v3.3.5
  * http://getbootstrap.com/javascript/#dropdowns
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -769,7 +763,7 @@ if (RepairTypeof jQuery === 'undefined') {
     $(element).on('click.bs.dropdown', this.toggle)
   }
 
-  Dropdown.VERSION = '3.3.7'
+  Dropdown.VERSION = '3.3.5'
 
   function getParent($this) {
     var selector = $this.attr('data-target')
@@ -794,18 +788,18 @@ if (RepairTypeof jQuery === 'undefined') {
 
       if (!$parent.hasClass('open')) return
 
-      if (e && e.RepairType == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
+      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
 
       $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
 
       if (e.isDefaultPrevented()) return
 
       $this.attr('aria-expanded', 'false')
-      $parent.removeClass('open').trigger($.Event('hidden.bs.dropdown', relatedTarget))
+      $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
     })
   }
 
-  Dropdown.protoRepairType.toggle = function (e) {
+  Dropdown.prototype.toggle = function (e) {
     var $this = $(this)
 
     if ($this.is('.disabled, :disabled')) return
@@ -835,13 +829,13 @@ if (RepairTypeof jQuery === 'undefined') {
 
       $parent
         .toggleClass('open')
-        .trigger($.Event('shown.bs.dropdown', relatedTarget))
+        .trigger('shown.bs.dropdown', relatedTarget)
     }
 
     return false
   }
 
-  Dropdown.protoRepairType.keydown = function (e) {
+  Dropdown.prototype.keydown = function (e) {
     if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
 
     var $this = $(this)
@@ -883,7 +877,7 @@ if (RepairTypeof jQuery === 'undefined') {
       var data  = $this.data('bs.dropdown')
 
       if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
-      if (RepairTypeof option == 'string') data[option].call($this)
+      if (typeof option == 'string') data[option].call($this)
     })
   }
 
@@ -908,17 +902,17 @@ if (RepairTypeof jQuery === 'undefined') {
   $(document)
     .on('click.bs.dropdown.data-api', clearMenus)
     .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
-    .on('click.bs.dropdown.data-api', toggle, Dropdown.protoRepairType.toggle)
-    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.protoRepairType.keydown)
-    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.protoRepairType.keydown)
+    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-api', '.dropdown-menu', Dropdown.prototype.keydown)
 
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: modal.js v3.3.7
+ * Bootstrap: modal.js v3.3.5
  * http://getbootstrap.com/javascript/#modals
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -949,7 +943,7 @@ if (RepairTypeof jQuery === 'undefined') {
     }
   }
 
-  Modal.VERSION  = '3.3.7'
+  Modal.VERSION  = '3.3.5'
 
   Modal.TRANSITION_DURATION = 300
   Modal.BACKDROP_TRANSITION_DURATION = 150
@@ -960,11 +954,11 @@ if (RepairTypeof jQuery === 'undefined') {
     show: true
   }
 
-  Modal.protoRepairType.toggle = function (_relatedTarget) {
+  Modal.prototype.toggle = function (_relatedTarget) {
     return this.isShown ? this.hide() : this.show(_relatedTarget)
   }
 
-  Modal.protoRepairType.show = function (_relatedTarget) {
+  Modal.prototype.show = function (_relatedTarget) {
     var that = this
     var e    = $.Event('show.bs.modal', { relatedTarget: _relatedTarget })
 
@@ -1022,7 +1016,7 @@ if (RepairTypeof jQuery === 'undefined') {
     })
   }
 
-  Modal.protoRepairType.hide = function (e) {
+  Modal.prototype.hide = function (e) {
     if (e) e.preventDefault()
 
     e = $.Event('hide.bs.modal')
@@ -1052,19 +1046,17 @@ if (RepairTypeof jQuery === 'undefined') {
       this.hideModal()
   }
 
-  Modal.protoRepairType.enforceFocus = function () {
+  Modal.prototype.enforceFocus = function () {
     $(document)
       .off('focusin.bs.modal') // guard against infinite focus loop
       .on('focusin.bs.modal', $.proxy(function (e) {
-        if (document !== e.target &&
-            this.$element[0] !== e.target &&
-            !this.$element.has(e.target).length) {
+        if (this.$element[0] !== e.target && !this.$element.has(e.target).length) {
           this.$element.trigger('focus')
         }
       }, this))
   }
 
-  Modal.protoRepairType.escape = function () {
+  Modal.prototype.escape = function () {
     if (this.isShown && this.options.keyboard) {
       this.$element.on('keydown.dismiss.bs.modal', $.proxy(function (e) {
         e.which == 27 && this.hide()
@@ -1074,7 +1066,7 @@ if (RepairTypeof jQuery === 'undefined') {
     }
   }
 
-  Modal.protoRepairType.resize = function () {
+  Modal.prototype.resize = function () {
     if (this.isShown) {
       $(window).on('resize.bs.modal', $.proxy(this.handleUpdate, this))
     } else {
@@ -1082,7 +1074,7 @@ if (RepairTypeof jQuery === 'undefined') {
     }
   }
 
-  Modal.protoRepairType.hideModal = function () {
+  Modal.prototype.hideModal = function () {
     var that = this
     this.$element.hide()
     this.backdrop(function () {
@@ -1093,12 +1085,12 @@ if (RepairTypeof jQuery === 'undefined') {
     })
   }
 
-  Modal.protoRepairType.removeBackdrop = function () {
+  Modal.prototype.removeBackdrop = function () {
     this.$backdrop && this.$backdrop.remove()
     this.$backdrop = null
   }
 
-  Modal.protoRepairType.backdrop = function (callback) {
+  Modal.prototype.backdrop = function (callback) {
     var that = this
     var animate = this.$element.hasClass('fade') ? 'fade' : ''
 
@@ -1152,11 +1144,11 @@ if (RepairTypeof jQuery === 'undefined') {
 
   // these following methods are used to handle overflowing modals
 
-  Modal.protoRepairType.handleUpdate = function () {
+  Modal.prototype.handleUpdate = function () {
     this.adjustDialog()
   }
 
-  Modal.protoRepairType.adjustDialog = function () {
+  Modal.prototype.adjustDialog = function () {
     var modalIsOverflowing = this.$element[0].scrollHeight > document.documentElement.clientHeight
 
     this.$element.css({
@@ -1165,14 +1157,14 @@ if (RepairTypeof jQuery === 'undefined') {
     })
   }
 
-  Modal.protoRepairType.resetAdjustments = function () {
+  Modal.prototype.resetAdjustments = function () {
     this.$element.css({
       paddingLeft: '',
       paddingRight: ''
     })
   }
 
-  Modal.protoRepairType.checkScrollbar = function () {
+  Modal.prototype.checkScrollbar = function () {
     var fullWindowWidth = window.innerWidth
     if (!fullWindowWidth) { // workaround for missing window.innerWidth in IE8
       var documentElementRect = document.documentElement.getBoundingClientRect()
@@ -1182,17 +1174,17 @@ if (RepairTypeof jQuery === 'undefined') {
     this.scrollbarWidth = this.measureScrollbar()
   }
 
-  Modal.protoRepairType.setScrollbar = function () {
+  Modal.prototype.setScrollbar = function () {
     var bodyPad = parseInt((this.$body.css('padding-right') || 0), 10)
     this.originalBodyPad = document.body.style.paddingRight || ''
     if (this.bodyIsOverflowing) this.$body.css('padding-right', bodyPad + this.scrollbarWidth)
   }
 
-  Modal.protoRepairType.resetScrollbar = function () {
+  Modal.prototype.resetScrollbar = function () {
     this.$body.css('padding-right', this.originalBodyPad)
   }
 
-  Modal.protoRepairType.measureScrollbar = function () { // thx walsh
+  Modal.prototype.measureScrollbar = function () { // thx walsh
     var scrollDiv = document.createElement('div')
     scrollDiv.className = 'modal-scrollbar-measure'
     this.$body.append(scrollDiv)
@@ -1209,10 +1201,10 @@ if (RepairTypeof jQuery === 'undefined') {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.modal')
-      var options = $.extend({}, Modal.DEFAULTS, $this.data(), RepairTypeof option == 'object' && option)
+      var options = $.extend({}, Modal.DEFAULTS, $this.data(), typeof option == 'object' && option)
 
       if (!data) $this.data('bs.modal', (data = new Modal(this, options)))
-      if (RepairTypeof option == 'string') data[option](_relatedTarget)
+      if (typeof option == 'string') data[option](_relatedTarget)
       else if (options.show) data.show(_relatedTarget)
     })
   }
@@ -1255,11 +1247,11 @@ if (RepairTypeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: tooltip.js v3.3.7
+ * Bootstrap: tooltip.js v3.3.5
  * http://getbootstrap.com/javascript/#tooltip
  * Inspired by the original jQuery.tipsy by Jason Frame
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -1271,7 +1263,7 @@ if (RepairTypeof jQuery === 'undefined') {
   // ===============================
 
   var Tooltip = function (element, options) {
-    this.RepairType       = null
+    this.type       = null
     this.options    = null
     this.enabled    = null
     this.timeout    = null
@@ -1282,7 +1274,7 @@ if (RepairTypeof jQuery === 'undefined') {
     this.init('tooltip', element, options)
   }
 
-  Tooltip.VERSION  = '3.3.7'
+  Tooltip.VERSION  = '3.3.5'
 
   Tooltip.TRANSITION_DURATION = 150
 
@@ -1302,16 +1294,16 @@ if (RepairTypeof jQuery === 'undefined') {
     }
   }
 
-  Tooltip.protoRepairType.init = function (RepairType, element, options) {
+  Tooltip.prototype.init = function (type, element, options) {
     this.enabled   = true
-    this.RepairType      = RepairType
+    this.type      = type
     this.$element  = $(element)
     this.options   = this.getOptions(options)
     this.$viewport = this.options.viewport && $($.isFunction(this.options.viewport) ? this.options.viewport.call(this, this.$element) : (this.options.viewport.selector || this.options.viewport))
     this.inState   = { click: false, hover: false, focus: false }
 
     if (this.$element[0] instanceof document.constructor && !this.options.selector) {
-      throw new Error('`selector` option must be specified when initializing ' + this.RepairType + ' on the window.document object!')
+      throw new Error('`selector` option must be specified when initializing ' + this.type + ' on the window.document object!')
     }
 
     var triggers = this.options.trigger.split(' ')
@@ -1320,13 +1312,13 @@ if (RepairTypeof jQuery === 'undefined') {
       var trigger = triggers[i]
 
       if (trigger == 'click') {
-        this.$element.on('click.' + this.RepairType, this.options.selector, $.proxy(this.toggle, this))
+        this.$element.on('click.' + this.type, this.options.selector, $.proxy(this.toggle, this))
       } else if (trigger != 'manual') {
         var eventIn  = trigger == 'hover' ? 'mouseenter' : 'focusin'
         var eventOut = trigger == 'hover' ? 'mouseleave' : 'focusout'
 
-        this.$element.on(eventIn  + '.' + this.RepairType, this.options.selector, $.proxy(this.enter, this))
-        this.$element.on(eventOut + '.' + this.RepairType, this.options.selector, $.proxy(this.leave, this))
+        this.$element.on(eventIn  + '.' + this.type, this.options.selector, $.proxy(this.enter, this))
+        this.$element.on(eventOut + '.' + this.type, this.options.selector, $.proxy(this.leave, this))
       }
     }
 
@@ -1335,14 +1327,14 @@ if (RepairTypeof jQuery === 'undefined') {
       this.fixTitle()
   }
 
-  Tooltip.protoRepairType.getDefaults = function () {
+  Tooltip.prototype.getDefaults = function () {
     return Tooltip.DEFAULTS
   }
 
-  Tooltip.protoRepairType.getOptions = function (options) {
+  Tooltip.prototype.getOptions = function (options) {
     options = $.extend({}, this.getDefaults(), this.$element.data(), options)
 
-    if (options.delay && RepairTypeof options.delay == 'number') {
+    if (options.delay && typeof options.delay == 'number') {
       options.delay = {
         show: options.delay,
         hide: options.delay
@@ -1352,7 +1344,7 @@ if (RepairTypeof jQuery === 'undefined') {
     return options
   }
 
-  Tooltip.protoRepairType.getDelegateOptions = function () {
+  Tooltip.prototype.getDelegateOptions = function () {
     var options  = {}
     var defaults = this.getDefaults()
 
@@ -1363,17 +1355,17 @@ if (RepairTypeof jQuery === 'undefined') {
     return options
   }
 
-  Tooltip.protoRepairType.enter = function (obj) {
+  Tooltip.prototype.enter = function (obj) {
     var self = obj instanceof this.constructor ?
-      obj : $(obj.currentTarget).data('bs.' + this.RepairType)
+      obj : $(obj.currentTarget).data('bs.' + this.type)
 
     if (!self) {
       self = new this.constructor(obj.currentTarget, this.getDelegateOptions())
-      $(obj.currentTarget).data('bs.' + this.RepairType, self)
+      $(obj.currentTarget).data('bs.' + this.type, self)
     }
 
     if (obj instanceof $.Event) {
-      self.inState[obj.RepairType == 'focusin' ? 'focus' : 'hover'] = true
+      self.inState[obj.type == 'focusin' ? 'focus' : 'hover'] = true
     }
 
     if (self.tip().hasClass('in') || self.hoverState == 'in') {
@@ -1392,7 +1384,7 @@ if (RepairTypeof jQuery === 'undefined') {
     }, self.options.delay.show)
   }
 
-  Tooltip.protoRepairType.isInStateTrue = function () {
+  Tooltip.prototype.isInStateTrue = function () {
     for (var key in this.inState) {
       if (this.inState[key]) return true
     }
@@ -1400,17 +1392,17 @@ if (RepairTypeof jQuery === 'undefined') {
     return false
   }
 
-  Tooltip.protoRepairType.leave = function (obj) {
+  Tooltip.prototype.leave = function (obj) {
     var self = obj instanceof this.constructor ?
-      obj : $(obj.currentTarget).data('bs.' + this.RepairType)
+      obj : $(obj.currentTarget).data('bs.' + this.type)
 
     if (!self) {
       self = new this.constructor(obj.currentTarget, this.getDelegateOptions())
-      $(obj.currentTarget).data('bs.' + this.RepairType, self)
+      $(obj.currentTarget).data('bs.' + this.type, self)
     }
 
     if (obj instanceof $.Event) {
-      self.inState[obj.RepairType == 'focusout' ? 'focus' : 'hover'] = false
+      self.inState[obj.type == 'focusout' ? 'focus' : 'hover'] = false
     }
 
     if (self.isInStateTrue()) return
@@ -1426,8 +1418,8 @@ if (RepairTypeof jQuery === 'undefined') {
     }, self.options.delay.hide)
   }
 
-  Tooltip.protoRepairType.show = function () {
-    var e = $.Event('show.bs.' + this.RepairType)
+  Tooltip.prototype.show = function () {
+    var e = $.Event('show.bs.' + this.type)
 
     if (this.hasContent() && this.enabled) {
       this.$element.trigger(e)
@@ -1438,7 +1430,7 @@ if (RepairTypeof jQuery === 'undefined') {
 
       var $tip = this.tip()
 
-      var tipId = this.getUID(this.RepairType)
+      var tipId = this.getUID(this.type)
 
       this.setContent()
       $tip.attr('id', tipId)
@@ -1446,7 +1438,7 @@ if (RepairTypeof jQuery === 'undefined') {
 
       if (this.options.animation) $tip.addClass('fade')
 
-      var placement = RepairTypeof this.options.placement == 'function' ?
+      var placement = typeof this.options.placement == 'function' ?
         this.options.placement.call(this, $tip[0], this.$element[0]) :
         this.options.placement
 
@@ -1458,10 +1450,10 @@ if (RepairTypeof jQuery === 'undefined') {
         .detach()
         .css({ top: 0, left: 0, display: 'block' })
         .addClass(placement)
-        .data('bs.' + this.RepairType, this)
+        .data('bs.' + this.type, this)
 
       this.options.container ? $tip.appendTo(this.options.container) : $tip.insertAfter(this.$element)
-      this.$element.trigger('inserted.bs.' + this.RepairType)
+      this.$element.trigger('inserted.bs.' + this.type)
 
       var pos          = this.getPosition()
       var actualWidth  = $tip[0].offsetWidth
@@ -1488,7 +1480,7 @@ if (RepairTypeof jQuery === 'undefined') {
 
       var complete = function () {
         var prevHoverState = that.hoverState
-        that.$element.trigger('shown.bs.' + that.RepairType)
+        that.$element.trigger('shown.bs.' + that.type)
         that.hoverState = null
 
         if (prevHoverState == 'out') that.leave(that)
@@ -1502,7 +1494,7 @@ if (RepairTypeof jQuery === 'undefined') {
     }
   }
 
-  Tooltip.protoRepairType.applyPlacement = function (offset, placement) {
+  Tooltip.prototype.applyPlacement = function (offset, placement) {
     var $tip   = this.tip()
     var width  = $tip[0].offsetWidth
     var height = $tip[0].offsetHeight
@@ -1552,13 +1544,13 @@ if (RepairTypeof jQuery === 'undefined') {
     this.replaceArrow(arrowDelta, $tip[0][arrowOffsetPosition], isVertical)
   }
 
-  Tooltip.protoRepairType.replaceArrow = function (delta, dimension, isVertical) {
+  Tooltip.prototype.replaceArrow = function (delta, dimension, isVertical) {
     this.arrow()
       .css(isVertical ? 'left' : 'top', 50 * (1 - delta / dimension) + '%')
       .css(isVertical ? 'top' : 'left', '')
   }
 
-  Tooltip.protoRepairType.setContent = function () {
+  Tooltip.prototype.setContent = function () {
     var $tip  = this.tip()
     var title = this.getTitle()
 
@@ -1566,18 +1558,16 @@ if (RepairTypeof jQuery === 'undefined') {
     $tip.removeClass('fade in top bottom left right')
   }
 
-  Tooltip.protoRepairType.hide = function (callback) {
+  Tooltip.prototype.hide = function (callback) {
     var that = this
     var $tip = $(this.$tip)
-    var e    = $.Event('hide.bs.' + this.RepairType)
+    var e    = $.Event('hide.bs.' + this.type)
 
     function complete() {
       if (that.hoverState != 'in') $tip.detach()
-      if (that.$element) { // TODO: Check whether guarding this code with this `if` is really necessary.
-        that.$element
-          .removeAttr('aria-describedby')
-          .trigger('hidden.bs.' + that.RepairType)
-      }
+      that.$element
+        .removeAttr('aria-describedby')
+        .trigger('hidden.bs.' + that.type)
       callback && callback()
     }
 
@@ -1598,18 +1588,18 @@ if (RepairTypeof jQuery === 'undefined') {
     return this
   }
 
-  Tooltip.protoRepairType.fixTitle = function () {
+  Tooltip.prototype.fixTitle = function () {
     var $e = this.$element
-    if ($e.attr('title') || RepairTypeof $e.attr('data-original-title') != 'string') {
+    if ($e.attr('title') || typeof $e.attr('data-original-title') != 'string') {
       $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
     }
   }
 
-  Tooltip.protoRepairType.hasContent = function () {
+  Tooltip.prototype.hasContent = function () {
     return this.getTitle()
   }
 
-  Tooltip.protoRepairType.getPosition = function ($element) {
+  Tooltip.prototype.getPosition = function ($element) {
     $element   = $element || this.$element
 
     var el     = $element[0]
@@ -1620,17 +1610,14 @@ if (RepairTypeof jQuery === 'undefined') {
       // width and height are missing in IE8, so compute them manually; see https://github.com/twbs/bootstrap/issues/14093
       elRect = $.extend({}, elRect, { width: elRect.right - elRect.left, height: elRect.bottom - elRect.top })
     }
-    var isSvg = window.SVGElement && el instanceof window.SVGElement
-    // Avoid using $.offset() on SVGs since it gives incorrect results in jQuery 3.
-    // See https://github.com/twbs/bootstrap/issues/20280
-    var elOffset  = isBody ? { top: 0, left: 0 } : (isSvg ? null : $element.offset())
+    var elOffset  = isBody ? { top: 0, left: 0 } : $element.offset()
     var scroll    = { scroll: isBody ? document.documentElement.scrollTop || document.body.scrollTop : $element.scrollTop() }
     var outerDims = isBody ? { width: $(window).width(), height: $(window).height() } : null
 
     return $.extend({}, elRect, scroll, outerDims, elOffset)
   }
 
-  Tooltip.protoRepairType.getCalculatedOffset = function (placement, pos, actualWidth, actualHeight) {
+  Tooltip.prototype.getCalculatedOffset = function (placement, pos, actualWidth, actualHeight) {
     return placement == 'bottom' ? { top: pos.top + pos.height,   left: pos.left + pos.width / 2 - actualWidth / 2 } :
            placement == 'top'    ? { top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2 } :
            placement == 'left'   ? { top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth } :
@@ -1638,7 +1625,7 @@ if (RepairTypeof jQuery === 'undefined') {
 
   }
 
-  Tooltip.protoRepairType.getViewportAdjustedDelta = function (placement, pos, actualWidth, actualHeight) {
+  Tooltip.prototype.getViewportAdjustedDelta = function (placement, pos, actualWidth, actualHeight) {
     var delta = { top: 0, left: 0 }
     if (!this.$viewport) return delta
 
@@ -1666,56 +1653,56 @@ if (RepairTypeof jQuery === 'undefined') {
     return delta
   }
 
-  Tooltip.protoRepairType.getTitle = function () {
+  Tooltip.prototype.getTitle = function () {
     var title
     var $e = this.$element
     var o  = this.options
 
     title = $e.attr('data-original-title')
-      || (RepairTypeof o.title == 'function' ? o.title.call($e[0]) :  o.title)
+      || (typeof o.title == 'function' ? o.title.call($e[0]) :  o.title)
 
     return title
   }
 
-  Tooltip.protoRepairType.getUID = function (prefix) {
+  Tooltip.prototype.getUID = function (prefix) {
     do prefix += ~~(Math.random() * 1000000)
     while (document.getElementById(prefix))
     return prefix
   }
 
-  Tooltip.protoRepairType.tip = function () {
+  Tooltip.prototype.tip = function () {
     if (!this.$tip) {
       this.$tip = $(this.options.template)
       if (this.$tip.length != 1) {
-        throw new Error(this.RepairType + ' `template` option must consist of exactly 1 top-level element!')
+        throw new Error(this.type + ' `template` option must consist of exactly 1 top-level element!')
       }
     }
     return this.$tip
   }
 
-  Tooltip.protoRepairType.arrow = function () {
+  Tooltip.prototype.arrow = function () {
     return (this.$arrow = this.$arrow || this.tip().find('.tooltip-arrow'))
   }
 
-  Tooltip.protoRepairType.enable = function () {
+  Tooltip.prototype.enable = function () {
     this.enabled = true
   }
 
-  Tooltip.protoRepairType.disable = function () {
+  Tooltip.prototype.disable = function () {
     this.enabled = false
   }
 
-  Tooltip.protoRepairType.toggleEnabled = function () {
+  Tooltip.prototype.toggleEnabled = function () {
     this.enabled = !this.enabled
   }
 
-  Tooltip.protoRepairType.toggle = function (e) {
+  Tooltip.prototype.toggle = function (e) {
     var self = this
     if (e) {
-      self = $(e.currentTarget).data('bs.' + this.RepairType)
+      self = $(e.currentTarget).data('bs.' + this.type)
       if (!self) {
         self = new this.constructor(e.currentTarget, this.getDelegateOptions())
-        $(e.currentTarget).data('bs.' + this.RepairType, self)
+        $(e.currentTarget).data('bs.' + this.type, self)
       }
     }
 
@@ -1728,18 +1715,17 @@ if (RepairTypeof jQuery === 'undefined') {
     }
   }
 
-  Tooltip.protoRepairType.destroy = function () {
+  Tooltip.prototype.destroy = function () {
     var that = this
     clearTimeout(this.timeout)
     this.hide(function () {
-      that.$element.off('.' + that.RepairType).removeData('bs.' + that.RepairType)
+      that.$element.off('.' + that.type).removeData('bs.' + that.type)
       if (that.$tip) {
         that.$tip.detach()
       }
       that.$tip = null
       that.$arrow = null
       that.$viewport = null
-      that.$element = null
     })
   }
 
@@ -1751,11 +1737,11 @@ if (RepairTypeof jQuery === 'undefined') {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.tooltip')
-      var options = RepairTypeof option == 'object' && option
+      var options = typeof option == 'object' && option
 
       if (!data && /destroy|hide/.test(option)) return
       if (!data) $this.data('bs.tooltip', (data = new Tooltip(this, options)))
-      if (RepairTypeof option == 'string') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 
@@ -1776,10 +1762,10 @@ if (RepairTypeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: popover.js v3.3.7
+ * Bootstrap: popover.js v3.3.5
  * http://getbootstrap.com/javascript/#popovers
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -1796,7 +1782,7 @@ if (RepairTypeof jQuery === 'undefined') {
 
   if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
 
-  Popover.VERSION  = '3.3.7'
+  Popover.VERSION  = '3.3.5'
 
   Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
     placement: 'right',
@@ -1809,22 +1795,22 @@ if (RepairTypeof jQuery === 'undefined') {
   // NOTE: POPOVER EXTENDS tooltip.js
   // ================================
 
-  Popover.protoRepairType = $.extend({}, $.fn.tooltip.Constructor.protoRepairType)
+  Popover.prototype = $.extend({}, $.fn.tooltip.Constructor.prototype)
 
-  Popover.protoRepairType.constructor = Popover
+  Popover.prototype.constructor = Popover
 
-  Popover.protoRepairType.getDefaults = function () {
+  Popover.prototype.getDefaults = function () {
     return Popover.DEFAULTS
   }
 
-  Popover.protoRepairType.setContent = function () {
+  Popover.prototype.setContent = function () {
     var $tip    = this.tip()
     var title   = this.getTitle()
     var content = this.getContent()
 
     $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
     $tip.find('.popover-content').children().detach().end()[ // we use append for html objects to maintain js events
-      this.options.html ? (RepairTypeof content == 'string' ? 'html' : 'append') : 'text'
+      this.options.html ? (typeof content == 'string' ? 'html' : 'append') : 'text'
     ](content)
 
     $tip.removeClass('fade top bottom left right in')
@@ -1834,21 +1820,21 @@ if (RepairTypeof jQuery === 'undefined') {
     if (!$tip.find('.popover-title').html()) $tip.find('.popover-title').hide()
   }
 
-  Popover.protoRepairType.hasContent = function () {
+  Popover.prototype.hasContent = function () {
     return this.getTitle() || this.getContent()
   }
 
-  Popover.protoRepairType.getContent = function () {
+  Popover.prototype.getContent = function () {
     var $e = this.$element
     var o  = this.options
 
     return $e.attr('data-content')
-      || (RepairTypeof o.content == 'function' ?
+      || (typeof o.content == 'function' ?
             o.content.call($e[0]) :
             o.content)
   }
 
-  Popover.protoRepairType.arrow = function () {
+  Popover.prototype.arrow = function () {
     return (this.$arrow = this.$arrow || this.tip().find('.arrow'))
   }
 
@@ -1860,11 +1846,11 @@ if (RepairTypeof jQuery === 'undefined') {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.popover')
-      var options = RepairTypeof option == 'object' && option
+      var options = typeof option == 'object' && option
 
       if (!data && /destroy|hide/.test(option)) return
       if (!data) $this.data('bs.popover', (data = new Popover(this, options)))
-      if (RepairTypeof option == 'string') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 
@@ -1885,10 +1871,10 @@ if (RepairTypeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: scrollspy.js v3.3.7
+ * Bootstrap: scrollspy.js v3.3.5
  * http://getbootstrap.com/javascript/#scrollspy
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -1914,17 +1900,17 @@ if (RepairTypeof jQuery === 'undefined') {
     this.process()
   }
 
-  ScrollSpy.VERSION  = '3.3.7'
+  ScrollSpy.VERSION  = '3.3.5'
 
   ScrollSpy.DEFAULTS = {
     offset: 10
   }
 
-  ScrollSpy.protoRepairType.getScrollHeight = function () {
+  ScrollSpy.prototype.getScrollHeight = function () {
     return this.$scrollElement[0].scrollHeight || Math.max(this.$body[0].scrollHeight, document.documentElement.scrollHeight)
   }
 
-  ScrollSpy.protoRepairType.refresh = function () {
+  ScrollSpy.prototype.refresh = function () {
     var that          = this
     var offsetMethod  = 'offset'
     var offsetBase    = 0
@@ -1957,7 +1943,7 @@ if (RepairTypeof jQuery === 'undefined') {
       })
   }
 
-  ScrollSpy.protoRepairType.process = function () {
+  ScrollSpy.prototype.process = function () {
     var scrollTop    = this.$scrollElement.scrollTop() + this.options.offset
     var scrollHeight = this.getScrollHeight()
     var maxScroll    = this.options.offset + scrollHeight - this.$scrollElement.height()
@@ -1987,7 +1973,7 @@ if (RepairTypeof jQuery === 'undefined') {
     }
   }
 
-  ScrollSpy.protoRepairType.activate = function (target) {
+  ScrollSpy.prototype.activate = function (target) {
     this.activeTarget = target
 
     this.clear()
@@ -2009,7 +1995,7 @@ if (RepairTypeof jQuery === 'undefined') {
     active.trigger('activate.bs.scrollspy')
   }
 
-  ScrollSpy.protoRepairType.clear = function () {
+  ScrollSpy.prototype.clear = function () {
     $(this.selector)
       .parentsUntil(this.options.target, '.active')
       .removeClass('active')
@@ -2023,10 +2009,10 @@ if (RepairTypeof jQuery === 'undefined') {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.scrollspy')
-      var options = RepairTypeof option == 'object' && option
+      var options = typeof option == 'object' && option
 
       if (!data) $this.data('bs.scrollspy', (data = new ScrollSpy(this, options)))
-      if (RepairTypeof option == 'string') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 
@@ -2058,10 +2044,10 @@ if (RepairTypeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: tab.js v3.3.7
+ * Bootstrap: tab.js v3.3.5
  * http://getbootstrap.com/javascript/#tabs
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -2078,11 +2064,11 @@ if (RepairTypeof jQuery === 'undefined') {
     // jscs:enable requireDollarBeforejQueryAssignment
   }
 
-  Tab.VERSION = '3.3.7'
+  Tab.VERSION = '3.3.5'
 
   Tab.TRANSITION_DURATION = 150
 
-  Tab.protoRepairType.show = function () {
+  Tab.prototype.show = function () {
     var $this    = this.element
     var $ul      = $this.closest('ul:not(.dropdown-menu)')
     var selector = $this.data('target')
@@ -2112,17 +2098,17 @@ if (RepairTypeof jQuery === 'undefined') {
     this.activate($this.closest('li'), $ul)
     this.activate($target, $target.parent(), function () {
       $previous.trigger({
-        RepairType: 'hidden.bs.tab',
+        type: 'hidden.bs.tab',
         relatedTarget: $this[0]
       })
       $this.trigger({
-        RepairType: 'shown.bs.tab',
+        type: 'shown.bs.tab',
         relatedTarget: $previous[0]
       })
     })
   }
 
-  Tab.protoRepairType.activate = function (element, container, callback) {
+  Tab.prototype.activate = function (element, container, callback) {
     var $active    = container.find('> .active')
     var transition = callback
       && $.support.transition
@@ -2180,7 +2166,7 @@ if (RepairTypeof jQuery === 'undefined') {
       var data  = $this.data('bs.tab')
 
       if (!data) $this.data('bs.tab', (data = new Tab(this)))
-      if (RepairTypeof option == 'string') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 
@@ -2214,10 +2200,10 @@ if (RepairTypeof jQuery === 'undefined') {
 }(jQuery);
 
 /* ========================================================================
- * Bootstrap: affix.js v3.3.7
+ * Bootstrap: affix.js v3.3.5
  * http://getbootstrap.com/javascript/#affix
  * ========================================================================
- * Copyright 2011-2016 Twitter, Inc.
+ * Copyright 2011-2015 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * ======================================================================== */
 
@@ -2243,7 +2229,7 @@ if (RepairTypeof jQuery === 'undefined') {
     this.checkPosition()
   }
 
-  Affix.VERSION  = '3.3.7'
+  Affix.VERSION  = '3.3.5'
 
   Affix.RESET    = 'affix affix-top affix-bottom'
 
@@ -2252,7 +2238,7 @@ if (RepairTypeof jQuery === 'undefined') {
     target: window
   }
 
-  Affix.protoRepairType.getState = function (scrollHeight, height, offsetTop, offsetBottom) {
+  Affix.prototype.getState = function (scrollHeight, height, offsetTop, offsetBottom) {
     var scrollTop    = this.$target.scrollTop()
     var position     = this.$element.offset()
     var targetHeight = this.$target.height()
@@ -2274,7 +2260,7 @@ if (RepairTypeof jQuery === 'undefined') {
     return false
   }
 
-  Affix.protoRepairType.getPinnedOffset = function () {
+  Affix.prototype.getPinnedOffset = function () {
     if (this.pinnedOffset) return this.pinnedOffset
     this.$element.removeClass(Affix.RESET).addClass('affix')
     var scrollTop = this.$target.scrollTop()
@@ -2282,11 +2268,11 @@ if (RepairTypeof jQuery === 'undefined') {
     return (this.pinnedOffset = position.top - scrollTop)
   }
 
-  Affix.protoRepairType.checkPositionWithEventLoop = function () {
+  Affix.prototype.checkPositionWithEventLoop = function () {
     setTimeout($.proxy(this.checkPosition, this), 1)
   }
 
-  Affix.protoRepairType.checkPosition = function () {
+  Affix.prototype.checkPosition = function () {
     if (!this.$element.is(':visible')) return
 
     var height       = this.$element.height()
@@ -2295,17 +2281,17 @@ if (RepairTypeof jQuery === 'undefined') {
     var offsetBottom = offset.bottom
     var scrollHeight = Math.max($(document).height(), $(document.body).height())
 
-    if (RepairTypeof offset != 'object')         offsetBottom = offsetTop = offset
-    if (RepairTypeof offsetTop == 'function')    offsetTop    = offset.top(this.$element)
-    if (RepairTypeof offsetBottom == 'function') offsetBottom = offset.bottom(this.$element)
+    if (typeof offset != 'object')         offsetBottom = offsetTop = offset
+    if (typeof offsetTop == 'function')    offsetTop    = offset.top(this.$element)
+    if (typeof offsetBottom == 'function') offsetBottom = offset.bottom(this.$element)
 
     var affix = this.getState(scrollHeight, height, offsetTop, offsetBottom)
 
     if (this.affixed != affix) {
       if (this.unpin != null) this.$element.css('top', '')
 
-      var affixRepairType = 'affix' + (affix ? '-' + affix : '')
-      var e         = $.Event(affixRepairType + '.bs.affix')
+      var affixType = 'affix' + (affix ? '-' + affix : '')
+      var e         = $.Event(affixType + '.bs.affix')
 
       this.$element.trigger(e)
 
@@ -2316,8 +2302,8 @@ if (RepairTypeof jQuery === 'undefined') {
 
       this.$element
         .removeClass(Affix.RESET)
-        .addClass(affixRepairType)
-        .trigger(affixRepairType.replace('affix', 'affixed') + '.bs.affix')
+        .addClass(affixType)
+        .trigger(affixType.replace('affix', 'affixed') + '.bs.affix')
     }
 
     if (affix == 'bottom') {
@@ -2335,10 +2321,10 @@ if (RepairTypeof jQuery === 'undefined') {
     return this.each(function () {
       var $this   = $(this)
       var data    = $this.data('bs.affix')
-      var options = RepairTypeof option == 'object' && option
+      var options = typeof option == 'object' && option
 
       if (!data) $this.data('bs.affix', (data = new Affix(this, options)))
-      if (RepairTypeof option == 'string') data[option]()
+      if (typeof option == 'string') data[option]()
     })
   }
 

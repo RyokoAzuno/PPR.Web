@@ -30,8 +30,7 @@ namespace PPR.DAL.Repositories
 
         public void Delete(int id)
         {
-            //Brigade brigade = _context.Brigades.Find(id);
-            Brigade brigade = _context.Brigades.Include(d => d.Department).Where(b => b.Code == id).FirstOrDefault();
+            Brigade brigade = _context.Brigades.Include(d => d.Department).Where(b => b.Id == id).FirstOrDefault();
             if (brigade != null)
             {
                 //Department department = _context.Departments.Find(brigade.DepartmentId);
@@ -47,8 +46,7 @@ namespace PPR.DAL.Repositories
 
         public Brigade GetById(int? id)
         {
-            //return _context.Brigades.Find(id.Value);
-            return _context.Brigades.Where(b => b.Code == id.Value).FirstOrDefault();
+            return _context.Brigades.Include(b => b.Department).Where(b => b.Id == id.Value).FirstOrDefault();
         }
 
         public void Update(Brigade item)

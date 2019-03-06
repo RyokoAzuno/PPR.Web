@@ -20,17 +20,20 @@ namespace PPR.DAL.Repositories
         }
         public void Create(LastRepair item)
         {
-            throw new NotImplementedException();
+            if (item != null)
+                _context.LastRepairs.Add(item);
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            LastRepair lr = _context.LastRepairs.Where(l => l.Id == id).FirstOrDefault();
+            if (lr != null)
+                _context.LastRepairs.Remove(lr);
         }
 
-        public IEnumerable<LastRepair> GetAll() => _context.LastRepairs.Include(l => l.Equipment).ToArray();
+        public IEnumerable<LastRepair> GetAll() => _context.LastRepairs.Include(l => l.Equipment).ToList();
 
-        public LastRepair GetById(int? id) => _context.LastRepairs.Where(l => l.Id == id.Value).FirstOrDefault();
+        public LastRepair GetById(int? id) => _context.LastRepairs.Include(l => l.Equipment).Where(l => l.Id == id.Value).FirstOrDefault();
 
         public void Update(LastRepair item) => _context.Entry(item).State = EntityState.Modified;
 

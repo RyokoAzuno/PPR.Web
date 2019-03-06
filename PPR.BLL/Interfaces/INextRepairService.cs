@@ -1,9 +1,5 @@
 ﻿using PPR.BLL.DataTransferObjects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PPR.BLL.Interfaces
 {
@@ -14,5 +10,9 @@ namespace PPR.BLL.Interfaces
         void CreateNextRepair(NextRepairDTO nxtRepair);
         void UpdateNextRepair(NextRepairDTO nxtRepair);
         void DeleteNextRepair(int id);
+        dynamic GetEquipmentsIdsAndNames();
+        IEnumerable<string> GetRepairTypes();
+        IEnumerable<string> GetTechniciansNames();
+        IEnumerable<string> GetTechniciansNamesByDepartments(int? departmentCode);
     }
 }

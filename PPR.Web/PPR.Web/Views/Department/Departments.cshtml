@@ -1,0 +1,55 @@
+﻿@model PPR.Web.Models.PageViewModel<PPR.Web.Models.DepartmentViewModel>
+@using PPR.Web.HtmlHelpers
+
+@{
+    ViewBag.Title = "Цеха";
+}
+
+<h2>Информация по цехам</h2>
+
+<table class="table table-striped table-hover">
+    <thead class="bg-primary">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Items.First().NumberOfBrigades)
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in Model.Items)
+    {
+        <tr class="bg-info">
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfBrigades)
+            </td>
+            <td>
+                @*<p><a href="/Home/EditDepartment/@item.Code" class="btn btn-success">Редактировать</a></p>*@
+                <p>@Html.ActionLink("Редактировать", "EditDepartment", "Department", new { id = item.Id, code = item.Code }, new { @class = "btn btn-success" })</p>
+            </td>
+            <td>
+                @*<p><a href="/Home/DeleteDepartment/@item.Code" class="btn btn-danger">Удалить</a></p>*@
+                <p>@Html.ActionLink("Удалить", "DeleteDepartment", "Department", new { id = item.Id, code = item.Code }, new { @class = "btn btn-danger" })</p>
+            </td>
+        </tr>
+    }
+</table>
+<div class="btn-group">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("Departments", new { page = x }), "btn btn-default")
+</div>
+<br /><br />
+<div>
+    @*<div><p><a href="/Department/CreateDepartment/" class="btn btn-info btn-lg">Создать цех</a></p></div>*@
+    <div><p>@Html.ActionLink("Создать цех", "CreateDepartment", "Department", new { @class = "btn btn-info btn-lg" })</p></div>
+
+</div>
